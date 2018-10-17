@@ -1,2 +1,2 @@
-# go_examples
-go example codes
+# golang_examples
+golang example codes
