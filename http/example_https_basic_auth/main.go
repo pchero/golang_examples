@@ -23,7 +23,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", HandleIndex)
-	http.Handle("/test", Middleware())
+	http.HandleFunc("/test", HandleIndex)
 
 	// http.ListenAndServe(":8081", nil)
 	http.ListenAndServeTLS(":8080", *pemFile, *pemFile, nil)
@@ -55,17 +55,6 @@ func basicAuth(r *http.Request) bool {
 	return true
 }
 
-func Middleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Do something
-		next.ServeHTTP(w, r)
-	})
-}
-
-// func (serve http.Handler.ServeHTTP) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-// }
-
 type testHandle int
 
 func (n testHandle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -79,9 +68,9 @@ func (n testHandle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (c Handle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+// func (c Handle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-}
+// }
 
 // func basicAuthWrapper() http.Handler {
 
