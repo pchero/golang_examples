@@ -32,12 +32,14 @@ func main() {
 
 }
 
-func timePrint(time time.Time) bool {
-	if time.IsZero() == true {
+func timePrint(timeData time.Time) bool {
+	if timeData.IsZero() == true {
 		return false
 	}
 
-	fmt.Printf("%02d/%02d/%02d", time.Year(), time.Month(), time.Day())
+	fmt.Printf("%02d/%02d/%02d\n", timeData.Year(), timeData.Month(), timeData.Day())
+
+	fmt.Printf("Hour: %d\n", timeData.Hour())
 
 	return true
 }
