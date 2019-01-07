@@ -10,6 +10,10 @@ type handler func(w http.ResponseWriter, r *http.Request)
 
 func basicAuth(pass handler) handler {
 	return func(w http.ResponseWriter, r *http.Request) {
+
+		// get authorization
+		user, pass := r.BasicAuth()
+
 		// get authorization
 		auth := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 		if len(auth) != 2 || auth[0] != "Basic" {
