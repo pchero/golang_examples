@@ -1,23 +1,21 @@
-// go supports methods defined on struct type
+// go supports methods defined on struct types
 
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type rect struct {
 	width  int
 	height int
 }
 
-// this 'area' method has a receiver type of '*rect'
+// this 'area' method has a receiver type of '*rect'.
 func (r *rect) area() int {
 	return r.width * r.height
 }
 
-// methods can defined for either pointer or value
-// receiver types. Here's an example of a value receiver.
+// methods can be defined for either pointer or value
+// receiver types. here's an example of a value receiver.
 func (r rect) perim() int {
 	return 2*r.width + 2*r.height
 }
@@ -25,9 +23,9 @@ func (r rect) perim() int {
 func main() {
 	r := rect{width: 10, height: 5}
 
-	// here we call the 2 methods defined for our struct.
-	fmt.Println("area:", r.area())
-	fmt.Println("perim:", r.perim())
+	// here we call the 2 methods defined for our struct
+	fmt.Println("area:  ", r.area())
+	fmt.Println("perim: ", r.perim())
 
 	// go automatically handles conversion between values
 	// and pointers for method calls. you may want to use
@@ -35,6 +33,6 @@ func main() {
 	// calls or to allow the method to mutate the
 	// receiving struct.
 	rp := &r
-	fmt.Println("area: ", rp.area())
-	fmt.Println("perim:", rp.perim())
+	fmt.Println("area:  ", rp.area())
+	fmt.Println("perim: ", rp.perim())
 }

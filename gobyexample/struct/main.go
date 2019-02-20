@@ -13,26 +13,25 @@ type person struct {
 }
 
 func main() {
-	// this syntax creates a new struct.
+	// this syntax creates a new struct
 	fmt.Println(person{"Bob", 20})
 
-	// you can name the fields when initializing a struct
+	// you can name the fields when initialzing a struct
 	fmt.Println(person{name: "Alice", age: 30})
 
-	// Omitted fileds will be zero-valued
+	// Omitted fields will be zero-valed.
 	fmt.Println(person{name: "Fred"})
 
-	// An '&' prefix yields a pointer to the struct.
+	// An '&' prefix yields a pointer to the struct
 	fmt.Println(&person{name: "Ann", age: 40})
 
-	// Access struct fileds with a dot
+	// access struct fields with a dot
 	s := person{name: "Sean", age: 50}
 	fmt.Println(s.name)
 
 	// you can also use dots with struct pointers - the
 	// pointers are automatically dereferenced.
 	sp := &s
-	fmt.Println(sp)
 	fmt.Println(sp.age)
 
 	// structs are mutable
