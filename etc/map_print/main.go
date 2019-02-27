@@ -9,4 +9,6 @@ func main() {
 	}
 
 	fmt.Println(tmpMap)
+
+	tmp := "A=B&C=D&"
 }
