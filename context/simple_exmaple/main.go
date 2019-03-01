@@ -66,10 +66,10 @@ func sleepRandomContext(ctx context.Context, ch chan bool) {
 		// Usually, you would send something on channel,
 		// wait for goroutines to exit and then return
 		// Or, use wait groups instead of channels for synchronization
-		fmt.Println("sleepRandomContext: Time to return")
+		fmt.Println(ctx, "sleepRandomContext: Time to return")
 
 	case sleeptime := <-sleeptimeChan:
-		fmt.Println("Slept for ", sleeptime, "ms")
+		fmt.Println(ctx, "Slept for ", sleeptime, "ms")
 	}
 }
 
@@ -85,7 +85,7 @@ func doWorkContext(ctx context.Context) {
 
 	// Cancel to release resources once the function is complete
 	defer func() {
-		fmt.Println("doWorkContext complete")
+		fmt.Println(ctx, "doWorkContext complete")
 		cancelFunction()
 	}()
 
@@ -100,11 +100,11 @@ func doWorkContext(ctx context.Context) {
 	case <-ctx.Done():
 		// This case is selected when the passed in context notifies to stop work
 		// In this example, it will be notofied when main calls cancelFunction
-		fmt.Println("doWorkContext: Time to return")
+		fmt.Println(ctxWithTimeout, "doWorkContext: Time to return")
 
 	case <-ch:
 		// This case is selected when processing finishes before the context is cancelled
-		fmt.Println("sleepRandomContext returned")
+		fmt.Println(ctxWithTimeout, "sleepRandomContext returned")
 	}
 }
 
