@@ -120,3 +120,9 @@ func main() {
 	writeOpsFinal := atomic.LoadUint64(&writeOps)
 	fmt.Println("writeOps:", writeOpsFinal)
 }
+
+// $ go run cmd/gobyexample_2/stateful_goroutines/main.go
+// readOps: 931000
+// writeOps: 9700
+
+// Running our program shows that the go

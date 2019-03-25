@@ -83,3 +83,12 @@ func main() {
 	fmt.Println("state:", state)
 	mutex.Unlock()
 }
+
+// $ go run cmd/gobyexample_2/mutexes/main.go
+// readOps: 76354
+// writeOps: 7640
+// state: map[3:86 1:31 2:94 0:13 4:76]
+
+// Running the program shows that we executed about
+// 76,000 total operations against our mutex-synchronized
+// state.
