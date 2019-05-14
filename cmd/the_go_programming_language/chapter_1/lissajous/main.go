@@ -48,3 +48,5 @@ func lissajous(out io.Writer) {
 	}
 	gif.EncodeAll(out, &anim) // NOTE: ignoring encoding errors
 }
+
+// go run ./cmd/the_go_programming_language/chapter_1/lissajous/main.go > ./cmd/the_go_programming_language/chapter_1/lissajous/out.gif
