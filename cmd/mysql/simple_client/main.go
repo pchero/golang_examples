@@ -7,7 +7,6 @@ import (
 	"flag"
 
 	_ "github.com/go-sql-driver/mysql"
-
 	log "github.com/sirupsen/logrus"
 )
 
@@ -28,7 +27,8 @@ func main() {
 		return
 	}
 
-	stmt, err := db.Prepare("select User from user;")
+	// stmt, err := db.Prepare("select User from user;")
+	stmt, err := db.Prepare(*query)
 	if err != nil {
 		log.Errorf("Could not prepare the stmt. err: %v", err)
 		return
