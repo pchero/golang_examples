@@ -34,4 +34,7 @@ func main() {
 		fmt.Printf("res. key: %s, value: %s\n", k, v.String())
 	}
 
+	t := uuid.FromStringOrNil("")
+	fmt.Printf("test res: %s", t)
+
 }
