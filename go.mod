@@ -30,6 +30,7 @@ require (
 	github.com/libp2p/go-libp2p-peerstore v0.2.8
 	github.com/multiformats/go-multiaddr v0.4.0
 	github.com/oklog/ulid v1.3.1 // indirect
+	github.com/orcaman/concurrent-map v0.0.0-20210501183033-44dafcb38ecc
 	github.com/oschwald/geoip2-golang v1.5.0
 	github.com/oschwald/maxminddb-golang v1.8.0
 	github.com/pebbe/zmq4 v1.2.7
