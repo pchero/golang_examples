@@ -7,6 +7,7 @@ require (
 	cloud.google.com/go/speech v0.1.0
 	cloud.google.com/go/storage v1.16.1
 	cloud.google.com/go/texttospeech v0.1.0
+	github.com/Applifier/go-libphonenumber v0.0.0-20161107150900-64e099bc8ad4 // indirect
 	github.com/CyCoreSystems/ari v4.8.4+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/autotls v0.0.3
@@ -40,6 +41,8 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.7.0
+	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
+	github.com/ttacon/libphonenumber v1.2.1
 	github.com/wernerd/gortp v0.0.0-20191206100804-75c6a1c64532
 	github.com/whyrusleeping/go-logging v0.0.1
 	github.com/youpy/go-wav v0.3.0
