@@ -10,7 +10,8 @@ func main() {
 	fmt.Printf("Hello world\n")
 
 	// Parse the number.
-	num, err := libphonenumber.Parse("+18663472423", "US")
+	testNumber := "+18663472423"
+	num, err := libphonenumber.Parse(testNumber, "US")
 	if err != nil {
 		// Handle error appropriately.
 	}
@@ -18,8 +19,7 @@ func main() {
 	// Get the cleaned number and the length of the area code.
 	natSigNumber := libphonenumber.GetNationalSignificantNumber(num)
 	geoCodeLength := libphonenumber.GetLengthOfGeographicalAreaCode(num)
-	tmp := libphonenumber.GetCountryCodeForRegion("+8210216561231521")
-	fmt.Printf("%s: %d: %d\n", natSigNumber, geoCodeLength, tmp)
+	fmt.Printf("test number: %s, natSigNumber: %s, geoCodeLength: %d, country_code: %d\n", testNumber, natSigNumber, geoCodeLength, *num.CountryCode)
 
 	// Extract the area code.
 	areaCode := ""
