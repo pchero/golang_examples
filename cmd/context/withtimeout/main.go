@@ -15,6 +15,8 @@ func main() {
 	chanRes := make(chan *string)
 	chanStop := make(chan bool)
 
+	count := 0
+
 	// do work
 	go func() {
 		for {
@@ -25,15 +27,21 @@ func main() {
 			default:
 				deadline, ok := ctx.Deadline()
 				fmt.Printf("working... deadline: %v, ok: %v, \n", deadline, ok)
-				time.Sleep(time.Millisecond * 100)
-				continue
+				if count < 5 {
+					time.Sleep(time.Millisecond * 100)
+					count++
+					continue
+				}
+
+				res := "result"
+				chanRes <- &res
 			}
 		}
 	}()
 
 	select {
 	case res := <-chanRes:
-		fmt.Printf("Res: %s", *res)
+		fmt.Printf("Res: %s\n", *res)
 
 	case <-ctx.Done():
 		chanStop <- true
