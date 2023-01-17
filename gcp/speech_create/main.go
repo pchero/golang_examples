@@ -2,19 +2,24 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io/ioutil"
 
 	texttospeech "cloud.google.com/go/texttospeech/apiv1"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/api/option"
 	texttospeechpb "google.golang.org/genproto/googleapis/cloud/texttospeech/v1"
 )
+
+var credentialPath = flag.String("credential_file", "./test.json", "GCP credential file path")
 
 func main() {
 	fmt.Printf("Hello world!\n")
 
 	ctx := context.Background()
-	client, err := texttospeech.NewClient(ctx)
+	// client, err := texttospeech.NewClient(ctx)
+	client, err := texttospeech.NewClient(ctx, option.WithCredentialsFile(*credentialPath))
 	if err != nil {
 		logrus.Errorf("Could not create a new client. err: %v", err)
 	}
@@ -25,7 +30,7 @@ func main() {
 		// set the text input to be synthesized.
 		Input: &texttospeechpb.SynthesisInput{
 			InputSource: &texttospeechpb.SynthesisInput_Text{
-				Text: "Hello, world!",
+				Text: "Hello, Welcome to the study world. This is test message. Please enjoy the test world.",
 			},
 		},
 
@@ -33,7 +38,10 @@ func main() {
 		// voice gender ("neutral")
 		Voice: &texttospeechpb.VoiceSelectionParams{
 			LanguageCode: "en-US",
-			SsmlGender:   texttospeechpb.SsmlVoiceGender_NEUTRAL,
+			Name:         "en-US-Standard-C",
+			// SsmlGender:   texttospeechpb.SsmlVoiceGender_NEUTRAL,
+			// SsmlGender: texttospeechpb.SsmlVoiceGender_MALE,
+			SsmlGender: texttospeechpb.SsmlVoiceGender_FEMALE,
 		},
 
 		// select the type of audio file you want returned.
