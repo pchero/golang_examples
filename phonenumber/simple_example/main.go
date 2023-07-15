@@ -38,7 +38,16 @@ func main() {
 	fmt.Println(areaCode)
 
 	tt, err := libphonenumber.Parse("+16502530000", "US")
+	if err != nil {
+		fmt.Printf("Err: %v\n", err)
+	}
 	fmt.Printf("res: %v\n", tt)
+
+	tt, err = libphonenumber.Parse("+16502530000", "")
+	if err != nil {
+		fmt.Printf("Err: %v\n", err)
+	}
+	fmt.Printf("same number, but no country specified. res: %v\n", tt)
 
 	tt, err = libphonenumber.Parse("+8210216565211122112231", "US")
 	if err != nil {
