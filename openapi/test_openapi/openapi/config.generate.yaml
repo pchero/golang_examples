@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/oapi-codegen/oapi-codegen/HEAD/configuration-schema.json
+package: server
+generate:
+  models: true
+  gin-server: true
+  strict-server: true
+output-options:
+  skip-prune: true
+import-mapping:
+  ../../components/common/main.yaml: "testoapi/gens/models/common"
+  ../../components/customer-manager/main.yaml: "testoapi/gens/models/customer_manager"
+  ../../components/flow-manager/main.yaml: "testoapi/gens/models/flow_manager"

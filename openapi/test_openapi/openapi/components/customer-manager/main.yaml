@@ -1,0 +1,4 @@
+components:
+  schemas:
+    Accesskey:
+      $ref: 'accesskey.yaml'

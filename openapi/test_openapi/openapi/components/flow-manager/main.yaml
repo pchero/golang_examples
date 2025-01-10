@@ -1,0 +1,6 @@
+components:
+  schemas:
+    Action:
+      $ref: 'action.yaml'
+    Activeflow:
+      $ref: 'activeflow.yaml'
