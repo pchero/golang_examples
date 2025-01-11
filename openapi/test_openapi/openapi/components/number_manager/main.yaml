@@ -1,0 +1,6 @@
+components:
+  schemas:
+    AvailableNumber:
+      $ref: 'available_number.yaml'
+    AvailableNumberFeature:
+      $ref: 'available_number_feature.yaml'

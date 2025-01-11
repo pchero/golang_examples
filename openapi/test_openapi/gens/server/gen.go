@@ -10,22 +10,26 @@ import (
 	"net/http"
 	"time"
 
-	externalRef0 "testoapi/gens/models/common"
-	externalRef1 "testoapi/gens/models/customer_manager"
-	externalRef2 "testoapi/gens/models/flow_manager"
+	externalRef0 "testoapi/gens/models/agent_manager"
+	externalRef1 "testoapi/gens/models/billing_manager"
+	externalRef2 "testoapi/gens/models/common"
+	externalRef3 "testoapi/gens/models/customer_manager"
+	externalRef4 "testoapi/gens/models/flow_manager"
+	externalRef5 "testoapi/gens/models/number_manager"
 
 	"github.com/gin-gonic/gin"
 	"github.com/oapi-codegen/runtime"
 	strictgin "github.com/oapi-codegen/runtime/strictmiddleware/gin"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 // GetAccesskeysParams defines parameters for GetAccesskeys.
 type GetAccesskeysParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef0.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// PageToken The token. tm_create
-	PageToken *externalRef0.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
 }
 
 // PostAccesskeysJSONBody defines parameters for PostAccesskeys.
@@ -41,21 +45,125 @@ type PutAccesskeysIdJSONBody = interface{}
 // GetActiveflowsParams defines parameters for GetActiveflows.
 type GetActiveflowsParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef0.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// PageToken The token. tm_create
-	PageToken *externalRef0.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
 }
 
 // PostActiveflowsJSONBody defines parameters for PostActiveflows.
 type PostActiveflowsJSONBody struct {
-	Actions *[]externalRef2.Action `json:"actions,omitempty"`
+	Actions *[]externalRef4.Action `json:"actions,omitempty"`
 
 	// FlowId Flow id of.
 	FlowId *string `json:"flow_id,omitempty"`
 
 	// Id ID of the activeflow.
 	Id *string `json:"id,omitempty"`
+}
+
+// GetAgentsParams defines parameters for GetAgents.
+type GetAgentsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+
+	// TagIds Comma separated tag ids.
+	TagIds *string `form:"tag_ids,omitempty" json:"tag_ids,omitempty"`
+
+	// Status Agent status.
+	Status *externalRef0.AgentStatus `form:"status,omitempty" json:"status,omitempty"`
+}
+
+// PostAgentsJSONBody defines parameters for PostAgents.
+type PostAgentsJSONBody struct {
+	Addresses *[]externalRef2.Address `json:"Addresses,omitempty"`
+	Detail    *string                 `json:"Detail,omitempty"`
+	Name      *string                 `json:"Name,omitempty"`
+	Password  *string                 `json:"Password,omitempty"`
+
+	// Permission Permission type
+	Permission *externalRef0.AgentPermission `json:"Permission,omitempty"`
+
+	// RingMethod Represents an agent resource.
+	RingMethod *externalRef0.AgentRingMethod `json:"RingMethod,omitempty"`
+	TagIDs     *[]string                     `json:"TagIDs,omitempty"`
+	Username   *string                       `json:"Username,omitempty"`
+}
+
+// PutAgentsIdJSONBody defines parameters for PutAgentsId.
+type PutAgentsIdJSONBody = interface{}
+
+// PutAgentsIdAddressesJSONBody defines parameters for PutAgentsIdAddresses.
+type PutAgentsIdAddressesJSONBody struct {
+	Addresses *[]externalRef2.Address `json:"addresses,omitempty"`
+}
+
+// PutAgentsIdPasswordJSONBody defines parameters for PutAgentsIdPassword.
+type PutAgentsIdPasswordJSONBody struct {
+	Password *string `json:"Password,omitempty"`
+}
+
+// PutAgentsIdTagIdsJSONBody defines parameters for PutAgentsIdTagIds.
+type PutAgentsIdTagIdsJSONBody struct {
+	TagIDs *[]string `json:"TagIDs,omitempty"`
+}
+
+// GetAvailableNumbersParams defines parameters for GetAvailableNumbers.
+type GetAvailableNumbersParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// CountryCode The ISO country code.
+	CountryCode string `form:"country_code" json:"country_code"`
+}
+
+// GetBillingAccountsParams defines parameters for GetBillingAccounts.
+type GetBillingAccountsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostBillingAccountsJSONBody defines parameters for PostBillingAccounts.
+type PostBillingAccountsJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+
+	// PaymentMethod The method of payment used for the account.
+	PaymentMethod *externalRef1.AccountPaymentMethod `json:"payment_method,omitempty"`
+
+	// PaymentType The type of payment associated with the account.
+	PaymentType *externalRef1.AccountPaymentType `json:"payment_type,omitempty"`
+}
+
+// PutBillingAccountsIdJSONBody defines parameters for PutBillingAccountsId.
+type PutBillingAccountsIdJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+}
+
+// PostBillingAccountsIdBalanceAddForceJSONBody defines parameters for PostBillingAccountsIdBalanceAddForce.
+type PostBillingAccountsIdBalanceAddForceJSONBody struct {
+	Balance *float32 `json:"balance,omitempty"`
+}
+
+// PostBillingAccountsIdBalanceSubtractForceJSONBody defines parameters for PostBillingAccountsIdBalanceSubtractForce.
+type PostBillingAccountsIdBalanceSubtractForceJSONBody struct {
+	Balance *float32 `json:"balance,omitempty"`
+}
+
+// PutBillingAccountsIdPaymentInfoJSONBody defines parameters for PutBillingAccountsIdPaymentInfo.
+type PutBillingAccountsIdPaymentInfoJSONBody struct {
+	// PaymentMethod The method of payment used for the account.
+	PaymentMethod *externalRef1.AccountPaymentMethod `json:"payment_method,omitempty"`
+
+	// PaymentType The type of payment associated with the account.
+	PaymentType *externalRef1.AccountPaymentType `json:"payment_type,omitempty"`
 }
 
 // PostAccesskeysJSONRequestBody defines body for PostAccesskeys for application/json ContentType.
@@ -66,6 +174,39 @@ type PutAccesskeysIdJSONRequestBody = PutAccesskeysIdJSONBody
 
 // PostActiveflowsJSONRequestBody defines body for PostActiveflows for application/json ContentType.
 type PostActiveflowsJSONRequestBody PostActiveflowsJSONBody
+
+// PostAgentsJSONRequestBody defines body for PostAgents for application/json ContentType.
+type PostAgentsJSONRequestBody PostAgentsJSONBody
+
+// PutAgentsIdJSONRequestBody defines body for PutAgentsId for application/json ContentType.
+type PutAgentsIdJSONRequestBody = PutAgentsIdJSONBody
+
+// PutAgentsIdAddressesJSONRequestBody defines body for PutAgentsIdAddresses for application/json ContentType.
+type PutAgentsIdAddressesJSONRequestBody PutAgentsIdAddressesJSONBody
+
+// PutAgentsIdPasswordJSONRequestBody defines body for PutAgentsIdPassword for application/json ContentType.
+type PutAgentsIdPasswordJSONRequestBody PutAgentsIdPasswordJSONBody
+
+// PutAgentsIdPermissionJSONRequestBody defines body for PutAgentsIdPermission for application/json ContentType.
+type PutAgentsIdPermissionJSONRequestBody = externalRef0.AgentPermission
+
+// PutAgentsIdTagIdsJSONRequestBody defines body for PutAgentsIdTagIds for application/json ContentType.
+type PutAgentsIdTagIdsJSONRequestBody PutAgentsIdTagIdsJSONBody
+
+// PostBillingAccountsJSONRequestBody defines body for PostBillingAccounts for application/json ContentType.
+type PostBillingAccountsJSONRequestBody PostBillingAccountsJSONBody
+
+// PutBillingAccountsIdJSONRequestBody defines body for PutBillingAccountsId for application/json ContentType.
+type PutBillingAccountsIdJSONRequestBody PutBillingAccountsIdJSONBody
+
+// PostBillingAccountsIdBalanceAddForceJSONRequestBody defines body for PostBillingAccountsIdBalanceAddForce for application/json ContentType.
+type PostBillingAccountsIdBalanceAddForceJSONRequestBody PostBillingAccountsIdBalanceAddForceJSONBody
+
+// PostBillingAccountsIdBalanceSubtractForceJSONRequestBody defines body for PostBillingAccountsIdBalanceSubtractForce for application/json ContentType.
+type PostBillingAccountsIdBalanceSubtractForceJSONRequestBody PostBillingAccountsIdBalanceSubtractForceJSONBody
+
+// PutBillingAccountsIdPaymentInfoJSONRequestBody defines body for PutBillingAccountsIdPaymentInfo for application/json ContentType.
+type PutBillingAccountsIdPaymentInfoJSONRequestBody PutBillingAccountsIdPaymentInfoJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -84,10 +225,10 @@ type ServerInterface interface {
 	// Update an accesskey
 	// (PUT /accesskeys/{id})
 	PutAccesskeysId(c *gin.Context, id string)
-	// List all active flows
+	// List all activeflows
 	// (GET /activeflows)
 	GetActiveflows(c *gin.Context, params GetActiveflowsParams)
-	// Create a new active flow
+	// Create a new activeflow
 	// (POST /activeflows)
 	PostActiveflows(c *gin.Context)
 	// Delete an active flow
@@ -99,6 +240,60 @@ type ServerInterface interface {
 	// Stop an active flow
 	// (POST /activeflows/{id}/stop)
 	PostActiveflowsIdStop(c *gin.Context, id string)
+	// List agents
+	// (GET /agents)
+	GetAgents(c *gin.Context, params GetAgentsParams)
+	// Create a new agent
+	// (POST /agents)
+	PostAgents(c *gin.Context)
+	// Delete the agent
+	// (DELETE /agents/{id})
+	DeleteAgentsId(c *gin.Context, id string)
+	// Get the agent
+	// (GET /agents/{id})
+	GetAgentsId(c *gin.Context, id string)
+	// Update an agent
+	// (PUT /agents/{id})
+	PutAgentsId(c *gin.Context, id string)
+	// Update an agent's addresses
+	// (PUT /agents/{id}/addresses)
+	PutAgentsIdAddresses(c *gin.Context, id string)
+	// Update an agent's password
+	// (PUT /agents/{id}/password)
+	PutAgentsIdPassword(c *gin.Context, id string)
+	// Update an agent's permission
+	// (PUT /agents/{id}/permission)
+	PutAgentsIdPermission(c *gin.Context, id string)
+	// Update an agent's tag IDs
+	// (PUT /agents/{id}/tag_ids)
+	PutAgentsIdTagIds(c *gin.Context, id string)
+	// List available numbers
+	// (GET /available_numbers)
+	GetAvailableNumbers(c *gin.Context, params GetAvailableNumbersParams)
+	// Get list of billing accounts
+	// (GET /billing_accounts)
+	GetBillingAccounts(c *gin.Context, params GetBillingAccountsParams)
+	// Create a new billing account
+	// (POST /billing_accounts)
+	PostBillingAccounts(c *gin.Context)
+	// Delete billing account
+	// (DELETE /billing_accounts/{id})
+	DeleteBillingAccountsId(c *gin.Context, id openapi_types.UUID)
+	// Get detailed billing account info
+	// (GET /billing_accounts/{id})
+	GetBillingAccountsId(c *gin.Context, id openapi_types.UUID)
+	// Update billing account
+	// (PUT /billing_accounts/{id})
+	PutBillingAccountsId(c *gin.Context, id openapi_types.UUID)
+	// Add balance to billing account
+	// (POST /billing_accounts/{id}/balance_add_force)
+	PostBillingAccountsIdBalanceAddForce(c *gin.Context, id openapi_types.UUID)
+	// Subtract balance from billing account
+	// (POST /billing_accounts/{id}/balance_subtract_force)
+	PostBillingAccountsIdBalanceSubtractForce(c *gin.Context, id openapi_types.UUID)
+	// Update billing account's payment info
+	// (PUT /billing_accounts/{id}/payment_info)
+	PutBillingAccountsIdPaymentInfo(c *gin.Context, id openapi_types.UUID)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -348,6 +543,469 @@ func (siw *ServerInterfaceWrapper) PostActiveflowsIdStop(c *gin.Context) {
 	siw.Handler.PostActiveflowsIdStop(c, id)
 }
 
+// GetAgents operation middleware
+func (siw *ServerInterfaceWrapper) GetAgents(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetAgentsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "tag_ids" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "tag_ids", c.Request.URL.Query(), &params.TagIds)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter tag_ids: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "status" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "status", c.Request.URL.Query(), &params.Status)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter status: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetAgents(c, params)
+}
+
+// PostAgents operation middleware
+func (siw *ServerInterfaceWrapper) PostAgents(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostAgents(c)
+}
+
+// DeleteAgentsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteAgentsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteAgentsId(c, id)
+}
+
+// GetAgentsId operation middleware
+func (siw *ServerInterfaceWrapper) GetAgentsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetAgentsId(c, id)
+}
+
+// PutAgentsId operation middleware
+func (siw *ServerInterfaceWrapper) PutAgentsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutAgentsId(c, id)
+}
+
+// PutAgentsIdAddresses operation middleware
+func (siw *ServerInterfaceWrapper) PutAgentsIdAddresses(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutAgentsIdAddresses(c, id)
+}
+
+// PutAgentsIdPassword operation middleware
+func (siw *ServerInterfaceWrapper) PutAgentsIdPassword(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutAgentsIdPassword(c, id)
+}
+
+// PutAgentsIdPermission operation middleware
+func (siw *ServerInterfaceWrapper) PutAgentsIdPermission(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutAgentsIdPermission(c, id)
+}
+
+// PutAgentsIdTagIds operation middleware
+func (siw *ServerInterfaceWrapper) PutAgentsIdTagIds(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutAgentsIdTagIds(c, id)
+}
+
+// GetAvailableNumbers operation middleware
+func (siw *ServerInterfaceWrapper) GetAvailableNumbers(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetAvailableNumbersParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Required query parameter "country_code" -------------
+
+	if paramValue := c.Query("country_code"); paramValue != "" {
+
+	} else {
+		siw.ErrorHandler(c, fmt.Errorf("Query argument country_code is required, but not found"), http.StatusBadRequest)
+		return
+	}
+
+	err = runtime.BindQueryParameter("form", true, true, "country_code", c.Request.URL.Query(), &params.CountryCode)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter country_code: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetAvailableNumbers(c, params)
+}
+
+// GetBillingAccounts operation middleware
+func (siw *ServerInterfaceWrapper) GetBillingAccounts(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetBillingAccountsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetBillingAccounts(c, params)
+}
+
+// PostBillingAccounts operation middleware
+func (siw *ServerInterfaceWrapper) PostBillingAccounts(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostBillingAccounts(c)
+}
+
+// DeleteBillingAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteBillingAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteBillingAccountsId(c, id)
+}
+
+// GetBillingAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) GetBillingAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetBillingAccountsId(c, id)
+}
+
+// PutBillingAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) PutBillingAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutBillingAccountsId(c, id)
+}
+
+// PostBillingAccountsIdBalanceAddForce operation middleware
+func (siw *ServerInterfaceWrapper) PostBillingAccountsIdBalanceAddForce(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostBillingAccountsIdBalanceAddForce(c, id)
+}
+
+// PostBillingAccountsIdBalanceSubtractForce operation middleware
+func (siw *ServerInterfaceWrapper) PostBillingAccountsIdBalanceSubtractForce(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostBillingAccountsIdBalanceSubtractForce(c, id)
+}
+
+// PutBillingAccountsIdPaymentInfo operation middleware
+func (siw *ServerInterfaceWrapper) PutBillingAccountsIdPaymentInfo(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id openapi_types.UUID
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutBillingAccountsIdPaymentInfo(c, id)
+}
+
 // GinServerOptions provides options for the Gin server.
 type GinServerOptions struct {
 	BaseURL      string
@@ -385,6 +1043,24 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.DELETE(options.BaseURL+"/activeflows/:id", wrapper.DeleteActiveflowsId)
 	router.GET(options.BaseURL+"/activeflows/:id", wrapper.GetActiveflowsId)
 	router.POST(options.BaseURL+"/activeflows/:id/stop", wrapper.PostActiveflowsIdStop)
+	router.GET(options.BaseURL+"/agents", wrapper.GetAgents)
+	router.POST(options.BaseURL+"/agents", wrapper.PostAgents)
+	router.DELETE(options.BaseURL+"/agents/:id", wrapper.DeleteAgentsId)
+	router.GET(options.BaseURL+"/agents/:id", wrapper.GetAgentsId)
+	router.PUT(options.BaseURL+"/agents/:id", wrapper.PutAgentsId)
+	router.PUT(options.BaseURL+"/agents/:id/addresses", wrapper.PutAgentsIdAddresses)
+	router.PUT(options.BaseURL+"/agents/:id/password", wrapper.PutAgentsIdPassword)
+	router.PUT(options.BaseURL+"/agents/:id/permission", wrapper.PutAgentsIdPermission)
+	router.PUT(options.BaseURL+"/agents/:id/tag_ids", wrapper.PutAgentsIdTagIds)
+	router.GET(options.BaseURL+"/available_numbers", wrapper.GetAvailableNumbers)
+	router.GET(options.BaseURL+"/billing_accounts", wrapper.GetBillingAccounts)
+	router.POST(options.BaseURL+"/billing_accounts", wrapper.PostBillingAccounts)
+	router.DELETE(options.BaseURL+"/billing_accounts/:id", wrapper.DeleteBillingAccountsId)
+	router.GET(options.BaseURL+"/billing_accounts/:id", wrapper.GetBillingAccountsId)
+	router.PUT(options.BaseURL+"/billing_accounts/:id", wrapper.PutBillingAccountsId)
+	router.POST(options.BaseURL+"/billing_accounts/:id/balance_add_force", wrapper.PostBillingAccountsIdBalanceAddForce)
+	router.POST(options.BaseURL+"/billing_accounts/:id/balance_subtract_force", wrapper.PostBillingAccountsIdBalanceSubtractForce)
+	router.PUT(options.BaseURL+"/billing_accounts/:id/payment_info", wrapper.PutBillingAccountsIdPaymentInfo)
 }
 
 type GetAccesskeysRequestObject struct {
@@ -398,7 +1074,7 @@ type GetAccesskeysResponseObject interface {
 type GetAccesskeys200JSONResponse struct {
 	// NextPageToken The token for next pagination.
 	NextPageToken *string                   `json:"next_page_token,omitempty"`
-	Result        *[]externalRef1.Accesskey `json:"result,omitempty"`
+	Result        *[]externalRef3.Accesskey `json:"result,omitempty"`
 }
 
 func (response GetAccesskeys200JSONResponse) VisitGetAccesskeysResponse(w http.ResponseWriter) error {
@@ -416,7 +1092,7 @@ type PostAccesskeysResponseObject interface {
 	VisitPostAccesskeysResponse(w http.ResponseWriter) error
 }
 
-type PostAccesskeys201JSONResponse externalRef1.Accesskey
+type PostAccesskeys201JSONResponse externalRef3.Accesskey
 
 func (response PostAccesskeys201JSONResponse) VisitPostAccesskeysResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -449,7 +1125,7 @@ type GetAccesskeysIdResponseObject interface {
 	VisitGetAccesskeysIdResponse(w http.ResponseWriter) error
 }
 
-type GetAccesskeysId200JSONResponse externalRef1.Accesskey
+type GetAccesskeysId200JSONResponse externalRef3.Accesskey
 
 func (response GetAccesskeysId200JSONResponse) VisitGetAccesskeysIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -467,7 +1143,7 @@ type PutAccesskeysIdResponseObject interface {
 	VisitPutAccesskeysIdResponse(w http.ResponseWriter) error
 }
 
-type PutAccesskeysId200JSONResponse externalRef1.Accesskey
+type PutAccesskeysId200JSONResponse externalRef3.Accesskey
 
 func (response PutAccesskeysId200JSONResponse) VisitPutAccesskeysIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -487,7 +1163,7 @@ type GetActiveflowsResponseObject interface {
 type GetActiveflows200JSONResponse struct {
 	// NextPageToken The token for next pagination.
 	NextPageToken *string                    `json:"next_page_token,omitempty"`
-	Result        *[]externalRef2.Activeflow `json:"result,omitempty"`
+	Result        *[]externalRef4.Activeflow `json:"result,omitempty"`
 }
 
 func (response GetActiveflows200JSONResponse) VisitGetActiveflowsResponse(w http.ResponseWriter) error {
@@ -513,7 +1189,7 @@ type PostActiveflowsResponseObject interface {
 	VisitPostActiveflowsResponse(w http.ResponseWriter) error
 }
 
-type PostActiveflows201JSONResponse externalRef2.Activeflow
+type PostActiveflows201JSONResponse externalRef4.Activeflow
 
 func (response PostActiveflows201JSONResponse) VisitPostActiveflowsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -562,7 +1238,7 @@ type GetActiveflowsIdResponseObject interface {
 	VisitGetActiveflowsIdResponse(w http.ResponseWriter) error
 }
 
-type GetActiveflowsId200JSONResponse externalRef2.Activeflow
+type GetActiveflowsId200JSONResponse externalRef4.Activeflow
 
 func (response GetActiveflowsId200JSONResponse) VisitGetActiveflowsIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -587,7 +1263,7 @@ type PostActiveflowsIdStopResponseObject interface {
 	VisitPostActiveflowsIdStopResponse(w http.ResponseWriter) error
 }
 
-type PostActiveflowsIdStop200JSONResponse externalRef2.Activeflow
+type PostActiveflowsIdStop200JSONResponse externalRef4.Activeflow
 
 func (response PostActiveflowsIdStop200JSONResponse) VisitPostActiveflowsIdStopResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -612,6 +1288,347 @@ func (response PostActiveflowsIdStop404Response) VisitPostActiveflowsIdStopRespo
 	return nil
 }
 
+type GetAgentsRequestObject struct {
+	Params GetAgentsParams
+}
+
+type GetAgentsResponseObject interface {
+	VisitGetAgentsResponse(w http.ResponseWriter) error
+}
+
+type GetAgents200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string               `json:"next_page_token,omitempty"`
+	Result        *[]externalRef0.Agent `json:"result,omitempty"`
+}
+
+func (response GetAgents200JSONResponse) VisitGetAgentsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostAgentsRequestObject struct {
+	Body *PostAgentsJSONRequestBody
+}
+
+type PostAgentsResponseObject interface {
+	VisitPostAgentsResponse(w http.ResponseWriter) error
+}
+
+type PostAgents201JSONResponse externalRef0.Agent
+
+func (response PostAgents201JSONResponse) VisitPostAgentsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(201)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostAgents400Response struct {
+}
+
+func (response PostAgents400Response) VisitPostAgentsResponse(w http.ResponseWriter) error {
+	w.WriteHeader(400)
+	return nil
+}
+
+type DeleteAgentsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteAgentsIdResponseObject interface {
+	VisitDeleteAgentsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteAgentsId200JSONResponse externalRef0.Agent
+
+func (response DeleteAgentsId200JSONResponse) VisitDeleteAgentsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetAgentsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetAgentsIdResponseObject interface {
+	VisitGetAgentsIdResponse(w http.ResponseWriter) error
+}
+
+type GetAgentsId200JSONResponse externalRef0.Agent
+
+func (response GetAgentsId200JSONResponse) VisitGetAgentsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutAgentsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutAgentsIdJSONRequestBody
+}
+
+type PutAgentsIdResponseObject interface {
+	VisitPutAgentsIdResponse(w http.ResponseWriter) error
+}
+
+type PutAgentsId200JSONResponse externalRef0.Agent
+
+func (response PutAgentsId200JSONResponse) VisitPutAgentsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutAgentsIdAddressesRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutAgentsIdAddressesJSONRequestBody
+}
+
+type PutAgentsIdAddressesResponseObject interface {
+	VisitPutAgentsIdAddressesResponse(w http.ResponseWriter) error
+}
+
+type PutAgentsIdAddresses200JSONResponse externalRef0.Agent
+
+func (response PutAgentsIdAddresses200JSONResponse) VisitPutAgentsIdAddressesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutAgentsIdPasswordRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutAgentsIdPasswordJSONRequestBody
+}
+
+type PutAgentsIdPasswordResponseObject interface {
+	VisitPutAgentsIdPasswordResponse(w http.ResponseWriter) error
+}
+
+type PutAgentsIdPassword200JSONResponse externalRef0.Agent
+
+func (response PutAgentsIdPassword200JSONResponse) VisitPutAgentsIdPasswordResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutAgentsIdPermissionRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutAgentsIdPermissionJSONRequestBody
+}
+
+type PutAgentsIdPermissionResponseObject interface {
+	VisitPutAgentsIdPermissionResponse(w http.ResponseWriter) error
+}
+
+type PutAgentsIdPermission200JSONResponse externalRef0.Agent
+
+func (response PutAgentsIdPermission200JSONResponse) VisitPutAgentsIdPermissionResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutAgentsIdTagIdsRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutAgentsIdTagIdsJSONRequestBody
+}
+
+type PutAgentsIdTagIdsResponseObject interface {
+	VisitPutAgentsIdTagIdsResponse(w http.ResponseWriter) error
+}
+
+type PutAgentsIdTagIds200JSONResponse externalRef0.Agent
+
+func (response PutAgentsIdTagIds200JSONResponse) VisitPutAgentsIdTagIdsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetAvailableNumbersRequestObject struct {
+	Params GetAvailableNumbersParams
+}
+
+type GetAvailableNumbersResponseObject interface {
+	VisitGetAvailableNumbersResponse(w http.ResponseWriter) error
+}
+
+type GetAvailableNumbers200JSONResponse struct {
+	Result *[]externalRef5.AvailableNumber `json:"result,omitempty"`
+}
+
+func (response GetAvailableNumbers200JSONResponse) VisitGetAvailableNumbersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetAvailableNumbers400Response struct {
+}
+
+func (response GetAvailableNumbers400Response) VisitGetAvailableNumbersResponse(w http.ResponseWriter) error {
+	w.WriteHeader(400)
+	return nil
+}
+
+type GetBillingAccountsRequestObject struct {
+	Params GetBillingAccountsParams
+}
+
+type GetBillingAccountsResponseObject interface {
+	VisitGetBillingAccountsResponse(w http.ResponseWriter) error
+}
+
+type GetBillingAccounts200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                 `json:"next_page_token,omitempty"`
+	Result        *[]externalRef1.Account `json:"result,omitempty"`
+}
+
+func (response GetBillingAccounts200JSONResponse) VisitGetBillingAccountsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostBillingAccountsRequestObject struct {
+	Body *PostBillingAccountsJSONRequestBody
+}
+
+type PostBillingAccountsResponseObject interface {
+	VisitPostBillingAccountsResponse(w http.ResponseWriter) error
+}
+
+type PostBillingAccounts200JSONResponse externalRef1.Account
+
+func (response PostBillingAccounts200JSONResponse) VisitPostBillingAccountsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteBillingAccountsIdRequestObject struct {
+	Id openapi_types.UUID `json:"id"`
+}
+
+type DeleteBillingAccountsIdResponseObject interface {
+	VisitDeleteBillingAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteBillingAccountsId200JSONResponse externalRef1.Account
+
+func (response DeleteBillingAccountsId200JSONResponse) VisitDeleteBillingAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetBillingAccountsIdRequestObject struct {
+	Id openapi_types.UUID `json:"id"`
+}
+
+type GetBillingAccountsIdResponseObject interface {
+	VisitGetBillingAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type GetBillingAccountsId200JSONResponse externalRef1.Account
+
+func (response GetBillingAccountsId200JSONResponse) VisitGetBillingAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutBillingAccountsIdRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PutBillingAccountsIdJSONRequestBody
+}
+
+type PutBillingAccountsIdResponseObject interface {
+	VisitPutBillingAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type PutBillingAccountsId200JSONResponse externalRef1.Account
+
+func (response PutBillingAccountsId200JSONResponse) VisitPutBillingAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostBillingAccountsIdBalanceAddForceRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PostBillingAccountsIdBalanceAddForceJSONRequestBody
+}
+
+type PostBillingAccountsIdBalanceAddForceResponseObject interface {
+	VisitPostBillingAccountsIdBalanceAddForceResponse(w http.ResponseWriter) error
+}
+
+type PostBillingAccountsIdBalanceAddForce200JSONResponse externalRef1.Account
+
+func (response PostBillingAccountsIdBalanceAddForce200JSONResponse) VisitPostBillingAccountsIdBalanceAddForceResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostBillingAccountsIdBalanceSubtractForceRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PostBillingAccountsIdBalanceSubtractForceJSONRequestBody
+}
+
+type PostBillingAccountsIdBalanceSubtractForceResponseObject interface {
+	VisitPostBillingAccountsIdBalanceSubtractForceResponse(w http.ResponseWriter) error
+}
+
+type PostBillingAccountsIdBalanceSubtractForce200JSONResponse externalRef1.Account
+
+func (response PostBillingAccountsIdBalanceSubtractForce200JSONResponse) VisitPostBillingAccountsIdBalanceSubtractForceResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutBillingAccountsIdPaymentInfoRequestObject struct {
+	Id   openapi_types.UUID `json:"id"`
+	Body *PutBillingAccountsIdPaymentInfoJSONRequestBody
+}
+
+type PutBillingAccountsIdPaymentInfoResponseObject interface {
+	VisitPutBillingAccountsIdPaymentInfoResponse(w http.ResponseWriter) error
+}
+
+type PutBillingAccountsIdPaymentInfo200JSONResponse externalRef1.Account
+
+func (response PutBillingAccountsIdPaymentInfo200JSONResponse) VisitPutBillingAccountsIdPaymentInfoResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
 	// Get list of accesskeys
@@ -629,10 +1646,10 @@ type StrictServerInterface interface {
 	// Update an accesskey
 	// (PUT /accesskeys/{id})
 	PutAccesskeysId(ctx context.Context, request PutAccesskeysIdRequestObject) (PutAccesskeysIdResponseObject, error)
-	// List all active flows
+	// List all activeflows
 	// (GET /activeflows)
 	GetActiveflows(ctx context.Context, request GetActiveflowsRequestObject) (GetActiveflowsResponseObject, error)
-	// Create a new active flow
+	// Create a new activeflow
 	// (POST /activeflows)
 	PostActiveflows(ctx context.Context, request PostActiveflowsRequestObject) (PostActiveflowsResponseObject, error)
 	// Delete an active flow
@@ -644,6 +1661,60 @@ type StrictServerInterface interface {
 	// Stop an active flow
 	// (POST /activeflows/{id}/stop)
 	PostActiveflowsIdStop(ctx context.Context, request PostActiveflowsIdStopRequestObject) (PostActiveflowsIdStopResponseObject, error)
+	// List agents
+	// (GET /agents)
+	GetAgents(ctx context.Context, request GetAgentsRequestObject) (GetAgentsResponseObject, error)
+	// Create a new agent
+	// (POST /agents)
+	PostAgents(ctx context.Context, request PostAgentsRequestObject) (PostAgentsResponseObject, error)
+	// Delete the agent
+	// (DELETE /agents/{id})
+	DeleteAgentsId(ctx context.Context, request DeleteAgentsIdRequestObject) (DeleteAgentsIdResponseObject, error)
+	// Get the agent
+	// (GET /agents/{id})
+	GetAgentsId(ctx context.Context, request GetAgentsIdRequestObject) (GetAgentsIdResponseObject, error)
+	// Update an agent
+	// (PUT /agents/{id})
+	PutAgentsId(ctx context.Context, request PutAgentsIdRequestObject) (PutAgentsIdResponseObject, error)
+	// Update an agent's addresses
+	// (PUT /agents/{id}/addresses)
+	PutAgentsIdAddresses(ctx context.Context, request PutAgentsIdAddressesRequestObject) (PutAgentsIdAddressesResponseObject, error)
+	// Update an agent's password
+	// (PUT /agents/{id}/password)
+	PutAgentsIdPassword(ctx context.Context, request PutAgentsIdPasswordRequestObject) (PutAgentsIdPasswordResponseObject, error)
+	// Update an agent's permission
+	// (PUT /agents/{id}/permission)
+	PutAgentsIdPermission(ctx context.Context, request PutAgentsIdPermissionRequestObject) (PutAgentsIdPermissionResponseObject, error)
+	// Update an agent's tag IDs
+	// (PUT /agents/{id}/tag_ids)
+	PutAgentsIdTagIds(ctx context.Context, request PutAgentsIdTagIdsRequestObject) (PutAgentsIdTagIdsResponseObject, error)
+	// List available numbers
+	// (GET /available_numbers)
+	GetAvailableNumbers(ctx context.Context, request GetAvailableNumbersRequestObject) (GetAvailableNumbersResponseObject, error)
+	// Get list of billing accounts
+	// (GET /billing_accounts)
+	GetBillingAccounts(ctx context.Context, request GetBillingAccountsRequestObject) (GetBillingAccountsResponseObject, error)
+	// Create a new billing account
+	// (POST /billing_accounts)
+	PostBillingAccounts(ctx context.Context, request PostBillingAccountsRequestObject) (PostBillingAccountsResponseObject, error)
+	// Delete billing account
+	// (DELETE /billing_accounts/{id})
+	DeleteBillingAccountsId(ctx context.Context, request DeleteBillingAccountsIdRequestObject) (DeleteBillingAccountsIdResponseObject, error)
+	// Get detailed billing account info
+	// (GET /billing_accounts/{id})
+	GetBillingAccountsId(ctx context.Context, request GetBillingAccountsIdRequestObject) (GetBillingAccountsIdResponseObject, error)
+	// Update billing account
+	// (PUT /billing_accounts/{id})
+	PutBillingAccountsId(ctx context.Context, request PutBillingAccountsIdRequestObject) (PutBillingAccountsIdResponseObject, error)
+	// Add balance to billing account
+	// (POST /billing_accounts/{id}/balance_add_force)
+	PostBillingAccountsIdBalanceAddForce(ctx context.Context, request PostBillingAccountsIdBalanceAddForceRequestObject) (PostBillingAccountsIdBalanceAddForceResponseObject, error)
+	// Subtract balance from billing account
+	// (POST /billing_accounts/{id}/balance_subtract_force)
+	PostBillingAccountsIdBalanceSubtractForce(ctx context.Context, request PostBillingAccountsIdBalanceSubtractForceRequestObject) (PostBillingAccountsIdBalanceSubtractForceResponseObject, error)
+	// Update billing account's payment info
+	// (PUT /billing_accounts/{id}/payment_info)
+	PutBillingAccountsIdPaymentInfo(ctx context.Context, request PutBillingAccountsIdPaymentInfoRequestObject) (PutBillingAccountsIdPaymentInfoResponseObject, error)
 }
 
 type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
@@ -941,6 +2012,576 @@ func (sh *strictHandler) PostActiveflowsIdStop(ctx *gin.Context, id string) {
 		ctx.Status(http.StatusInternalServerError)
 	} else if validResponse, ok := response.(PostActiveflowsIdStopResponseObject); ok {
 		if err := validResponse.VisitPostActiveflowsIdStopResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetAgents operation middleware
+func (sh *strictHandler) GetAgents(ctx *gin.Context, params GetAgentsParams) {
+	var request GetAgentsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetAgents(ctx, request.(GetAgentsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetAgents")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetAgentsResponseObject); ok {
+		if err := validResponse.VisitGetAgentsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostAgents operation middleware
+func (sh *strictHandler) PostAgents(ctx *gin.Context) {
+	var request PostAgentsRequestObject
+
+	var body PostAgentsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostAgents(ctx, request.(PostAgentsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostAgents")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostAgentsResponseObject); ok {
+		if err := validResponse.VisitPostAgentsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteAgentsId operation middleware
+func (sh *strictHandler) DeleteAgentsId(ctx *gin.Context, id string) {
+	var request DeleteAgentsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteAgentsId(ctx, request.(DeleteAgentsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteAgentsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteAgentsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteAgentsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetAgentsId operation middleware
+func (sh *strictHandler) GetAgentsId(ctx *gin.Context, id string) {
+	var request GetAgentsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetAgentsId(ctx, request.(GetAgentsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetAgentsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetAgentsIdResponseObject); ok {
+		if err := validResponse.VisitGetAgentsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutAgentsId operation middleware
+func (sh *strictHandler) PutAgentsId(ctx *gin.Context, id string) {
+	var request PutAgentsIdRequestObject
+
+	request.Id = id
+
+	var body PutAgentsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutAgentsId(ctx, request.(PutAgentsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutAgentsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutAgentsIdResponseObject); ok {
+		if err := validResponse.VisitPutAgentsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutAgentsIdAddresses operation middleware
+func (sh *strictHandler) PutAgentsIdAddresses(ctx *gin.Context, id string) {
+	var request PutAgentsIdAddressesRequestObject
+
+	request.Id = id
+
+	var body PutAgentsIdAddressesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutAgentsIdAddresses(ctx, request.(PutAgentsIdAddressesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutAgentsIdAddresses")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutAgentsIdAddressesResponseObject); ok {
+		if err := validResponse.VisitPutAgentsIdAddressesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutAgentsIdPassword operation middleware
+func (sh *strictHandler) PutAgentsIdPassword(ctx *gin.Context, id string) {
+	var request PutAgentsIdPasswordRequestObject
+
+	request.Id = id
+
+	var body PutAgentsIdPasswordJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutAgentsIdPassword(ctx, request.(PutAgentsIdPasswordRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutAgentsIdPassword")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutAgentsIdPasswordResponseObject); ok {
+		if err := validResponse.VisitPutAgentsIdPasswordResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutAgentsIdPermission operation middleware
+func (sh *strictHandler) PutAgentsIdPermission(ctx *gin.Context, id string) {
+	var request PutAgentsIdPermissionRequestObject
+
+	request.Id = id
+
+	var body PutAgentsIdPermissionJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutAgentsIdPermission(ctx, request.(PutAgentsIdPermissionRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutAgentsIdPermission")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutAgentsIdPermissionResponseObject); ok {
+		if err := validResponse.VisitPutAgentsIdPermissionResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutAgentsIdTagIds operation middleware
+func (sh *strictHandler) PutAgentsIdTagIds(ctx *gin.Context, id string) {
+	var request PutAgentsIdTagIdsRequestObject
+
+	request.Id = id
+
+	var body PutAgentsIdTagIdsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutAgentsIdTagIds(ctx, request.(PutAgentsIdTagIdsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutAgentsIdTagIds")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutAgentsIdTagIdsResponseObject); ok {
+		if err := validResponse.VisitPutAgentsIdTagIdsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetAvailableNumbers operation middleware
+func (sh *strictHandler) GetAvailableNumbers(ctx *gin.Context, params GetAvailableNumbersParams) {
+	var request GetAvailableNumbersRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetAvailableNumbers(ctx, request.(GetAvailableNumbersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetAvailableNumbers")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetAvailableNumbersResponseObject); ok {
+		if err := validResponse.VisitGetAvailableNumbersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetBillingAccounts operation middleware
+func (sh *strictHandler) GetBillingAccounts(ctx *gin.Context, params GetBillingAccountsParams) {
+	var request GetBillingAccountsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetBillingAccounts(ctx, request.(GetBillingAccountsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetBillingAccounts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetBillingAccountsResponseObject); ok {
+		if err := validResponse.VisitGetBillingAccountsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostBillingAccounts operation middleware
+func (sh *strictHandler) PostBillingAccounts(ctx *gin.Context) {
+	var request PostBillingAccountsRequestObject
+
+	var body PostBillingAccountsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostBillingAccounts(ctx, request.(PostBillingAccountsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostBillingAccounts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostBillingAccountsResponseObject); ok {
+		if err := validResponse.VisitPostBillingAccountsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteBillingAccountsId operation middleware
+func (sh *strictHandler) DeleteBillingAccountsId(ctx *gin.Context, id openapi_types.UUID) {
+	var request DeleteBillingAccountsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteBillingAccountsId(ctx, request.(DeleteBillingAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteBillingAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteBillingAccountsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteBillingAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetBillingAccountsId operation middleware
+func (sh *strictHandler) GetBillingAccountsId(ctx *gin.Context, id openapi_types.UUID) {
+	var request GetBillingAccountsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetBillingAccountsId(ctx, request.(GetBillingAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetBillingAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetBillingAccountsIdResponseObject); ok {
+		if err := validResponse.VisitGetBillingAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutBillingAccountsId operation middleware
+func (sh *strictHandler) PutBillingAccountsId(ctx *gin.Context, id openapi_types.UUID) {
+	var request PutBillingAccountsIdRequestObject
+
+	request.Id = id
+
+	var body PutBillingAccountsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutBillingAccountsId(ctx, request.(PutBillingAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutBillingAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutBillingAccountsIdResponseObject); ok {
+		if err := validResponse.VisitPutBillingAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostBillingAccountsIdBalanceAddForce operation middleware
+func (sh *strictHandler) PostBillingAccountsIdBalanceAddForce(ctx *gin.Context, id openapi_types.UUID) {
+	var request PostBillingAccountsIdBalanceAddForceRequestObject
+
+	request.Id = id
+
+	var body PostBillingAccountsIdBalanceAddForceJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostBillingAccountsIdBalanceAddForce(ctx, request.(PostBillingAccountsIdBalanceAddForceRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostBillingAccountsIdBalanceAddForce")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostBillingAccountsIdBalanceAddForceResponseObject); ok {
+		if err := validResponse.VisitPostBillingAccountsIdBalanceAddForceResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostBillingAccountsIdBalanceSubtractForce operation middleware
+func (sh *strictHandler) PostBillingAccountsIdBalanceSubtractForce(ctx *gin.Context, id openapi_types.UUID) {
+	var request PostBillingAccountsIdBalanceSubtractForceRequestObject
+
+	request.Id = id
+
+	var body PostBillingAccountsIdBalanceSubtractForceJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostBillingAccountsIdBalanceSubtractForce(ctx, request.(PostBillingAccountsIdBalanceSubtractForceRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostBillingAccountsIdBalanceSubtractForce")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostBillingAccountsIdBalanceSubtractForceResponseObject); ok {
+		if err := validResponse.VisitPostBillingAccountsIdBalanceSubtractForceResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutBillingAccountsIdPaymentInfo operation middleware
+func (sh *strictHandler) PutBillingAccountsIdPaymentInfo(ctx *gin.Context, id openapi_types.UUID) {
+	var request PutBillingAccountsIdPaymentInfoRequestObject
+
+	request.Id = id
+
+	var body PutBillingAccountsIdPaymentInfoJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutBillingAccountsIdPaymentInfo(ctx, request.(PutBillingAccountsIdPaymentInfoRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutBillingAccountsIdPaymentInfo")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutBillingAccountsIdPaymentInfoResponseObject); ok {
+		if err := validResponse.VisitPutBillingAccountsIdPaymentInfoResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {

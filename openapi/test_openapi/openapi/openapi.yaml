@@ -9,9 +9,40 @@ paths:
     $ref: './paths/accesskeys/main.yaml'
   /accesskeys/{id}:
     $ref: './paths/accesskeys/id.yaml'
+
   /activeflows:
     $ref: './paths/activeflows/main.yaml'
   /activeflows/{id}:
     $ref: './paths/activeflows/id.yaml'
   /activeflows/{id}/stop:
     $ref: './paths/activeflows/id_stop.yaml'
+
+  /agents:
+    $ref: './paths/agents/main.yaml'
+  /agents/{id}:
+    $ref: './paths/agents/id.yaml'
+  /agents/{id}/addresses:
+    $ref: './paths/agents/id_addresses.yaml'
+  /agents/{id}/tag_ids:
+    $ref: './paths/agents/id_tag_ids.yaml'
+  /agents/{id}/permission:
+    $ref: './paths/agents/id_permission.yaml'
+  /agents/{id}/password:
+    $ref: './paths/agents/id_password.yaml'
+
+  /available_numbers:
+    $ref: './paths/available_numbers/main.yaml'
+
+  /billing_accounts:
+    $ref: './paths/billing_accounts/main.yaml'
+  /billing_accounts/{id}:
+    $ref: './paths/billing_accounts/id.yaml'
+  /billing_accounts/{id}/payment_info:
+    $ref: './paths/billing_accounts/id_payment_info.yaml'
+  /billing_accounts/{id}/balance_add_force:
+    $ref: './paths/billing_accounts/id_balance_add_force.yaml'
+  /billing_accounts/{id}/balance_subtract_force:
+    $ref: './paths/billing_accounts/id_balance_subtract_force.yaml'
+
+
+

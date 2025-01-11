@@ -26,7 +26,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/customer-manager/main.yaml#/components/schemas/Accesskey'
+            $ref: '../../components/customer_manager/main.yaml#/components/schemas/Accesskey'
 
 put:
   summary: Update an accesskey
@@ -52,4 +52,4 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../../components/customer-manager/main.yaml#/components/schemas/Accesskey'
+            $ref: '../../components/customer_manager/main.yaml#/components/schemas/Accesskey'

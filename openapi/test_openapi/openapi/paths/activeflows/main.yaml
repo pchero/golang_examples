@@ -1,8 +1,8 @@
 post:
-  summary: Create a new active flow
-  description: Endpoint to create a new active flow.
+  summary: Create a new activeflow
+  description: Endpoint to create a new activeflow.
   requestBody:
-    description: Request body to create a new active flow.
+    description: Request body to create a new activeflow.
     required: true
     content:
       application/json:
@@ -18,20 +18,20 @@ post:
             actions:
               type: array
               items:
-                $ref: '../../components/flow-manager/main.yaml#/components/schemas/Action'
+                $ref: '../../components/flow_manager/main.yaml#/components/schemas/Action'
   responses:
     '201':
-      description: Active flow created successfully.
+      description: activeflow created successfully.
       content:
         application/json:
           schema:
-            $ref: '../../components/flow-manager/main.yaml#/components/schemas/Activeflow'
+            $ref: '../../components/flow_manager/main.yaml#/components/schemas/Activeflow'
     '400':
       description: Invalid input. One of `flow_id` or `actions` is required.
 
 get:
-  summary: List all active flows
-  description: Retrieve a list of all active flows.
+  summary: List all activeflows
+  description: Retrieve a list of all activeflows.
   parameters:
     - $ref: '../../components/common/main.yaml#/components/parameters/PageSize'
     - $ref: '../../components/common/main.yaml#/components/parameters/PageToken'
@@ -48,6 +48,6 @@ get:
                   result:
                     type: array
                     items:
-                      $ref: '../../components/flow-manager/main.yaml#/components/schemas/Activeflow'
+                      $ref: '../../components/flow_manager/main.yaml#/components/schemas/Activeflow'
     '500':
       description: Server error.

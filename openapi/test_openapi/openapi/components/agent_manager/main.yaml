@@ -1,0 +1,10 @@
+components:
+  schemas:
+    Agent:
+      $ref: 'agent.yaml'
+    AgentRingMethod:
+      $ref: 'agent_ring_method.yaml'
+    AgentStatus:
+      $ref: 'agent_status.yaml'
+    AgentPermission:
+      $ref: 'agent_permission.yaml'

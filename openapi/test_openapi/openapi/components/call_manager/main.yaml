@@ -1,0 +1,25 @@
+components:
+  schemas:
+    CallDirection:
+      $ref: 'call_direction.yaml'
+    CallHangupReason:
+      $ref: 'call_hangup_reason.yaml'
+    CallHangupBy:
+      $ref: 'call_hangup_by.yaml'
+    CallMuteDirection:
+      $ref: 'call_mute_direction.yaml'
+    CallStatus:
+      $ref: 'call_status.yaml'
+    CallType:
+      $ref: 'call_type.yaml'
+    Call:
+      $ref: 'call.yaml'
+
+    GroupcallAnswerMethod:
+      $ref: 'groupcall_answer_method.yaml'
+    GroupcallRingMethod:
+      $ref: 'groupcall_ring_method.yaml'
+    GroupcallStatus:
+      $ref: 'groupcall_status.yaml'
+    Groupcall:
+      $ref: 'groupcall.yaml'

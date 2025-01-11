@@ -21,7 +21,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../components/customer-manager/main.yaml#/components/schemas/Accesskey'
+            $ref: '../../components/customer_manager/main.yaml#/components/schemas/Accesskey'
 
 get:
   summary: Get list of accesskeys
@@ -42,4 +42,4 @@ get:
                   result:
                     type: array
                     items:
-                      $ref: '../../components/customer-manager/main.yaml#/components/schemas/Accesskey'
+                      $ref: '../../components/customer_manager/main.yaml#/components/schemas/Accesskey'

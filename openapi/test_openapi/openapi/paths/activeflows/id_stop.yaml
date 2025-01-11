@@ -14,7 +14,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: '../../components/flow-manager/main.yaml#/components/schemas/Activeflow'
+            $ref: '../../components/flow_manager/main.yaml#/components/schemas/Activeflow'
     '404':
       description: Flow not found.
     '400':
