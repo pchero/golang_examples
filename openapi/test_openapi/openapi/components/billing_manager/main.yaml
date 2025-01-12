@@ -7,7 +7,7 @@ components:
     AccountPaymentType:
       $ref: 'account_payment_type.yaml'
 
-    BillingReferenceType:
+    Billingreference_type:
       $ref: 'billing_reference_type.yaml'
     BillingStatus:
       $ref: 'billing_status.yaml'

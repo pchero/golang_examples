@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+// Defines values for CustomerWebhookMethod.
+const (
+	CustomerWebhookMethodDelete CustomerWebhookMethod = "DELETE"
+	CustomerWebhookMethodGet    CustomerWebhookMethod = "GET"
+	CustomerWebhookMethodNone   CustomerWebhookMethod = ""
+	CustomerWebhookMethodPost   CustomerWebhookMethod = "POST"
+	CustomerWebhookMethodPut    CustomerWebhookMethod = "PUT"
+)
+
 // Accesskey defines model for Accesskey.
 type Accesskey struct {
 	CustomerId *string    `json:"customer_id,omitempty"`
@@ -19,3 +28,45 @@ type Accesskey struct {
 	TmUpdate   *time.Time `json:"tm_update,omitempty"`
 	Token      *string    `json:"token,omitempty"`
 }
+
+// Customer defines model for Customer.
+type Customer struct {
+	// Address Address of the customer.
+	Address *string `json:"address,omitempty"`
+
+	// BillingAccountId The ID of the customer's default billing account.
+	BillingAccountId *string `json:"billing_account_id,omitempty"`
+
+	// Detail Details about the customer.
+	Detail *string `json:"detail,omitempty"`
+
+	// Email Email address of the customer.
+	Email *string `json:"email,omitempty"`
+
+	// Id Unique identifier for the customer.
+	Id *string `json:"id,omitempty"`
+
+	// Name Name of the customer.
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber Phone number of the customer.
+	PhoneNumber *string `json:"phone_number,omitempty"`
+
+	// TmCreate Timestamp when the customer was created.
+	TmCreate *string `json:"tm_create,omitempty"`
+
+	// TmDelete Timestamp when the customer was deleted.
+	TmDelete *string `json:"tm_delete,omitempty"`
+
+	// TmUpdate Timestamp when the customer was last updated.
+	TmUpdate *string `json:"tm_update,omitempty"`
+
+	// WebhookMethod The HTTP method used for webhook (e.g., POST, GET, PUT, DELETE).
+	WebhookMethod *CustomerWebhookMethod `json:"webhook_method,omitempty"`
+
+	// WebhookUri URI for the customer's webhook.
+	WebhookUri *string `json:"webhook_uri,omitempty"`
+}
+
+// CustomerWebhookMethod The HTTP method used for webhook (e.g., POST, GET, PUT, DELETE).
+type CustomerWebhookMethod string

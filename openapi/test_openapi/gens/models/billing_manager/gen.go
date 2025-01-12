@@ -19,21 +19,21 @@ const (
 	AccountPaymentTypePrepaid AccountPaymentType = "prepaid"
 )
 
-// Defines values for BillingReferenceType.
-const (
-	BillingReferenceTypeCall        BillingReferenceType = "call"
-	BillingReferenceTypeNone        BillingReferenceType = ""
-	BillingReferenceTypeNumber      BillingReferenceType = "number"
-	BillingReferenceTypeNumberRenew BillingReferenceType = "number_renew"
-	BillingReferenceTypeSMS         BillingReferenceType = "sms"
-)
-
 // Defines values for BillingStatus.
 const (
 	BillingStatusEnd         BillingStatus = "end"
 	BillingStatusFinished    BillingStatus = "finished"
 	BillingStatusPending     BillingStatus = "pending"
 	BillingStatusProgressing BillingStatus = "progressing"
+)
+
+// Defines values for BillingreferenceType.
+const (
+	BillingreferenceTypeCall        BillingreferenceType = "call"
+	BillingreferenceTypeNone        BillingreferenceType = ""
+	BillingreferenceTypeNumber      BillingreferenceType = "number"
+	BillingreferenceTypeNumberRenew BillingreferenceType = "number_renew"
+	BillingreferenceTypeSMS         BillingreferenceType = "sms"
 )
 
 // Account defines model for Account.
@@ -99,7 +99,7 @@ type Billing struct {
 	ReferenceId *string `json:"reference_id,omitempty"`
 
 	// ReferenceType The type of reference associated with this billing.
-	ReferenceType *BillingReferenceType `json:"reference_type,omitempty"`
+	ReferenceType *BillingreferenceType `json:"reference_type,omitempty"`
 
 	// Status Status of the billing.
 	Status *BillingStatus `json:"status,omitempty"`
@@ -120,8 +120,8 @@ type Billing struct {
 	TmUpdate *time.Time `json:"tm_update,omitempty"`
 }
 
-// BillingReferenceType The type of reference associated with this billing.
-type BillingReferenceType string
-
 // BillingStatus Status of the billing.
 type BillingStatus string
+
+// BillingreferenceType The type of reference associated with this billing.
+type BillingreferenceType string

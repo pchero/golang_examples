@@ -2,3 +2,8 @@ components:
   schemas:
     Accesskey:
       $ref: 'accesskey.yaml'
+
+    CustomerWebhookMethod:
+      $ref: 'customer_webhook_method.yaml'
+    Customer:
+      $ref: 'customer.yaml'

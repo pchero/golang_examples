@@ -7,8 +7,8 @@ properties:
     type: string
     description: The identifier of the next item
   type:
-    type: string
     description: The type of the object
+    $ref: '#/components/schemas/ActionType'
   option:
     type: object
     description: Additional options

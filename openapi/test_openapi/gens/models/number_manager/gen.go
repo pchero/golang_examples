@@ -12,6 +12,19 @@ const (
 	AvailableNumberFeatureVoice     AvailableNumberFeature = "voice"
 )
 
+// Defines values for NumberProviderName.
+const (
+	ProviderNameMessagebird NumberProviderName = "messagebird"
+	ProviderNameTelnyx      NumberProviderName = "telnyx"
+	ProviderNameTwilio      NumberProviderName = "twilio"
+)
+
+// Defines values for NumberStatus.
+const (
+	StatusActive  NumberStatus = "active"
+	StatusDeleted NumberStatus = "deleted"
+)
+
 // AvailableNumber defines model for AvailableNumber.
 type AvailableNumber struct {
 	// Country The country where the number is available.
@@ -32,3 +45,57 @@ type AvailableNumber struct {
 
 // AvailableNumberFeature A feature supported by the phone number.
 type AvailableNumberFeature string
+
+// Number defines model for Number.
+type Number struct {
+	// CallFlowId The ID of the associated call flow.
+	CallFlowId *string `json:"call_flow_id,omitempty"`
+
+	// CustomerId The customer ID associated with the number.
+	CustomerId *string `json:"customer_id,omitempty"`
+
+	// Detail Additional details about the number.
+	Detail *string `json:"detail,omitempty"`
+
+	// EmergencyEnabled Whether emergency services are enabled for the number.
+	EmergencyEnabled *bool `json:"emergency_enabled,omitempty"`
+
+	// Id The unique identifier for the number.
+	Id *string `json:"id,omitempty"`
+
+	// MessageFlowId The ID of the associated message flow.
+	MessageFlowId *string `json:"message_flow_id,omitempty"`
+
+	// Name The name of the number.
+	Name *string `json:"name,omitempty"`
+
+	// Number The phone number.
+	Number *string `json:"number,omitempty"`
+
+	// Status The status of the number.
+	Status *NumberStatus `json:"status,omitempty"`
+
+	// T38Enabled Whether T38 is enabled for the number.
+	T38Enabled *bool `json:"t38_enabled,omitempty"`
+
+	// TmCreate The timestamp of when the number was created.
+	TmCreate *string `json:"tm_create,omitempty"`
+
+	// TmDelete The timestamp of when the number was deleted.
+	TmDelete *string `json:"tm_delete,omitempty"`
+
+	// TmPurchase The timestamp of when the number was purchased.
+	TmPurchase *string `json:"tm_purchase,omitempty"`
+
+	// TmRenew The timestamp of when the number was renewed.
+	TmRenew *string `json:"tm_renew,omitempty"`
+
+	// TmUpdate The timestamp of when the number was last updated.
+	TmUpdate *string `json:"tm_update,omitempty"`
+}
+
+// NumberProviderName The provider name for the number.
+type NumberProviderName string
+
+// NumberStatus The status of the number.
+type NumberStatus string

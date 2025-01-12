@@ -1,0 +1,4 @@
+components:
+  schemas:
+    Outdial:
+      $ref: 'outdial.yaml'

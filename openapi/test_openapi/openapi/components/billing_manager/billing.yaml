@@ -12,7 +12,7 @@ properties:
   status:
     $ref: '#/components/schemas/BillingStatus'
   reference_type:
-    $ref: '#/components/schemas/BillingReferenceType'
+    $ref: '#/components/schemas/Billingreference_type'
   reference_id:
     type: string
     description: The ID of the reference related to this billing.
