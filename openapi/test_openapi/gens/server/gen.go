@@ -12,10 +12,11 @@ import (
 
 	externalRef0 "testoapi/gens/models/agent_manager"
 	externalRef1 "testoapi/gens/models/billing_manager"
-	externalRef2 "testoapi/gens/models/common"
-	externalRef3 "testoapi/gens/models/customer_manager"
-	externalRef4 "testoapi/gens/models/flow_manager"
-	externalRef5 "testoapi/gens/models/number_manager"
+	externalRef2 "testoapi/gens/models/call_manager"
+	externalRef3 "testoapi/gens/models/common"
+	externalRef4 "testoapi/gens/models/customer_manager"
+	externalRef5 "testoapi/gens/models/flow_manager"
+	externalRef6 "testoapi/gens/models/number_manager"
 
 	"github.com/gin-gonic/gin"
 	"github.com/oapi-codegen/runtime"
@@ -26,10 +27,10 @@ import (
 // GetAccesskeysParams defines parameters for GetAccesskeys.
 type GetAccesskeysParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef3.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// PageToken The token. tm_create
-	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+	PageToken *externalRef3.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
 }
 
 // PostAccesskeysJSONBody defines parameters for PostAccesskeys.
@@ -45,15 +46,15 @@ type PutAccesskeysIdJSONBody = interface{}
 // GetActiveflowsParams defines parameters for GetActiveflows.
 type GetActiveflowsParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef3.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// PageToken The token. tm_create
-	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+	PageToken *externalRef3.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
 }
 
 // PostActiveflowsJSONBody defines parameters for PostActiveflows.
 type PostActiveflowsJSONBody struct {
-	Actions *[]externalRef4.Action `json:"actions,omitempty"`
+	Actions *[]externalRef5.Action `json:"actions,omitempty"`
 
 	// FlowId Flow id of.
 	FlowId *string `json:"flow_id,omitempty"`
@@ -65,10 +66,10 @@ type PostActiveflowsJSONBody struct {
 // GetAgentsParams defines parameters for GetAgents.
 type GetAgentsParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef3.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// PageToken The token. tm_create
-	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+	PageToken *externalRef3.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
 
 	// TagIds Comma separated tag ids.
 	TagIds *string `form:"tag_ids,omitempty" json:"tag_ids,omitempty"`
@@ -79,7 +80,7 @@ type GetAgentsParams struct {
 
 // PostAgentsJSONBody defines parameters for PostAgents.
 type PostAgentsJSONBody struct {
-	Addresses *[]externalRef2.Address `json:"Addresses,omitempty"`
+	Addresses *[]externalRef3.Address `json:"Addresses,omitempty"`
 	Detail    *string                 `json:"Detail,omitempty"`
 	Name      *string                 `json:"Name,omitempty"`
 	Password  *string                 `json:"Password,omitempty"`
@@ -98,7 +99,7 @@ type PutAgentsIdJSONBody = interface{}
 
 // PutAgentsIdAddressesJSONBody defines parameters for PutAgentsIdAddresses.
 type PutAgentsIdAddressesJSONBody struct {
-	Addresses *[]externalRef2.Address `json:"addresses,omitempty"`
+	Addresses *[]externalRef3.Address `json:"addresses,omitempty"`
 }
 
 // PutAgentsIdPasswordJSONBody defines parameters for PutAgentsIdPassword.
@@ -114,7 +115,7 @@ type PutAgentsIdTagIdsJSONBody struct {
 // GetAvailableNumbersParams defines parameters for GetAvailableNumbers.
 type GetAvailableNumbersParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef3.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// CountryCode The ISO country code.
 	CountryCode string `form:"country_code" json:"country_code"`
@@ -123,10 +124,10 @@ type GetAvailableNumbersParams struct {
 // GetBillingAccountsParams defines parameters for GetBillingAccounts.
 type GetBillingAccountsParams struct {
 	// PageSize The size of results.
-	PageSize *externalRef2.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+	PageSize *externalRef3.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
 
 	// PageToken The token. tm_create
-	PageToken *externalRef2.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+	PageToken *externalRef3.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
 }
 
 // PostBillingAccountsJSONBody defines parameters for PostBillingAccounts.
@@ -164,6 +165,25 @@ type PutBillingAccountsIdPaymentInfoJSONBody struct {
 
 	// PaymentType The type of payment associated with the account.
 	PaymentType *externalRef1.AccountPaymentType `json:"payment_type,omitempty"`
+}
+
+// GetCallsParams defines parameters for GetCalls.
+type GetCallsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef3.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef3.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostCallsJSONBody defines parameters for PostCalls.
+type PostCallsJSONBody struct {
+	Actions      *[]externalRef5.Action  `json:"actions,omitempty"`
+	Destinations *[]externalRef3.Address `json:"destinations,omitempty"`
+	FlowId       *string                 `json:"flow_id,omitempty"`
+
+	// Source Contains source or destination detail info.
+	Source *externalRef3.Address `json:"source,omitempty"`
 }
 
 // PostAccesskeysJSONRequestBody defines body for PostAccesskeys for application/json ContentType.
@@ -207,6 +227,9 @@ type PostBillingAccountsIdBalanceSubtractForceJSONRequestBody PostBillingAccount
 
 // PutBillingAccountsIdPaymentInfoJSONRequestBody defines body for PutBillingAccountsIdPaymentInfo for application/json ContentType.
 type PutBillingAccountsIdPaymentInfoJSONRequestBody PutBillingAccountsIdPaymentInfoJSONBody
+
+// PostCallsJSONRequestBody defines body for PostCalls for application/json ContentType.
+type PostCallsJSONRequestBody PostCallsJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -294,6 +317,18 @@ type ServerInterface interface {
 	// Update billing account's payment info
 	// (PUT /billing_accounts/{id}/payment_info)
 	PutBillingAccountsIdPaymentInfo(c *gin.Context, id openapi_types.UUID)
+	// Get list of calls
+	// (GET /calls)
+	GetCalls(c *gin.Context, params GetCallsParams)
+	// Make an outbound call
+	// (POST /calls)
+	PostCalls(c *gin.Context)
+	// Delete up the call
+	// (DELETE /calls/{id})
+	DeleteCallsId(c *gin.Context, id string)
+	// Get detail call info
+	// (GET /calls/{id})
+	GetCallsId(c *gin.Context, id string)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -1006,6 +1041,101 @@ func (siw *ServerInterfaceWrapper) PutBillingAccountsIdPaymentInfo(c *gin.Contex
 	siw.Handler.PutBillingAccountsIdPaymentInfo(c, id)
 }
 
+// GetCalls operation middleware
+func (siw *ServerInterfaceWrapper) GetCalls(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetCallsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCalls(c, params)
+}
+
+// PostCalls operation middleware
+func (siw *ServerInterfaceWrapper) PostCalls(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostCalls(c)
+}
+
+// DeleteCallsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteCallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteCallsId(c, id)
+}
+
+// GetCallsId operation middleware
+func (siw *ServerInterfaceWrapper) GetCallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCallsId(c, id)
+}
+
 // GinServerOptions provides options for the Gin server.
 type GinServerOptions struct {
 	BaseURL      string
@@ -1061,6 +1191,10 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.POST(options.BaseURL+"/billing_accounts/:id/balance_add_force", wrapper.PostBillingAccountsIdBalanceAddForce)
 	router.POST(options.BaseURL+"/billing_accounts/:id/balance_subtract_force", wrapper.PostBillingAccountsIdBalanceSubtractForce)
 	router.PUT(options.BaseURL+"/billing_accounts/:id/payment_info", wrapper.PutBillingAccountsIdPaymentInfo)
+	router.GET(options.BaseURL+"/calls", wrapper.GetCalls)
+	router.POST(options.BaseURL+"/calls", wrapper.PostCalls)
+	router.DELETE(options.BaseURL+"/calls/:id", wrapper.DeleteCallsId)
+	router.GET(options.BaseURL+"/calls/:id", wrapper.GetCallsId)
 }
 
 type GetAccesskeysRequestObject struct {
@@ -1074,7 +1208,7 @@ type GetAccesskeysResponseObject interface {
 type GetAccesskeys200JSONResponse struct {
 	// NextPageToken The token for next pagination.
 	NextPageToken *string                   `json:"next_page_token,omitempty"`
-	Result        *[]externalRef3.Accesskey `json:"result,omitempty"`
+	Result        *[]externalRef4.Accesskey `json:"result,omitempty"`
 }
 
 func (response GetAccesskeys200JSONResponse) VisitGetAccesskeysResponse(w http.ResponseWriter) error {
@@ -1092,7 +1226,7 @@ type PostAccesskeysResponseObject interface {
 	VisitPostAccesskeysResponse(w http.ResponseWriter) error
 }
 
-type PostAccesskeys201JSONResponse externalRef3.Accesskey
+type PostAccesskeys201JSONResponse externalRef4.Accesskey
 
 func (response PostAccesskeys201JSONResponse) VisitPostAccesskeysResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -1125,7 +1259,7 @@ type GetAccesskeysIdResponseObject interface {
 	VisitGetAccesskeysIdResponse(w http.ResponseWriter) error
 }
 
-type GetAccesskeysId200JSONResponse externalRef3.Accesskey
+type GetAccesskeysId200JSONResponse externalRef4.Accesskey
 
 func (response GetAccesskeysId200JSONResponse) VisitGetAccesskeysIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -1143,7 +1277,7 @@ type PutAccesskeysIdResponseObject interface {
 	VisitPutAccesskeysIdResponse(w http.ResponseWriter) error
 }
 
-type PutAccesskeysId200JSONResponse externalRef3.Accesskey
+type PutAccesskeysId200JSONResponse externalRef4.Accesskey
 
 func (response PutAccesskeysId200JSONResponse) VisitPutAccesskeysIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -1163,7 +1297,7 @@ type GetActiveflowsResponseObject interface {
 type GetActiveflows200JSONResponse struct {
 	// NextPageToken The token for next pagination.
 	NextPageToken *string                    `json:"next_page_token,omitempty"`
-	Result        *[]externalRef4.Activeflow `json:"result,omitempty"`
+	Result        *[]externalRef5.Activeflow `json:"result,omitempty"`
 }
 
 func (response GetActiveflows200JSONResponse) VisitGetActiveflowsResponse(w http.ResponseWriter) error {
@@ -1189,7 +1323,7 @@ type PostActiveflowsResponseObject interface {
 	VisitPostActiveflowsResponse(w http.ResponseWriter) error
 }
 
-type PostActiveflows201JSONResponse externalRef4.Activeflow
+type PostActiveflows201JSONResponse externalRef5.Activeflow
 
 func (response PostActiveflows201JSONResponse) VisitPostActiveflowsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -1238,7 +1372,7 @@ type GetActiveflowsIdResponseObject interface {
 	VisitGetActiveflowsIdResponse(w http.ResponseWriter) error
 }
 
-type GetActiveflowsId200JSONResponse externalRef4.Activeflow
+type GetActiveflowsId200JSONResponse externalRef5.Activeflow
 
 func (response GetActiveflowsId200JSONResponse) VisitGetActiveflowsIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -1263,7 +1397,7 @@ type PostActiveflowsIdStopResponseObject interface {
 	VisitPostActiveflowsIdStopResponse(w http.ResponseWriter) error
 }
 
-type PostActiveflowsIdStop200JSONResponse externalRef4.Activeflow
+type PostActiveflowsIdStop200JSONResponse externalRef5.Activeflow
 
 func (response PostActiveflowsIdStop200JSONResponse) VisitPostActiveflowsIdStopResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -1467,7 +1601,7 @@ type GetAvailableNumbersResponseObject interface {
 }
 
 type GetAvailableNumbers200JSONResponse struct {
-	Result *[]externalRef5.AvailableNumber `json:"result,omitempty"`
+	Result *[]externalRef6.AvailableNumber `json:"result,omitempty"`
 }
 
 func (response GetAvailableNumbers200JSONResponse) VisitGetAvailableNumbersResponse(w http.ResponseWriter) error {
@@ -1629,6 +1763,81 @@ func (response PutBillingAccountsIdPaymentInfo200JSONResponse) VisitPutBillingAc
 	return json.NewEncoder(w).Encode(response)
 }
 
+type GetCallsRequestObject struct {
+	Params GetCallsParams
+}
+
+type GetCallsResponseObject interface {
+	VisitGetCallsResponse(w http.ResponseWriter) error
+}
+
+type GetCalls200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string              `json:"next_page_token,omitempty"`
+	Result        *[]externalRef2.Call `json:"result,omitempty"`
+}
+
+func (response GetCalls200JSONResponse) VisitGetCallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostCallsRequestObject struct {
+	Body *PostCallsJSONRequestBody
+}
+
+type PostCallsResponseObject interface {
+	VisitPostCallsResponse(w http.ResponseWriter) error
+}
+
+type PostCalls200JSONResponse struct {
+	Calls      *[]externalRef2.Call      `json:"calls,omitempty"`
+	Groupcalls *[]externalRef2.Groupcall `json:"groupcalls,omitempty"`
+}
+
+func (response PostCalls200JSONResponse) VisitPostCallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteCallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteCallsIdResponseObject interface {
+	VisitDeleteCallsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteCallsId200JSONResponse externalRef2.Call
+
+func (response DeleteCallsId200JSONResponse) VisitDeleteCallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetCallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetCallsIdResponseObject interface {
+	VisitGetCallsIdResponse(w http.ResponseWriter) error
+}
+
+type GetCallsId200JSONResponse externalRef2.Call
+
+func (response GetCallsId200JSONResponse) VisitGetCallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
 	// Get list of accesskeys
@@ -1715,6 +1924,18 @@ type StrictServerInterface interface {
 	// Update billing account's payment info
 	// (PUT /billing_accounts/{id}/payment_info)
 	PutBillingAccountsIdPaymentInfo(ctx context.Context, request PutBillingAccountsIdPaymentInfoRequestObject) (PutBillingAccountsIdPaymentInfoResponseObject, error)
+	// Get list of calls
+	// (GET /calls)
+	GetCalls(ctx context.Context, request GetCallsRequestObject) (GetCallsResponseObject, error)
+	// Make an outbound call
+	// (POST /calls)
+	PostCalls(ctx context.Context, request PostCallsRequestObject) (PostCallsResponseObject, error)
+	// Delete up the call
+	// (DELETE /calls/{id})
+	DeleteCallsId(ctx context.Context, request DeleteCallsIdRequestObject) (DeleteCallsIdResponseObject, error)
+	// Get detail call info
+	// (GET /calls/{id})
+	GetCallsId(ctx context.Context, request GetCallsIdRequestObject) (GetCallsIdResponseObject, error)
 }
 
 type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
@@ -2582,6 +2803,120 @@ func (sh *strictHandler) PutBillingAccountsIdPaymentInfo(ctx *gin.Context, id op
 		ctx.Status(http.StatusInternalServerError)
 	} else if validResponse, ok := response.(PutBillingAccountsIdPaymentInfoResponseObject); ok {
 		if err := validResponse.VisitPutBillingAccountsIdPaymentInfoResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetCalls operation middleware
+func (sh *strictHandler) GetCalls(ctx *gin.Context, params GetCallsParams) {
+	var request GetCallsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetCalls(ctx, request.(GetCallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetCalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetCallsResponseObject); ok {
+		if err := validResponse.VisitGetCallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostCalls operation middleware
+func (sh *strictHandler) PostCalls(ctx *gin.Context) {
+	var request PostCallsRequestObject
+
+	var body PostCallsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostCalls(ctx, request.(PostCallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostCalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostCallsResponseObject); ok {
+		if err := validResponse.VisitPostCallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteCallsId operation middleware
+func (sh *strictHandler) DeleteCallsId(ctx *gin.Context, id string) {
+	var request DeleteCallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteCallsId(ctx, request.(DeleteCallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteCallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteCallsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteCallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetCallsId operation middleware
+func (sh *strictHandler) GetCallsId(ctx *gin.Context, id string) {
+	var request GetCallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetCallsId(ctx, request.(GetCallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetCallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetCallsIdResponseObject); ok {
+		if err := validResponse.VisitGetCallsIdResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {

@@ -1,7 +1,6 @@
 get:
   summary: Get list of billings
   description: Retrieve a list of the customer's billings.
-  operationId: getBillings
   parameters:
     - $ref: '../../components/common/main.yaml#/components/parameters/PageSize'
     - $ref: '../../components/common/main.yaml#/components/parameters/PageToken'

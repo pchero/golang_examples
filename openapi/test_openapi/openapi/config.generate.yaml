@@ -13,3 +13,4 @@ import-mapping:
   ../../components/agent_manager/main.yaml: "testoapi/gens/models/agent_manager"
   ../../components/number_manager/main.yaml: "testoapi/gens/models/number_manager"
   ../../components/billing_manager/main.yaml: "testoapi/gens/models/billing_manager"
+  ../../components/call_manager/main.yaml: "testoapi/gens/models/call_manager"

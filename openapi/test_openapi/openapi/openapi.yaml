@@ -44,5 +44,9 @@ paths:
   /billing_accounts/{id}/balance_subtract_force:
     $ref: './paths/billing_accounts/id_balance_subtract_force.yaml'
 
+  /calls:
+    $ref: './paths/calls/main.yaml'
+  /calls/{id}:
+    $ref: './paths/calls/id.yaml'
 
 
