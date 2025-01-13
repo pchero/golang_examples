@@ -2,10 +2,10 @@ components:
   schemas:
     CallDirection:
       $ref: 'call_direction.yaml'
-    CallHangupReason:
-      $ref: 'call_hangup_reason.yaml'
     CallHangupBy:
       $ref: 'call_hangup_by.yaml'
+    CallHangupReason:
+      $ref: 'call_hangup_reason.yaml'
     CallMuteDirection:
       $ref: 'call_mute_direction.yaml'
     CallStatus:
