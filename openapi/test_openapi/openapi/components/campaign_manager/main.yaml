@@ -1,5 +1,16 @@
 components:
   schemas:
+    CampaignEndHandle:
+      $ref: 'campaign_end_handle.yaml'
+    CampaignExecute:
+      $ref: 'campaign_execute.yaml'
+    CampaignStatus:
+      $ref: 'campaign_status.yaml'
+    CampaignType:
+      $ref: 'campaign_type.yaml'
+    Campaign:
+      $ref: 'campaign.yaml'
+
     Campaigncallreference_type:
       $ref: 'campaigncall_reference_type.yaml'
     CampaigncallResult:

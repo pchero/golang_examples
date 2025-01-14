@@ -6,3 +6,4 @@ output-options:
   skip-prune: true
 import-mapping:
   ../../components/common/main.yaml: "testoapi/gens/models/common"
+  ../../components/flow_manager/main.yaml: "testoapi/gens/models/flow_manager"

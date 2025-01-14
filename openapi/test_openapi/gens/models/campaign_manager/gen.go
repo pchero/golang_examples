@@ -7,6 +7,34 @@ import (
 	"time"
 
 	externalRef0 "testoapi/gens/models/common"
+	externalRef1 "testoapi/gens/models/flow_manager"
+
+	openapi_types "github.com/oapi-codegen/runtime/types"
+)
+
+// Defines values for CampaignEndHandle.
+const (
+	CampaignEndHandleContinue CampaignEndHandle = "continue"
+	CampaignEndHandleStop     CampaignEndHandle = "stop"
+)
+
+// Defines values for CampaignExecute.
+const (
+	CampaignExecuteRun  CampaignExecute = "run"
+	CampaignExecuteStop CampaignExecute = "stop"
+)
+
+// Defines values for CampaignStatus.
+const (
+	CampaignStatusRun      CampaignStatus = "run"
+	CampaignStatusStop     CampaignStatus = "stop"
+	CampaignStatusStopping CampaignStatus = "stopping"
+)
+
+// Defines values for CampaignType.
+const (
+	CampaignTypeCall CampaignType = "call"
+	CampaignTypeFlow CampaignType = "flow"
 )
 
 // Defines values for CampaigncallResult.
@@ -29,6 +57,44 @@ const (
 	CampaigncallreferenceTypeFlow CampaigncallreferenceType = "flow"
 	CampaigncallreferenceTypeNone CampaigncallreferenceType = "none"
 )
+
+// Campaign defines model for Campaign.
+type Campaign struct {
+	Actions    *[]externalRef1.Action `json:"actions,omitempty"`
+	CustomerId *openapi_types.UUID    `json:"customer_id,omitempty"`
+	Detail     *string                `json:"detail,omitempty"`
+
+	// EndHandle Behavior of the campaign after outdial has no more targets.
+	EndHandle      *CampaignEndHandle  `json:"end_handle,omitempty"`
+	Id             *openapi_types.UUID `json:"id,omitempty"`
+	Name           *string             `json:"name,omitempty"`
+	NextCampaignId *openapi_types.UUID `json:"next_campaign_id,omitempty"`
+	OutdialId      *openapi_types.UUID `json:"outdial_id,omitempty"`
+	OutplanId      *openapi_types.UUID `json:"outplan_id,omitempty"`
+	QueueId        *openapi_types.UUID `json:"queue_id,omitempty"`
+	ServiceLevel   *int                `json:"service_level,omitempty"`
+
+	// Status Status of the campaign.
+	Status   *CampaignStatus `json:"status,omitempty"`
+	TmCreate *time.Time      `json:"tm_create,omitempty"`
+	TmDelete *time.Time      `json:"tm_delete,omitempty"`
+	TmUpdate *time.Time      `json:"tm_update,omitempty"`
+
+	// Type Type of campaign.
+	Type *CampaignType `json:"type,omitempty"`
+}
+
+// CampaignEndHandle Behavior of the campaign after outdial has no more targets.
+type CampaignEndHandle string
+
+// CampaignExecute Execution action for the campaign.
+type CampaignExecute string
+
+// CampaignStatus Status of the campaign.
+type CampaignStatus string
+
+// CampaignType Type of campaign.
+type CampaignType string
 
 // Campaigncall defines model for Campaigncall.
 type Campaigncall struct {

@@ -44,9 +44,67 @@ paths:
   /billing_accounts/{id}/balance_subtract_force:
     $ref: './paths/billing_accounts/id_balance_subtract_force.yaml'
 
-  /calls:
-    $ref: './paths/calls/main.yaml'
+  /calls/{id}/hangup:
+    $ref: './paths/calls/id_hangup.yaml'
+  /calls/{id}/hold:
+    $ref: './paths/calls/id_hold.yaml'
+  /calls/{id}/media_stream:
+    $ref: './paths/calls/id_media_stream.yaml'
+  /calls/{id}/moh:
+    $ref: './paths/calls/id_moh.yaml'
+  /calls/{id}/mute:
+    $ref: './paths/calls/id_mute.yaml'
+  /calls/{id}/silence:
+    $ref: './paths/calls/id_silence.yaml'
+  /calls/{id}/talk:
+    $ref: './paths/calls/id_talk.yaml'
   /calls/{id}:
     $ref: './paths/calls/id.yaml'
+  /calls:
+    $ref: './paths/calls/main.yaml'
 
+  /campaigncalls/{id}:
+    $ref: './paths/campaigncalls/id.yaml'
+  /campaigncalls:
+    $ref: './paths/campaigncalls/main.yaml'
 
+  /campaigns/{id}/status:
+    $ref: './paths/campaigns/id_status.yaml'
+  /campaigns/{id}:
+    $ref: './paths/campaigns/id.yaml'
+  /campaigns:
+    $ref: './paths/campaigns/main.yaml'
+
+  /chatbotcalls/{id}:
+    $ref: './paths/chatbotcalls/id.yaml'
+  /chatbotcalls:
+    $ref: './paths/chatbotcalls/main.yaml'
+
+  /chatbots/{id}:
+    $ref: './paths/chatbots/id.yaml'
+  /chatbots:
+    $ref: './paths/chatbots/main.yaml'
+
+  /chatmessages/{id}:
+    $ref: './paths/chatmessages/id.yaml'
+  /chatmessages:
+    $ref: './paths/chatmessages/main.yaml'
+
+  /chatroommessages/{id}:
+    $ref: './paths/chatroommessages/id.yaml'
+  /chatroommessages:
+    $ref: './paths/chatroommessages/main.yaml'
+
+  /chatrooms/{id}:
+    $ref: './paths/chatrooms/id.yaml'
+  /chatrooms:
+    $ref: './paths/chatrooms/main.yaml'
+
+  /chats/{id}/participant_ids/{participant_id}:
+    $ref: './paths/chats/id_participant_ids_id.yaml'
+  /chats/{id}/participant_ids:
+    $ref: './paths/chats/id_participant_ids.yaml'
+  /chats/{id}:
+    $ref: './paths/chats/id.yaml'
+  /chats:
+    $ref: './paths/chats/main.yaml'

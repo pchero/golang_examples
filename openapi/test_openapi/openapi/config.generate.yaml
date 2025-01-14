@@ -14,3 +14,6 @@ import-mapping:
   ../../components/number_manager/main.yaml: "testoapi/gens/models/number_manager"
   ../../components/billing_manager/main.yaml: "testoapi/gens/models/billing_manager"
   ../../components/call_manager/main.yaml: "testoapi/gens/models/call_manager"
+  ../../components/campaign_manager/main.yaml: "testoapi/gens/models/campaign_manager"
+  ../../components/chatbot_manager/main.yaml: "testoapi/gens/models/chatbot_manager"
+  ../../components/chat_manager/main.yaml: "testoapi/gens/models/chat_manager"
