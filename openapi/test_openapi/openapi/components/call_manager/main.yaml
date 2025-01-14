@@ -23,3 +23,12 @@ components:
       $ref: 'groupcall_status.yaml'
     Groupcall:
       $ref: 'groupcall.yaml'
+
+    RecordingFormat:
+      $ref: 'recording_format.yaml'
+    RecordingReferenceType:
+      $ref: 'recording_reference_type.yaml'
+    RecordingStatus:
+      $ref: 'recording_status.yaml'
+    Recording:
+      $ref: 'recording.yaml'

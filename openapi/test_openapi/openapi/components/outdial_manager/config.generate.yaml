@@ -4,3 +4,5 @@ generate:
   models: true
 output-options:
   skip-prune: true
+import-mapping:
+  ../../components/common/main.yaml: "testoapi/gens/models/common"

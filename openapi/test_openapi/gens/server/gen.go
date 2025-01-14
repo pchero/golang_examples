@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"mime/multipart"
 	"net/http"
 	"time"
 
@@ -17,9 +18,17 @@ import (
 	externalRef4 "testoapi/gens/models/chat_manager"
 	externalRef5 "testoapi/gens/models/chatbot_manager"
 	externalRef6 "testoapi/gens/models/common"
-	externalRef7 "testoapi/gens/models/customer_manager"
-	externalRef8 "testoapi/gens/models/flow_manager"
-	externalRef9 "testoapi/gens/models/number_manager"
+	externalRef7 "testoapi/gens/models/conference_manager"
+	externalRef8 "testoapi/gens/models/conversation_manager"
+	externalRef9 "testoapi/gens/models/customer_manager"
+	externalRef10 "testoapi/gens/models/flow_manager"
+	externalRef11 "testoapi/gens/models/message_manager"
+	externalRef12 "testoapi/gens/models/number_manager"
+	externalRef13 "testoapi/gens/models/outdial_manager"
+	externalRef15 "testoapi/gens/models/queue_manager"
+	externalRef16 "testoapi/gens/models/registrar_manager"
+	externalRef17 "testoapi/gens/models/route_manager"
+	externalRef18 "testoapi/gens/models/storage_manager"
 
 	"github.com/gin-gonic/gin"
 	"github.com/oapi-codegen/runtime"
@@ -57,7 +66,7 @@ type GetActiveflowsParams struct {
 
 // PostActiveflowsJSONBody defines parameters for PostActiveflows.
 type PostActiveflowsJSONBody struct {
-	Actions *[]externalRef8.Action `json:"actions,omitempty"`
+	Actions *[]externalRef10.Action `json:"actions,omitempty"`
 
 	// FlowId Flow id of.
 	FlowId *string `json:"flow_id,omitempty"`
@@ -181,7 +190,7 @@ type GetCallsParams struct {
 
 // PostCallsJSONBody defines parameters for PostCalls.
 type PostCallsJSONBody struct {
-	Actions      *[]externalRef8.Action  `json:"actions,omitempty"`
+	Actions      *[]externalRef10.Action `json:"actions,omitempty"`
 	Destinations *[]externalRef6.Address `json:"destinations,omitempty"`
 	FlowId       *string                 `json:"flow_id,omitempty"`
 
@@ -210,7 +219,7 @@ type GetCampaignsParams struct {
 // PostCampaignsJSONBody defines parameters for PostCampaigns.
 type PostCampaignsJSONBody struct {
 	// Actions Actions associated with the campaign
-	Actions *[]externalRef8.Action `json:"actions,omitempty"`
+	Actions *[]externalRef10.Action `json:"actions,omitempty"`
 
 	// Detail Detailed description of the campaign
 	Detail *string `json:"detail,omitempty"`
@@ -412,6 +421,612 @@ type PostChatsIdParticipantIdsJSONBody struct {
 	ParticipantID string `json:"participantID"`
 }
 
+// GetConferencecallsParams defines parameters for GetConferencecalls.
+type GetConferencecallsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetConferencesParams defines parameters for GetConferences.
+type GetConferencesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostConferencesJSONBody defines parameters for PostConferences.
+type PostConferencesJSONBody struct {
+	Data        *map[string]interface{} `json:"data,omitempty"`
+	Detail      *string                 `json:"detail,omitempty"`
+	Name        *string                 `json:"name,omitempty"`
+	PostActions *[]externalRef10.Action `json:"postActions,omitempty"`
+	PreActions  *[]externalRef10.Action `json:"preActions,omitempty"`
+	Timeout     *int                    `json:"timeout,omitempty"`
+
+	// Type Types of conferences.
+	Type *externalRef7.ConferenceType `json:"type,omitempty"`
+}
+
+// PutConferencesIdJSONBody defines parameters for PutConferencesId.
+type PutConferencesIdJSONBody struct {
+	Detail      *string                 `json:"detail,omitempty"`
+	Name        *string                 `json:"name,omitempty"`
+	PostActions *[]externalRef10.Action `json:"postActions,omitempty"`
+	PreActions  *[]externalRef10.Action `json:"preActions,omitempty"`
+	Timeout     *int                    `json:"timeout,omitempty"`
+}
+
+// PostConferencesIdTranscribeStartJSONBody defines parameters for PostConferencesIdTranscribeStart.
+type PostConferencesIdTranscribeStartJSONBody struct {
+	// Language The language for transcription.
+	Language *string `json:"language,omitempty"`
+}
+
+// GetConversationAccountsParams defines parameters for GetConversationAccounts.
+type GetConversationAccountsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostConversationAccountsJSONBody defines parameters for PostConversationAccounts.
+type PostConversationAccountsJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+	Secret *string `json:"secret,omitempty"`
+	Token  *string `json:"token,omitempty"`
+
+	// Type Type of the account.
+	Type *externalRef8.AccountType `json:"type,omitempty"`
+}
+
+// PutConversationAccountsIdJSONBody defines parameters for PutConversationAccountsId.
+type PutConversationAccountsIdJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+	Secret *string `json:"secret,omitempty"`
+	Token  *string `json:"token,omitempty"`
+}
+
+// GetConversationsParams defines parameters for GetConversations.
+type GetConversationsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PutConversationsIdJSONBody defines parameters for PutConversationsId.
+type PutConversationsIdJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+}
+
+// GetConversationsIdMessagesParams defines parameters for GetConversationsIdMessages.
+type GetConversationsIdMessagesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostConversationsIdMessagesJSONBody defines parameters for PostConversationsIdMessages.
+type PostConversationsIdMessagesJSONBody struct {
+	Media *[]externalRef8.Media `json:"media,omitempty"`
+
+	// Text The message text.
+	Text *string `json:"text,omitempty"`
+}
+
+// PutCustomerJSONBody defines parameters for PutCustomer.
+type PutCustomerJSONBody struct {
+	// Address The customer's address.
+	Address *string `json:"address,omitempty"`
+
+	// Detail Additional details about the customer.
+	Detail *string `json:"detail,omitempty"`
+
+	// Email The customer's email address.
+	Email *string `json:"email,omitempty"`
+
+	// Name The new name of the customer.
+	Name *string `json:"name,omitempty"`
+
+	// PhoneNumber The customer's phone number.
+	PhoneNumber *string `json:"phone_number,omitempty"`
+
+	// WebhookMethod The HTTP method used for webhook (e.g., POST, GET, PUT, DELETE).
+	WebhookMethod *externalRef9.CustomerWebhookMethod `json:"webhook_method,omitempty"`
+
+	// WebhookUri Webhook URI.
+	WebhookUri *string `json:"webhook_uri,omitempty"`
+}
+
+// PutCustomerBillingAccountIdJSONBody defines parameters for PutCustomerBillingAccountId.
+type PutCustomerBillingAccountIdJSONBody struct {
+	// BillingAccountId The new billing account ID for the customer.
+	BillingAccountId *string `json:"billing_account_id,omitempty"`
+}
+
+// GetCustomersParams defines parameters for GetCustomers.
+type GetCustomersParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostCustomersJSONBody defines parameters for PostCustomers.
+type PostCustomersJSONBody struct {
+	Address     *string `json:"address,omitempty"`
+	Detail      *string `json:"detail,omitempty"`
+	Email       *string `json:"email,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
+
+	// WebhookMethod The HTTP method used for webhook (e.g., POST, GET, PUT, DELETE).
+	WebhookMethod *externalRef9.CustomerWebhookMethod `json:"webhookMethod,omitempty"`
+	WebhookURI    *string                             `json:"webhookURI,omitempty"`
+}
+
+// PutCustomersIdJSONBody defines parameters for PutCustomersId.
+type PutCustomersIdJSONBody struct {
+	Address     *string `json:"address,omitempty"`
+	Detail      *string `json:"detail,omitempty"`
+	Email       *string `json:"email,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
+
+	// WebhookMethod The HTTP method used for webhook (e.g., POST, GET, PUT, DELETE).
+	WebhookMethod *externalRef9.CustomerWebhookMethod `json:"webhookMethod,omitempty"`
+	WebhookURI    *string                             `json:"webhookURI,omitempty"`
+}
+
+// PutCustomersIdBillingAccountIdJSONBody defines parameters for PutCustomersIdBillingAccountId.
+type PutCustomersIdBillingAccountIdJSONBody struct {
+	BillingAccountID *string `json:"billingAccountID,omitempty"`
+}
+
+// GetExtensionsParams defines parameters for GetExtensions.
+type GetExtensionsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostExtensionsJSONBody defines parameters for PostExtensions.
+type PostExtensionsJSONBody struct {
+	Detail    *string `json:"detail,omitempty"`
+	Extension string  `json:"extension"`
+	Name      string  `json:"name"`
+	Password  string  `json:"password"`
+}
+
+// PutExtensionsIdJSONBody defines parameters for PutExtensionsId.
+type PutExtensionsIdJSONBody struct {
+	Detail   *string `json:"detail,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Password *string `json:"password,omitempty"`
+}
+
+// GetFilesParams defines parameters for GetFiles.
+type GetFilesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostFilesMultipartBody defines parameters for PostFiles.
+type PostFilesMultipartBody struct {
+	// File The file to be uploaded.
+	File *openapi_types.File `json:"file,omitempty"`
+}
+
+// GetFlowsParams defines parameters for GetFlows.
+type GetFlowsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostFlowsJSONBody defines parameters for PostFlows.
+type PostFlowsJSONBody struct {
+	// Actions List of actions associated with the flow.
+	Actions *[]externalRef10.Action `json:"actions,omitempty"`
+
+	// Detail Detailed information about the flow.
+	Detail *string `json:"detail,omitempty"`
+
+	// Name The name of the flow.
+	Name *string `json:"name,omitempty"`
+}
+
+// PutFlowsIdJSONBody defines parameters for PutFlowsId.
+type PutFlowsIdJSONBody struct {
+	// Actions Updated list of actions associated with the flow.
+	Actions *[]externalRef10.Action `json:"actions,omitempty"`
+
+	// Detail The updated details of the flow.
+	Detail *string `json:"detail,omitempty"`
+
+	// Name The updated name of the flow.
+	Name *string `json:"name,omitempty"`
+}
+
+// GetGroupcallsParams defines parameters for GetGroupcalls.
+type GetGroupcallsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostGroupcallsJSONBody defines parameters for PostGroupcalls.
+type PostGroupcallsJSONBody struct {
+	Actions *[]externalRef10.Action `json:"actions,omitempty"`
+
+	// AnswerMethod Method to handle answered calls
+	AnswerMethod *externalRef2.GroupcallAnswerMethod `json:"answer_method,omitempty"`
+	Destinations *[]externalRef6.Address             `json:"destinations,omitempty"`
+	FlowID       *string                             `json:"flowID,omitempty"`
+
+	// RingMethod Method used for dialing
+	RingMethod *externalRef2.GroupcallRingMethod `json:"ring_method,omitempty"`
+
+	// Source Contains source or destination detail info.
+	Source *externalRef6.Address `json:"source,omitempty"`
+}
+
+// GetMessagesParams defines parameters for GetMessages.
+type GetMessagesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostMessagesJSONBody defines parameters for PostMessages.
+type PostMessagesJSONBody struct {
+	// Destinations List of destinations for the message.
+	Destinations *[]externalRef6.Address `json:"destinations,omitempty"`
+
+	// Source Contains source or destination detail info.
+	Source *externalRef6.Address `json:"source,omitempty"`
+
+	// Text The content of the message.
+	Text *string `json:"text,omitempty"`
+}
+
+// GetNumbersParams defines parameters for GetNumbers.
+type GetNumbersParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostNumbersJSONBody defines parameters for PostNumbers.
+type PostNumbersJSONBody struct {
+	// CallFlowId The ID of the call flow.
+	CallFlowId *string `json:"call_flow_id,omitempty"`
+
+	// Detail Additional details about the number.
+	Detail *string `json:"detail,omitempty"`
+
+	// MessageFlowId The ID of the message flow.
+	MessageFlowId *string `json:"message_flow_id,omitempty"`
+
+	// Name The name of the number.
+	Name *string `json:"name,omitempty"`
+
+	// Number The phone number.
+	Number *string `json:"number,omitempty"`
+}
+
+// PostNumbersRenewJSONBody defines parameters for PostNumbersRenew.
+type PostNumbersRenewJSONBody struct {
+	// TmRenew The timestamp for renewing the number.
+	TmRenew *string `json:"tm_renew,omitempty"`
+}
+
+// GetOutdialsParams defines parameters for GetOutdials.
+type GetOutdialsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostOutdialsJSONBody defines parameters for PostOutdials.
+type PostOutdialsJSONBody struct {
+	CampaignId *string `json:"campaign_id,omitempty"`
+	Data       *string `json:"data,omitempty"`
+	Detail     *string `json:"detail,omitempty"`
+	Name       *string `json:"name,omitempty"`
+}
+
+// GetOutdialsIdParams defines parameters for GetOutdialsId.
+type GetOutdialsIdParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+}
+
+// PutOutdialsIdJSONBody defines parameters for PutOutdialsId.
+type PutOutdialsIdJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+}
+
+// PutOutdialsIdCampaignIdJSONBody defines parameters for PutOutdialsIdCampaignId.
+type PutOutdialsIdCampaignIdJSONBody struct {
+	CampaignId *string `json:"campaign_id,omitempty"`
+}
+
+// PutOutdialsIdDataJSONBody defines parameters for PutOutdialsIdData.
+type PutOutdialsIdDataJSONBody struct {
+	Data *string `json:"data,omitempty"`
+}
+
+// PostOutdialsIdTargetsJSONBody defines parameters for PostOutdialsIdTargets.
+type PostOutdialsIdTargetsJSONBody struct {
+	Data *string `json:"data,omitempty"`
+
+	// Destination0 Contains source or destination detail info.
+	Destination0 *externalRef6.Address `json:"destination0,omitempty"`
+
+	// Destination1 Contains source or destination detail info.
+	Destination1 *externalRef6.Address `json:"destination1,omitempty"`
+
+	// Destination2 Contains source or destination detail info.
+	Destination2 *externalRef6.Address `json:"destination2,omitempty"`
+
+	// Destination3 Contains source or destination detail info.
+	Destination3 *externalRef6.Address `json:"destination3,omitempty"`
+
+	// Destination4 Contains source or destination detail info.
+	Destination4 *externalRef6.Address `json:"destination4,omitempty"`
+	Detail       *string               `json:"detail,omitempty"`
+	Name         *string               `json:"name,omitempty"`
+}
+
+// GetOutplansParams defines parameters for GetOutplans.
+type GetOutplansParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostOutplansJSONBody defines parameters for PostOutplans.
+type PostOutplansJSONBody struct {
+	// Detail Additional details about the outplan.
+	Detail *string `json:"detail,omitempty"`
+
+	// DialTimeout The dial timeout in seconds.
+	DialTimeout *int `json:"dial_timeout,omitempty"`
+
+	// MaxTryCount0 Maximum retry count for destination 0.
+	MaxTryCount0 *int `json:"max_try_count_0,omitempty"`
+
+	// MaxTryCount1 Maximum retry count for destination 1.
+	MaxTryCount1 *int `json:"max_try_count_1,omitempty"`
+
+	// MaxTryCount2 Maximum retry count for destination 2.
+	MaxTryCount2 *int `json:"max_try_count_2,omitempty"`
+
+	// MaxTryCount3 Maximum retry count for destination 3.
+	MaxTryCount3 *int `json:"max_try_count_3,omitempty"`
+
+	// MaxTryCount4 Maximum retry count for destination 4.
+	MaxTryCount4 *int `json:"max_try_count_4,omitempty"`
+
+	// Name The name of the outplan.
+	Name *string `json:"name,omitempty"`
+
+	// Source Contains source or destination detail info.
+	Source *externalRef6.Address `json:"source,omitempty"`
+
+	// TryInterval The interval between retry attempts.
+	TryInterval *int `json:"try_interval,omitempty"`
+}
+
+// PutOutplansIdJSONBody defines parameters for PutOutplansId.
+type PutOutplansIdJSONBody struct {
+	// DialTimeout The new dial timeout in seconds.
+	DialTimeout *int `json:"dial_timeout,omitempty"`
+
+	// MaxTryCount0 The new maximum retry count for destination 0.
+	MaxTryCount0 *int `json:"max_try_count_0,omitempty"`
+
+	// MaxTryCount1 The new maximum retry count for destination 1.
+	MaxTryCount1 *int `json:"max_try_count_1,omitempty"`
+
+	// MaxTryCount2 The new maximum retry count for destination 2.
+	MaxTryCount2 *int `json:"max_try_count_2,omitempty"`
+
+	// MaxTryCount3 The new maximum retry count for destination 3.
+	MaxTryCount3 *int `json:"max_try_count_3,omitempty"`
+
+	// MaxTryCount4 The new maximum retry count for destination 4.
+	MaxTryCount4 *int `json:"max_try_count_4,omitempty"`
+
+	// Source Contains source or destination detail info.
+	Source *externalRef6.Address `json:"source,omitempty"`
+
+	// TryInterval The new interval between retry attempts.
+	TryInterval *int `json:"try_interval,omitempty"`
+}
+
+// GetProvidersParams defines parameters for GetProviders.
+type GetProvidersParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostProvidersJSONBody defines parameters for PostProviders.
+type PostProvidersJSONBody struct {
+	Detail      *string                 `json:"detail,omitempty"`
+	Hostname    *string                 `json:"hostname,omitempty"`
+	Name        *string                 `json:"name,omitempty"`
+	TechHeaders *map[string]interface{} `json:"techHeaders,omitempty"`
+	TechPostfix *string                 `json:"techPostfix,omitempty"`
+	TechPrefix  *string                 `json:"techPrefix,omitempty"`
+
+	// Type Defines the type of the provider. Currently, only 'sip' is supported for VoIP/SIP providers.
+	Type *externalRef17.ProviderType `json:"type,omitempty"`
+}
+
+// PutProvidersIdJSONBody defines parameters for PutProvidersId.
+type PutProvidersIdJSONBody struct {
+	Detail      *string                 `json:"detail,omitempty"`
+	Hostname    *string                 `json:"hostname,omitempty"`
+	Name        *string                 `json:"name,omitempty"`
+	TechHeaders *map[string]interface{} `json:"techHeaders,omitempty"`
+	TechPostfix *string                 `json:"techPostfix,omitempty"`
+	TechPrefix  *string                 `json:"techPrefix,omitempty"`
+
+	// Type Defines the type of the provider. Currently, only 'sip' is supported for VoIP/SIP providers.
+	Type *externalRef17.ProviderType `json:"type,omitempty"`
+}
+
+// GetQueuecallsParams defines parameters for GetQueuecalls.
+type GetQueuecallsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetQueuesParams defines parameters for GetQueues.
+type GetQueuesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostQueuesJSONBody defines parameters for PostQueues.
+type PostQueuesJSONBody struct {
+	Detail         *string                           `json:"detail,omitempty"`
+	Name           *string                           `json:"name,omitempty"`
+	RoutingMethod  *externalRef15.QueueRoutingMethod `json:"routing_method,omitempty"`
+	ServiceTimeout *int                              `json:"service_timeout,omitempty"`
+	TagIds         *[]string                         `json:"tag_ids,omitempty"`
+	WaitActions    *[]externalRef10.Action           `json:"wait_actions,omitempty"`
+	WaitTimeout    *int                              `json:"wait_timeout,omitempty"`
+}
+
+// PutQueuesIdJSONBody defines parameters for PutQueuesId.
+type PutQueuesIdJSONBody struct {
+	Detail         *string                           `json:"detail,omitempty"`
+	Name           *string                           `json:"name,omitempty"`
+	RoutingMethod  *externalRef15.QueueRoutingMethod `json:"routing_method,omitempty"`
+	ServiceTimeout *int                              `json:"service_timeout,omitempty"`
+	TagIds         *[]string                         `json:"tag_ids,omitempty"`
+	WaitActions    *[]externalRef10.Action           `json:"wait_actions,omitempty"`
+	WaitTimeout    *int                              `json:"wait_timeout,omitempty"`
+}
+
+// PutQueuesIdActionsJSONBody defines parameters for PutQueuesIdActions.
+type PutQueuesIdActionsJSONBody struct {
+	TimeoutService *int                    `json:"timeout_service,omitempty"`
+	TimeoutWait    *int                    `json:"timeout_wait,omitempty"`
+	WaitActions    *[]externalRef10.Action `json:"wait_actions,omitempty"`
+}
+
+// PutQueuesIdRoutingMethodJSONBody defines parameters for PutQueuesIdRoutingMethod.
+type PutQueuesIdRoutingMethodJSONBody struct {
+	RoutingMethod *externalRef15.QueueRoutingMethod `json:"routing_method,omitempty"`
+}
+
+// PutQueuesIdTagIdsJSONBody defines parameters for PutQueuesIdTagIds.
+type PutQueuesIdTagIdsJSONBody struct {
+	TagIds *[]string `json:"tag_ids,omitempty"`
+}
+
+// GetRecordingsParams defines parameters for GetRecordings.
+type GetRecordingsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetRoutesParams defines parameters for GetRoutes.
+type GetRoutesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostRoutesJSONBody defines parameters for PostRoutes.
+type PostRoutesJSONBody struct {
+	// CustomerId The ID of the customer for the route.
+	CustomerId *string `json:"customer_id,omitempty"`
+
+	// Detail The detail information of the route.
+	Detail *string `json:"detail,omitempty"`
+
+	// Name The name of the route.
+	Name *string `json:"name,omitempty"`
+
+	// Priority The priority of the route.
+	Priority *int `json:"priority,omitempty"`
+
+	// ProviderId The provider ID for the route.
+	ProviderId *string `json:"provider_id,omitempty"`
+
+	// Target The target of the route.
+	Target *string `json:"target,omitempty"`
+}
+
+// PutRoutesIdJSONBody defines parameters for PutRoutesId.
+type PutRoutesIdJSONBody struct {
+	// Detail The detail information of the route.
+	Detail *string `json:"detail,omitempty"`
+
+	// Name The name of the route.
+	Name *string `json:"name,omitempty"`
+
+	// Priority The priority of the route.
+	Priority *int `json:"priority,omitempty"`
+
+	// ProviderId The provider ID for the route.
+	ProviderId *string `json:"provider_id,omitempty"`
+
+	// Target The target of the route.
+	Target *string `json:"target,omitempty"`
+}
+
 // PostAccesskeysJSONRequestBody defines body for PostAccesskeys for application/json ContentType.
 type PostAccesskeysJSONRequestBody PostAccesskeysJSONBody
 
@@ -492,6 +1107,117 @@ type PutChatsIdJSONRequestBody PutChatsIdJSONBody
 
 // PostChatsIdParticipantIdsJSONRequestBody defines body for PostChatsIdParticipantIds for application/json ContentType.
 type PostChatsIdParticipantIdsJSONRequestBody PostChatsIdParticipantIdsJSONBody
+
+// PostConferencesJSONRequestBody defines body for PostConferences for application/json ContentType.
+type PostConferencesJSONRequestBody PostConferencesJSONBody
+
+// PutConferencesIdJSONRequestBody defines body for PutConferencesId for application/json ContentType.
+type PutConferencesIdJSONRequestBody PutConferencesIdJSONBody
+
+// PostConferencesIdTranscribeStartJSONRequestBody defines body for PostConferencesIdTranscribeStart for application/json ContentType.
+type PostConferencesIdTranscribeStartJSONRequestBody PostConferencesIdTranscribeStartJSONBody
+
+// PostConversationAccountsJSONRequestBody defines body for PostConversationAccounts for application/json ContentType.
+type PostConversationAccountsJSONRequestBody PostConversationAccountsJSONBody
+
+// PutConversationAccountsIdJSONRequestBody defines body for PutConversationAccountsId for application/json ContentType.
+type PutConversationAccountsIdJSONRequestBody PutConversationAccountsIdJSONBody
+
+// PutConversationsIdJSONRequestBody defines body for PutConversationsId for application/json ContentType.
+type PutConversationsIdJSONRequestBody PutConversationsIdJSONBody
+
+// PostConversationsIdMessagesJSONRequestBody defines body for PostConversationsIdMessages for application/json ContentType.
+type PostConversationsIdMessagesJSONRequestBody PostConversationsIdMessagesJSONBody
+
+// PutCustomerJSONRequestBody defines body for PutCustomer for application/json ContentType.
+type PutCustomerJSONRequestBody PutCustomerJSONBody
+
+// PutCustomerBillingAccountIdJSONRequestBody defines body for PutCustomerBillingAccountId for application/json ContentType.
+type PutCustomerBillingAccountIdJSONRequestBody PutCustomerBillingAccountIdJSONBody
+
+// PostCustomersJSONRequestBody defines body for PostCustomers for application/json ContentType.
+type PostCustomersJSONRequestBody PostCustomersJSONBody
+
+// PutCustomersIdJSONRequestBody defines body for PutCustomersId for application/json ContentType.
+type PutCustomersIdJSONRequestBody PutCustomersIdJSONBody
+
+// PutCustomersIdBillingAccountIdJSONRequestBody defines body for PutCustomersIdBillingAccountId for application/json ContentType.
+type PutCustomersIdBillingAccountIdJSONRequestBody PutCustomersIdBillingAccountIdJSONBody
+
+// PostExtensionsJSONRequestBody defines body for PostExtensions for application/json ContentType.
+type PostExtensionsJSONRequestBody PostExtensionsJSONBody
+
+// PutExtensionsIdJSONRequestBody defines body for PutExtensionsId for application/json ContentType.
+type PutExtensionsIdJSONRequestBody PutExtensionsIdJSONBody
+
+// PostFilesMultipartRequestBody defines body for PostFiles for multipart/form-data ContentType.
+type PostFilesMultipartRequestBody PostFilesMultipartBody
+
+// PostFlowsJSONRequestBody defines body for PostFlows for application/json ContentType.
+type PostFlowsJSONRequestBody PostFlowsJSONBody
+
+// PutFlowsIdJSONRequestBody defines body for PutFlowsId for application/json ContentType.
+type PutFlowsIdJSONRequestBody PutFlowsIdJSONBody
+
+// PostGroupcallsJSONRequestBody defines body for PostGroupcalls for application/json ContentType.
+type PostGroupcallsJSONRequestBody PostGroupcallsJSONBody
+
+// PostMessagesJSONRequestBody defines body for PostMessages for application/json ContentType.
+type PostMessagesJSONRequestBody PostMessagesJSONBody
+
+// PostNumbersJSONRequestBody defines body for PostNumbers for application/json ContentType.
+type PostNumbersJSONRequestBody PostNumbersJSONBody
+
+// PostNumbersRenewJSONRequestBody defines body for PostNumbersRenew for application/json ContentType.
+type PostNumbersRenewJSONRequestBody PostNumbersRenewJSONBody
+
+// PostOutdialsJSONRequestBody defines body for PostOutdials for application/json ContentType.
+type PostOutdialsJSONRequestBody PostOutdialsJSONBody
+
+// PutOutdialsIdJSONRequestBody defines body for PutOutdialsId for application/json ContentType.
+type PutOutdialsIdJSONRequestBody PutOutdialsIdJSONBody
+
+// PutOutdialsIdCampaignIdJSONRequestBody defines body for PutOutdialsIdCampaignId for application/json ContentType.
+type PutOutdialsIdCampaignIdJSONRequestBody PutOutdialsIdCampaignIdJSONBody
+
+// PutOutdialsIdDataJSONRequestBody defines body for PutOutdialsIdData for application/json ContentType.
+type PutOutdialsIdDataJSONRequestBody PutOutdialsIdDataJSONBody
+
+// PostOutdialsIdTargetsJSONRequestBody defines body for PostOutdialsIdTargets for application/json ContentType.
+type PostOutdialsIdTargetsJSONRequestBody PostOutdialsIdTargetsJSONBody
+
+// PostOutplansJSONRequestBody defines body for PostOutplans for application/json ContentType.
+type PostOutplansJSONRequestBody PostOutplansJSONBody
+
+// PutOutplansIdJSONRequestBody defines body for PutOutplansId for application/json ContentType.
+type PutOutplansIdJSONRequestBody PutOutplansIdJSONBody
+
+// PostProvidersJSONRequestBody defines body for PostProviders for application/json ContentType.
+type PostProvidersJSONRequestBody PostProvidersJSONBody
+
+// PutProvidersIdJSONRequestBody defines body for PutProvidersId for application/json ContentType.
+type PutProvidersIdJSONRequestBody PutProvidersIdJSONBody
+
+// PostQueuesJSONRequestBody defines body for PostQueues for application/json ContentType.
+type PostQueuesJSONRequestBody PostQueuesJSONBody
+
+// PutQueuesIdJSONRequestBody defines body for PutQueuesId for application/json ContentType.
+type PutQueuesIdJSONRequestBody PutQueuesIdJSONBody
+
+// PutQueuesIdActionsJSONRequestBody defines body for PutQueuesIdActions for application/json ContentType.
+type PutQueuesIdActionsJSONRequestBody PutQueuesIdActionsJSONBody
+
+// PutQueuesIdRoutingMethodJSONRequestBody defines body for PutQueuesIdRoutingMethod for application/json ContentType.
+type PutQueuesIdRoutingMethodJSONRequestBody PutQueuesIdRoutingMethodJSONBody
+
+// PutQueuesIdTagIdsJSONRequestBody defines body for PutQueuesIdTagIds for application/json ContentType.
+type PutQueuesIdTagIdsJSONRequestBody PutQueuesIdTagIdsJSONBody
+
+// PostRoutesJSONRequestBody defines body for PostRoutes for application/json ContentType.
+type PostRoutesJSONRequestBody PostRoutesJSONBody
+
+// PutRoutesIdJSONRequestBody defines body for PutRoutesId for application/json ContentType.
+type PutRoutesIdJSONRequestBody PutRoutesIdJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -732,6 +1458,312 @@ type ServerInterface interface {
 	// Add a participant to a chat.
 	// (POST /chats/{id}/participant_ids)
 	PostChatsIdParticipantIds(c *gin.Context, id string)
+	// Remove a participant from a chat.
+	// (DELETE /chats/{id}/participant_ids/{participant_id})
+	DeleteChatsIdParticipantIdsParticipantId(c *gin.Context, id string, participantId string)
+	// Get list of conference calls
+	// (GET /conferencecalls)
+	GetConferencecalls(c *gin.Context, params GetConferencecallsParams)
+	// Remove a conference call
+	// (DELETE /conferencecalls/{id})
+	DeleteConferencecallsId(c *gin.Context, id string)
+	// Get conference call details
+	// (GET /conferencecalls/{id})
+	GetConferencecallsId(c *gin.Context, id string)
+	// Get list of conferences
+	// (GET /conferences)
+	GetConferences(c *gin.Context, params GetConferencesParams)
+	// Create a new conference
+	// (POST /conferences)
+	PostConferences(c *gin.Context)
+	// Delete a conference
+	// (DELETE /conferences/{id})
+	DeleteConferencesId(c *gin.Context, id string)
+	// Get conference details
+	// (GET /conferences/{id})
+	GetConferencesId(c *gin.Context, id string)
+	// Update conference details
+	// (PUT /conferences/{id})
+	PutConferencesId(c *gin.Context, id string)
+	// Start media streaming for a conference
+	// (GET /conferences/{id}/media_stream)
+	GetConferencesIdMediaStream(c *gin.Context, id string)
+	// Start conference recording
+	// (POST /conferences/{id}/recording_start)
+	PostConferencesIdRecordingStart(c *gin.Context, id string)
+	// Stop conference recording
+	// (POST /conferences/{id}/recording_stop)
+	PostConferencesIdRecordingStop(c *gin.Context, id string)
+	// Start conference transcription
+	// (POST /conferences/{id}/transcribe_start)
+	PostConferencesIdTranscribeStart(c *gin.Context, id string)
+	// Stop conference transcription
+	// (POST /conferences/{id}/transcribe_stop)
+	PostConferencesIdTranscribeStop(c *gin.Context, id string)
+	// Gets a list of conversation accounts
+	// (GET /conversation_accounts)
+	GetConversationAccounts(c *gin.Context, params GetConversationAccountsParams)
+	// Create a new conversation account
+	// (POST /conversation_accounts)
+	PostConversationAccounts(c *gin.Context)
+	// Delete a conversation account
+	// (DELETE /conversation_accounts/{id})
+	DeleteConversationAccountsId(c *gin.Context, id string)
+	// Get details of a conversation account
+	// (GET /conversation_accounts/{id})
+	GetConversationAccountsId(c *gin.Context, id string)
+	// Update a conversation account
+	// (PUT /conversation_accounts/{id})
+	PutConversationAccountsId(c *gin.Context, id string)
+	// Gets a list of conversations
+	// (GET /conversations)
+	GetConversations(c *gin.Context, params GetConversationsParams)
+	// Returns detailed conversation info
+	// (GET /conversations/{id})
+	GetConversationsId(c *gin.Context, id string)
+	// Update conversation info
+	// (PUT /conversations/{id})
+	PutConversationsId(c *gin.Context, id string)
+	// Gets a list of conversation messages
+	// (GET /conversations/{id}/messages)
+	GetConversationsIdMessages(c *gin.Context, id string, params GetConversationsIdMessagesParams)
+	// Send a message
+	// (POST /conversations/{id}/messages)
+	PostConversationsIdMessages(c *gin.Context, id string)
+	// Get customer info
+	// (GET /customer)
+	GetCustomer(c *gin.Context)
+	// Update a customer
+	// (PUT /customer)
+	PutCustomer(c *gin.Context)
+	// Update a customer's billing account ID
+	// (PUT /customer/billing_account_id)
+	PutCustomerBillingAccountId(c *gin.Context)
+	// Gets a list of customers.
+	// (GET /customers)
+	GetCustomers(c *gin.Context, params GetCustomersParams)
+	// Create a new customer.
+	// (POST /customers)
+	PostCustomers(c *gin.Context)
+	// Delete a customer.
+	// (DELETE /customers/{id})
+	DeleteCustomersId(c *gin.Context, id string)
+	// Retrieve customer details.
+	// (GET /customers/{id})
+	GetCustomersId(c *gin.Context, id string)
+	// Update a customer.
+	// (PUT /customers/{id})
+	PutCustomersId(c *gin.Context, id string)
+	// Update a customer's billing account ID.
+	// (PUT /customers/{id}/billing_account_id)
+	PutCustomersIdBillingAccountId(c *gin.Context, id string)
+	// Get a list of extensions
+	// (GET /extensions)
+	GetExtensions(c *gin.Context, params GetExtensionsParams)
+	// Create a new extension
+	// (POST /extensions)
+	PostExtensions(c *gin.Context)
+	// Delete an extension
+	// (DELETE /extensions/{id})
+	DeleteExtensionsId(c *gin.Context, id string)
+	// Get extension details
+	// (GET /extensions/{id})
+	GetExtensionsId(c *gin.Context, id string)
+	// Update an extension
+	// (PUT /extensions/{id})
+	PutExtensionsId(c *gin.Context, id string)
+	// Gets a list of files
+	// (GET /files)
+	GetFiles(c *gin.Context, params GetFilesParams)
+	// Upload file
+	// (POST /files)
+	PostFiles(c *gin.Context)
+	// Delete a file
+	// (DELETE /files/{id})
+	DeleteFilesId(c *gin.Context, id string)
+	// Returns detail file info
+	// (GET /files/{id})
+	GetFilesId(c *gin.Context, id string)
+	// Retrieve a list of flows
+	// (GET /flows)
+	GetFlows(c *gin.Context, params GetFlowsParams)
+	// Create a new flow
+	// (POST /flows)
+	PostFlows(c *gin.Context)
+	// Delete a flow
+	// (DELETE /flows/{id})
+	DeleteFlowsId(c *gin.Context, id string)
+	// Retrieve flow details
+	// (GET /flows/{id})
+	GetFlowsId(c *gin.Context, id string)
+	// Update a flow
+	// (PUT /flows/{id})
+	PutFlowsId(c *gin.Context, id string)
+	// Get a list of groupcalls
+	// (GET /groupcalls)
+	GetGroupcalls(c *gin.Context, params GetGroupcallsParams)
+	// Create a new groupcall
+	// (POST /groupcalls)
+	PostGroupcalls(c *gin.Context)
+	// Delete a groupcall
+	// (DELETE /groupcalls/{id})
+	DeleteGroupcallsId(c *gin.Context, id string)
+	// Get detailed information of a groupcall
+	// (GET /groupcalls/{id})
+	GetGroupcallsId(c *gin.Context, id string)
+	// Hangup the groupcall
+	// (POST /groupcalls/{id})
+	PostGroupcallsId(c *gin.Context, id string)
+	// Get the logged-in agent
+	// (GET /me)
+	GetMe(c *gin.Context)
+	// List all messages
+	// (GET /messages)
+	GetMessages(c *gin.Context, params GetMessagesParams)
+	// Send a message and return the sent message
+	// (POST /messages)
+	PostMessages(c *gin.Context)
+	// Delete a message by ID
+	// (DELETE /messages/{id})
+	DeleteMessagesId(c *gin.Context, id string)
+	// Get a message by ID
+	// (GET /messages/{id})
+	GetMessagesId(c *gin.Context, id string)
+	// List order numbers
+	// (GET /numbers)
+	GetNumbers(c *gin.Context, params GetNumbersParams)
+	// Create a new number
+	// (POST /numbers)
+	PostNumbers(c *gin.Context)
+	// Renew the numbers
+	// (POST /numbers/renew)
+	PostNumbersRenew(c *gin.Context)
+	// Retrieve a list of outdials.
+	// (GET /outdials)
+	GetOutdials(c *gin.Context, params GetOutdialsParams)
+	// Create a new outdial.
+	// (POST /outdials)
+	PostOutdials(c *gin.Context)
+	// Delete an existing outdial.
+	// (DELETE /outdials/{id})
+	DeleteOutdialsId(c *gin.Context, id string)
+	// Retrieve an outdial by its ID.
+	// (GET /outdials/{id})
+	GetOutdialsId(c *gin.Context, id string, params GetOutdialsIdParams)
+	// Update an outdial.
+	// (PUT /outdials/{id})
+	PutOutdialsId(c *gin.Context, id string)
+	// Update an outdial's campaign ID.
+	// (PUT /outdials/{id}/campaign_id)
+	PutOutdialsIdCampaignId(c *gin.Context, id string)
+	// Update an outdial's data.
+	// (PUT /outdials/{id}/data)
+	PutOutdialsIdData(c *gin.Context, id string)
+	// Create a new target for an outdial.
+	// (POST /outdials/{id}/targets)
+	PostOutdialsIdTargets(c *gin.Context, id string)
+	// Delete an outdial target.
+	// (DELETE /outdials/{id}/targets/{target_id})
+	DeleteOutdialsIdTargetsTargetId(c *gin.Context, id string, targetId string)
+	// Retrieve an outdial target by its ID.
+	// (GET /outdials/{id}/targets/{target_id})
+	GetOutdialsIdTargetsTargetId(c *gin.Context, id string, targetId string)
+	// Retrieve a list of outplans.
+	// (GET /outplans)
+	GetOutplans(c *gin.Context, params GetOutplansParams)
+	// Create a new outplan.
+	// (POST /outplans)
+	PostOutplans(c *gin.Context)
+	// Delete an existing outplan.
+	// (DELETE /outplans/{id})
+	DeleteOutplansId(c *gin.Context, id string)
+	// Retrieve outplan details by ID.
+	// (GET /outplans/{id})
+	GetOutplansId(c *gin.Context, id string)
+	// Update dial information of an existing outplan.
+	// (PUT /outplans/{id})
+	PutOutplansId(c *gin.Context, id string)
+	// List providers of the given customer
+	// (GET /providers)
+	GetProviders(c *gin.Context, params GetProvidersParams)
+	// Create a new provider
+	// (POST /providers)
+	PostProviders(c *gin.Context)
+	// Delete provider by ID
+	// (DELETE /providers/{id})
+	DeleteProvidersId(c *gin.Context, id string)
+	// Get provider by ID
+	// (GET /providers/{id})
+	GetProvidersId(c *gin.Context, id string)
+	// Update provider information
+	// (PUT /providers/{id})
+	PutProvidersId(c *gin.Context, id string)
+	// List queue calls
+	// (GET /queuecalls)
+	GetQueuecalls(c *gin.Context, params GetQueuecallsParams)
+	// Kick a queue call by reference ID
+	// (POST /queuecalls/reference_id/{id}/kick)
+	PostQueuecallsReferenceIdIdKick(c *gin.Context, id string)
+	// Delete a queue call
+	// (DELETE /queuecalls/{id})
+	DeleteQueuecallsId(c *gin.Context, id string)
+	// Get detailed queue call information
+	// (GET /queuecalls/{id})
+	GetQueuecallsId(c *gin.Context, id string)
+	// Kick a queue call from the queue
+	// (POST /queuecalls/{id}/kick)
+	PostQueuecallsIdKick(c *gin.Context, id string)
+	// List queues of the customer
+	// (GET /queues)
+	GetQueues(c *gin.Context, params GetQueuesParams)
+	// Create a new queue
+	// (POST /queues)
+	PostQueues(c *gin.Context)
+	// Delete a queue by ID
+	// (DELETE /queues/{id})
+	DeleteQueuesId(c *gin.Context, id string)
+	// Get the queue by ID
+	// (GET /queues/{id})
+	GetQueuesId(c *gin.Context, id string)
+	// Update the queue details
+	// (PUT /queues/{id})
+	PutQueuesId(c *gin.Context, id string)
+	// Update the queue's action handle
+	// (PUT /queues/{id}/actions)
+	PutQueuesIdActions(c *gin.Context, id string)
+	// Update the queue's routing method
+	// (PUT /queues/{id}/routing_method)
+	PutQueuesIdRoutingMethod(c *gin.Context, id string)
+	// Update the queue's tag IDs
+	// (PUT /queues/{id}/tag_ids)
+	PutQueuesIdTagIds(c *gin.Context, id string)
+	// Download the recording file
+	// (GET /recordingfiles/{id})
+	GetRecordingfilesId(c *gin.Context, id string)
+	// List recordings
+	// (GET /recordings)
+	GetRecordings(c *gin.Context, params GetRecordingsParams)
+	// Delete recording
+	// (DELETE /recordings/{id})
+	DeleteRecordingsId(c *gin.Context, id string)
+	// Get recording details
+	// (GET /recordings/{id})
+	GetRecordingsId(c *gin.Context, id string)
+	// List routes
+	// (GET /routes)
+	GetRoutes(c *gin.Context, params GetRoutesParams)
+	// Create a new route
+	// (POST /routes)
+	PostRoutes(c *gin.Context)
+	// Delete the route
+	// (DELETE /routes/{id})
+	DeleteRoutesId(c *gin.Context, id string)
+	// Get a route
+	// (GET /routes/{id})
+	GetRoutesId(c *gin.Context, id string)
+	// Update a route
+	// (PUT /routes/{id})
+	PutRoutesId(c *gin.Context, id string)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -2711,6 +3743,2482 @@ func (siw *ServerInterfaceWrapper) PostChatsIdParticipantIds(c *gin.Context) {
 	siw.Handler.PostChatsIdParticipantIds(c, id)
 }
 
+// DeleteChatsIdParticipantIdsParticipantId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteChatsIdParticipantIdsParticipantId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Path parameter "participant_id" -------------
+	var participantId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "participant_id", c.Param("participant_id"), &participantId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter participant_id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteChatsIdParticipantIdsParticipantId(c, id, participantId)
+}
+
+// GetConferencecalls operation middleware
+func (siw *ServerInterfaceWrapper) GetConferencecalls(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetConferencecallsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConferencecalls(c, params)
+}
+
+// DeleteConferencecallsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteConferencecallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteConferencecallsId(c, id)
+}
+
+// GetConferencecallsId operation middleware
+func (siw *ServerInterfaceWrapper) GetConferencecallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConferencecallsId(c, id)
+}
+
+// GetConferences operation middleware
+func (siw *ServerInterfaceWrapper) GetConferences(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetConferencesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConferences(c, params)
+}
+
+// PostConferences operation middleware
+func (siw *ServerInterfaceWrapper) PostConferences(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConferences(c)
+}
+
+// DeleteConferencesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteConferencesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteConferencesId(c, id)
+}
+
+// GetConferencesId operation middleware
+func (siw *ServerInterfaceWrapper) GetConferencesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConferencesId(c, id)
+}
+
+// PutConferencesId operation middleware
+func (siw *ServerInterfaceWrapper) PutConferencesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutConferencesId(c, id)
+}
+
+// GetConferencesIdMediaStream operation middleware
+func (siw *ServerInterfaceWrapper) GetConferencesIdMediaStream(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConferencesIdMediaStream(c, id)
+}
+
+// PostConferencesIdRecordingStart operation middleware
+func (siw *ServerInterfaceWrapper) PostConferencesIdRecordingStart(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConferencesIdRecordingStart(c, id)
+}
+
+// PostConferencesIdRecordingStop operation middleware
+func (siw *ServerInterfaceWrapper) PostConferencesIdRecordingStop(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConferencesIdRecordingStop(c, id)
+}
+
+// PostConferencesIdTranscribeStart operation middleware
+func (siw *ServerInterfaceWrapper) PostConferencesIdTranscribeStart(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConferencesIdTranscribeStart(c, id)
+}
+
+// PostConferencesIdTranscribeStop operation middleware
+func (siw *ServerInterfaceWrapper) PostConferencesIdTranscribeStop(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConferencesIdTranscribeStop(c, id)
+}
+
+// GetConversationAccounts operation middleware
+func (siw *ServerInterfaceWrapper) GetConversationAccounts(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetConversationAccountsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConversationAccounts(c, params)
+}
+
+// PostConversationAccounts operation middleware
+func (siw *ServerInterfaceWrapper) PostConversationAccounts(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConversationAccounts(c)
+}
+
+// DeleteConversationAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteConversationAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteConversationAccountsId(c, id)
+}
+
+// GetConversationAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) GetConversationAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConversationAccountsId(c, id)
+}
+
+// PutConversationAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) PutConversationAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutConversationAccountsId(c, id)
+}
+
+// GetConversations operation middleware
+func (siw *ServerInterfaceWrapper) GetConversations(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetConversationsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConversations(c, params)
+}
+
+// GetConversationsId operation middleware
+func (siw *ServerInterfaceWrapper) GetConversationsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConversationsId(c, id)
+}
+
+// PutConversationsId operation middleware
+func (siw *ServerInterfaceWrapper) PutConversationsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutConversationsId(c, id)
+}
+
+// GetConversationsIdMessages operation middleware
+func (siw *ServerInterfaceWrapper) GetConversationsIdMessages(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetConversationsIdMessagesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetConversationsIdMessages(c, id, params)
+}
+
+// PostConversationsIdMessages operation middleware
+func (siw *ServerInterfaceWrapper) PostConversationsIdMessages(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostConversationsIdMessages(c, id)
+}
+
+// GetCustomer operation middleware
+func (siw *ServerInterfaceWrapper) GetCustomer(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCustomer(c)
+}
+
+// PutCustomer operation middleware
+func (siw *ServerInterfaceWrapper) PutCustomer(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutCustomer(c)
+}
+
+// PutCustomerBillingAccountId operation middleware
+func (siw *ServerInterfaceWrapper) PutCustomerBillingAccountId(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutCustomerBillingAccountId(c)
+}
+
+// GetCustomers operation middleware
+func (siw *ServerInterfaceWrapper) GetCustomers(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetCustomersParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCustomers(c, params)
+}
+
+// PostCustomers operation middleware
+func (siw *ServerInterfaceWrapper) PostCustomers(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostCustomers(c)
+}
+
+// DeleteCustomersId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteCustomersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteCustomersId(c, id)
+}
+
+// GetCustomersId operation middleware
+func (siw *ServerInterfaceWrapper) GetCustomersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCustomersId(c, id)
+}
+
+// PutCustomersId operation middleware
+func (siw *ServerInterfaceWrapper) PutCustomersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutCustomersId(c, id)
+}
+
+// PutCustomersIdBillingAccountId operation middleware
+func (siw *ServerInterfaceWrapper) PutCustomersIdBillingAccountId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutCustomersIdBillingAccountId(c, id)
+}
+
+// GetExtensions operation middleware
+func (siw *ServerInterfaceWrapper) GetExtensions(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetExtensionsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetExtensions(c, params)
+}
+
+// PostExtensions operation middleware
+func (siw *ServerInterfaceWrapper) PostExtensions(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostExtensions(c)
+}
+
+// DeleteExtensionsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteExtensionsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteExtensionsId(c, id)
+}
+
+// GetExtensionsId operation middleware
+func (siw *ServerInterfaceWrapper) GetExtensionsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetExtensionsId(c, id)
+}
+
+// PutExtensionsId operation middleware
+func (siw *ServerInterfaceWrapper) PutExtensionsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutExtensionsId(c, id)
+}
+
+// GetFiles operation middleware
+func (siw *ServerInterfaceWrapper) GetFiles(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetFilesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFiles(c, params)
+}
+
+// PostFiles operation middleware
+func (siw *ServerInterfaceWrapper) PostFiles(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostFiles(c)
+}
+
+// DeleteFilesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteFilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteFilesId(c, id)
+}
+
+// GetFilesId operation middleware
+func (siw *ServerInterfaceWrapper) GetFilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFilesId(c, id)
+}
+
+// GetFlows operation middleware
+func (siw *ServerInterfaceWrapper) GetFlows(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetFlowsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFlows(c, params)
+}
+
+// PostFlows operation middleware
+func (siw *ServerInterfaceWrapper) PostFlows(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostFlows(c)
+}
+
+// DeleteFlowsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteFlowsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteFlowsId(c, id)
+}
+
+// GetFlowsId operation middleware
+func (siw *ServerInterfaceWrapper) GetFlowsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetFlowsId(c, id)
+}
+
+// PutFlowsId operation middleware
+func (siw *ServerInterfaceWrapper) PutFlowsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutFlowsId(c, id)
+}
+
+// GetGroupcalls operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupcalls(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetGroupcallsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGroupcalls(c, params)
+}
+
+// PostGroupcalls operation middleware
+func (siw *ServerInterfaceWrapper) PostGroupcalls(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostGroupcalls(c)
+}
+
+// DeleteGroupcallsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteGroupcallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteGroupcallsId(c, id)
+}
+
+// GetGroupcallsId operation middleware
+func (siw *ServerInterfaceWrapper) GetGroupcallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetGroupcallsId(c, id)
+}
+
+// PostGroupcallsId operation middleware
+func (siw *ServerInterfaceWrapper) PostGroupcallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostGroupcallsId(c, id)
+}
+
+// GetMe operation middleware
+func (siw *ServerInterfaceWrapper) GetMe(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMe(c)
+}
+
+// GetMessages operation middleware
+func (siw *ServerInterfaceWrapper) GetMessages(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetMessagesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMessages(c, params)
+}
+
+// PostMessages operation middleware
+func (siw *ServerInterfaceWrapper) PostMessages(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostMessages(c)
+}
+
+// DeleteMessagesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteMessagesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteMessagesId(c, id)
+}
+
+// GetMessagesId operation middleware
+func (siw *ServerInterfaceWrapper) GetMessagesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMessagesId(c, id)
+}
+
+// GetNumbers operation middleware
+func (siw *ServerInterfaceWrapper) GetNumbers(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetNumbersParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetNumbers(c, params)
+}
+
+// PostNumbers operation middleware
+func (siw *ServerInterfaceWrapper) PostNumbers(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostNumbers(c)
+}
+
+// PostNumbersRenew operation middleware
+func (siw *ServerInterfaceWrapper) PostNumbersRenew(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostNumbersRenew(c)
+}
+
+// GetOutdials operation middleware
+func (siw *ServerInterfaceWrapper) GetOutdials(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetOutdialsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetOutdials(c, params)
+}
+
+// PostOutdials operation middleware
+func (siw *ServerInterfaceWrapper) PostOutdials(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostOutdials(c)
+}
+
+// DeleteOutdialsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteOutdialsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteOutdialsId(c, id)
+}
+
+// GetOutdialsId operation middleware
+func (siw *ServerInterfaceWrapper) GetOutdialsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetOutdialsIdParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetOutdialsId(c, id, params)
+}
+
+// PutOutdialsId operation middleware
+func (siw *ServerInterfaceWrapper) PutOutdialsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutOutdialsId(c, id)
+}
+
+// PutOutdialsIdCampaignId operation middleware
+func (siw *ServerInterfaceWrapper) PutOutdialsIdCampaignId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutOutdialsIdCampaignId(c, id)
+}
+
+// PutOutdialsIdData operation middleware
+func (siw *ServerInterfaceWrapper) PutOutdialsIdData(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutOutdialsIdData(c, id)
+}
+
+// PostOutdialsIdTargets operation middleware
+func (siw *ServerInterfaceWrapper) PostOutdialsIdTargets(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostOutdialsIdTargets(c, id)
+}
+
+// DeleteOutdialsIdTargetsTargetId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteOutdialsIdTargetsTargetId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Path parameter "target_id" -------------
+	var targetId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "target_id", c.Param("target_id"), &targetId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter target_id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteOutdialsIdTargetsTargetId(c, id, targetId)
+}
+
+// GetOutdialsIdTargetsTargetId operation middleware
+func (siw *ServerInterfaceWrapper) GetOutdialsIdTargetsTargetId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Path parameter "target_id" -------------
+	var targetId string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "target_id", c.Param("target_id"), &targetId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter target_id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetOutdialsIdTargetsTargetId(c, id, targetId)
+}
+
+// GetOutplans operation middleware
+func (siw *ServerInterfaceWrapper) GetOutplans(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetOutplansParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetOutplans(c, params)
+}
+
+// PostOutplans operation middleware
+func (siw *ServerInterfaceWrapper) PostOutplans(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostOutplans(c)
+}
+
+// DeleteOutplansId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteOutplansId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteOutplansId(c, id)
+}
+
+// GetOutplansId operation middleware
+func (siw *ServerInterfaceWrapper) GetOutplansId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetOutplansId(c, id)
+}
+
+// PutOutplansId operation middleware
+func (siw *ServerInterfaceWrapper) PutOutplansId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutOutplansId(c, id)
+}
+
+// GetProviders operation middleware
+func (siw *ServerInterfaceWrapper) GetProviders(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetProvidersParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetProviders(c, params)
+}
+
+// PostProviders operation middleware
+func (siw *ServerInterfaceWrapper) PostProviders(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostProviders(c)
+}
+
+// DeleteProvidersId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteProvidersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteProvidersId(c, id)
+}
+
+// GetProvidersId operation middleware
+func (siw *ServerInterfaceWrapper) GetProvidersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetProvidersId(c, id)
+}
+
+// PutProvidersId operation middleware
+func (siw *ServerInterfaceWrapper) PutProvidersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutProvidersId(c, id)
+}
+
+// GetQueuecalls operation middleware
+func (siw *ServerInterfaceWrapper) GetQueuecalls(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetQueuecallsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetQueuecalls(c, params)
+}
+
+// PostQueuecallsReferenceIdIdKick operation middleware
+func (siw *ServerInterfaceWrapper) PostQueuecallsReferenceIdIdKick(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostQueuecallsReferenceIdIdKick(c, id)
+}
+
+// DeleteQueuecallsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteQueuecallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteQueuecallsId(c, id)
+}
+
+// GetQueuecallsId operation middleware
+func (siw *ServerInterfaceWrapper) GetQueuecallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetQueuecallsId(c, id)
+}
+
+// PostQueuecallsIdKick operation middleware
+func (siw *ServerInterfaceWrapper) PostQueuecallsIdKick(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostQueuecallsIdKick(c, id)
+}
+
+// GetQueues operation middleware
+func (siw *ServerInterfaceWrapper) GetQueues(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetQueuesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetQueues(c, params)
+}
+
+// PostQueues operation middleware
+func (siw *ServerInterfaceWrapper) PostQueues(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostQueues(c)
+}
+
+// DeleteQueuesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteQueuesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteQueuesId(c, id)
+}
+
+// GetQueuesId operation middleware
+func (siw *ServerInterfaceWrapper) GetQueuesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetQueuesId(c, id)
+}
+
+// PutQueuesId operation middleware
+func (siw *ServerInterfaceWrapper) PutQueuesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutQueuesId(c, id)
+}
+
+// PutQueuesIdActions operation middleware
+func (siw *ServerInterfaceWrapper) PutQueuesIdActions(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutQueuesIdActions(c, id)
+}
+
+// PutQueuesIdRoutingMethod operation middleware
+func (siw *ServerInterfaceWrapper) PutQueuesIdRoutingMethod(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutQueuesIdRoutingMethod(c, id)
+}
+
+// PutQueuesIdTagIds operation middleware
+func (siw *ServerInterfaceWrapper) PutQueuesIdTagIds(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutQueuesIdTagIds(c, id)
+}
+
+// GetRecordingfilesId operation middleware
+func (siw *ServerInterfaceWrapper) GetRecordingfilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetRecordingfilesId(c, id)
+}
+
+// GetRecordings operation middleware
+func (siw *ServerInterfaceWrapper) GetRecordings(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetRecordingsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetRecordings(c, params)
+}
+
+// DeleteRecordingsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteRecordingsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteRecordingsId(c, id)
+}
+
+// GetRecordingsId operation middleware
+func (siw *ServerInterfaceWrapper) GetRecordingsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetRecordingsId(c, id)
+}
+
+// GetRoutes operation middleware
+func (siw *ServerInterfaceWrapper) GetRoutes(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetRoutesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetRoutes(c, params)
+}
+
+// PostRoutes operation middleware
+func (siw *ServerInterfaceWrapper) PostRoutes(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostRoutes(c)
+}
+
+// DeleteRoutesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteRoutesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteRoutesId(c, id)
+}
+
+// GetRoutesId operation middleware
+func (siw *ServerInterfaceWrapper) GetRoutesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetRoutesId(c, id)
+}
+
+// PutRoutesId operation middleware
+func (siw *ServerInterfaceWrapper) PutRoutesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutRoutesId(c, id)
+}
+
 // GinServerOptions provides options for the Gin server.
 type GinServerOptions struct {
 	BaseURL      string
@@ -2817,6 +6325,108 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.GET(options.BaseURL+"/chats/:id", wrapper.GetChatsId)
 	router.PUT(options.BaseURL+"/chats/:id", wrapper.PutChatsId)
 	router.POST(options.BaseURL+"/chats/:id/participant_ids", wrapper.PostChatsIdParticipantIds)
+	router.DELETE(options.BaseURL+"/chats/:id/participant_ids/:participant_id", wrapper.DeleteChatsIdParticipantIdsParticipantId)
+	router.GET(options.BaseURL+"/conferencecalls", wrapper.GetConferencecalls)
+	router.DELETE(options.BaseURL+"/conferencecalls/:id", wrapper.DeleteConferencecallsId)
+	router.GET(options.BaseURL+"/conferencecalls/:id", wrapper.GetConferencecallsId)
+	router.GET(options.BaseURL+"/conferences", wrapper.GetConferences)
+	router.POST(options.BaseURL+"/conferences", wrapper.PostConferences)
+	router.DELETE(options.BaseURL+"/conferences/:id", wrapper.DeleteConferencesId)
+	router.GET(options.BaseURL+"/conferences/:id", wrapper.GetConferencesId)
+	router.PUT(options.BaseURL+"/conferences/:id", wrapper.PutConferencesId)
+	router.GET(options.BaseURL+"/conferences/:id/media_stream", wrapper.GetConferencesIdMediaStream)
+	router.POST(options.BaseURL+"/conferences/:id/recording_start", wrapper.PostConferencesIdRecordingStart)
+	router.POST(options.BaseURL+"/conferences/:id/recording_stop", wrapper.PostConferencesIdRecordingStop)
+	router.POST(options.BaseURL+"/conferences/:id/transcribe_start", wrapper.PostConferencesIdTranscribeStart)
+	router.POST(options.BaseURL+"/conferences/:id/transcribe_stop", wrapper.PostConferencesIdTranscribeStop)
+	router.GET(options.BaseURL+"/conversation_accounts", wrapper.GetConversationAccounts)
+	router.POST(options.BaseURL+"/conversation_accounts", wrapper.PostConversationAccounts)
+	router.DELETE(options.BaseURL+"/conversation_accounts/:id", wrapper.DeleteConversationAccountsId)
+	router.GET(options.BaseURL+"/conversation_accounts/:id", wrapper.GetConversationAccountsId)
+	router.PUT(options.BaseURL+"/conversation_accounts/:id", wrapper.PutConversationAccountsId)
+	router.GET(options.BaseURL+"/conversations", wrapper.GetConversations)
+	router.GET(options.BaseURL+"/conversations/:id", wrapper.GetConversationsId)
+	router.PUT(options.BaseURL+"/conversations/:id", wrapper.PutConversationsId)
+	router.GET(options.BaseURL+"/conversations/:id/messages", wrapper.GetConversationsIdMessages)
+	router.POST(options.BaseURL+"/conversations/:id/messages", wrapper.PostConversationsIdMessages)
+	router.GET(options.BaseURL+"/customer", wrapper.GetCustomer)
+	router.PUT(options.BaseURL+"/customer", wrapper.PutCustomer)
+	router.PUT(options.BaseURL+"/customer/billing_account_id", wrapper.PutCustomerBillingAccountId)
+	router.GET(options.BaseURL+"/customers", wrapper.GetCustomers)
+	router.POST(options.BaseURL+"/customers", wrapper.PostCustomers)
+	router.DELETE(options.BaseURL+"/customers/:id", wrapper.DeleteCustomersId)
+	router.GET(options.BaseURL+"/customers/:id", wrapper.GetCustomersId)
+	router.PUT(options.BaseURL+"/customers/:id", wrapper.PutCustomersId)
+	router.PUT(options.BaseURL+"/customers/:id/billing_account_id", wrapper.PutCustomersIdBillingAccountId)
+	router.GET(options.BaseURL+"/extensions", wrapper.GetExtensions)
+	router.POST(options.BaseURL+"/extensions", wrapper.PostExtensions)
+	router.DELETE(options.BaseURL+"/extensions/:id", wrapper.DeleteExtensionsId)
+	router.GET(options.BaseURL+"/extensions/:id", wrapper.GetExtensionsId)
+	router.PUT(options.BaseURL+"/extensions/:id", wrapper.PutExtensionsId)
+	router.GET(options.BaseURL+"/files", wrapper.GetFiles)
+	router.POST(options.BaseURL+"/files", wrapper.PostFiles)
+	router.DELETE(options.BaseURL+"/files/:id", wrapper.DeleteFilesId)
+	router.GET(options.BaseURL+"/files/:id", wrapper.GetFilesId)
+	router.GET(options.BaseURL+"/flows", wrapper.GetFlows)
+	router.POST(options.BaseURL+"/flows", wrapper.PostFlows)
+	router.DELETE(options.BaseURL+"/flows/:id", wrapper.DeleteFlowsId)
+	router.GET(options.BaseURL+"/flows/:id", wrapper.GetFlowsId)
+	router.PUT(options.BaseURL+"/flows/:id", wrapper.PutFlowsId)
+	router.GET(options.BaseURL+"/groupcalls", wrapper.GetGroupcalls)
+	router.POST(options.BaseURL+"/groupcalls", wrapper.PostGroupcalls)
+	router.DELETE(options.BaseURL+"/groupcalls/:id", wrapper.DeleteGroupcallsId)
+	router.GET(options.BaseURL+"/groupcalls/:id", wrapper.GetGroupcallsId)
+	router.POST(options.BaseURL+"/groupcalls/:id", wrapper.PostGroupcallsId)
+	router.GET(options.BaseURL+"/me", wrapper.GetMe)
+	router.GET(options.BaseURL+"/messages", wrapper.GetMessages)
+	router.POST(options.BaseURL+"/messages", wrapper.PostMessages)
+	router.DELETE(options.BaseURL+"/messages/:id", wrapper.DeleteMessagesId)
+	router.GET(options.BaseURL+"/messages/:id", wrapper.GetMessagesId)
+	router.GET(options.BaseURL+"/numbers", wrapper.GetNumbers)
+	router.POST(options.BaseURL+"/numbers", wrapper.PostNumbers)
+	router.POST(options.BaseURL+"/numbers/renew", wrapper.PostNumbersRenew)
+	router.GET(options.BaseURL+"/outdials", wrapper.GetOutdials)
+	router.POST(options.BaseURL+"/outdials", wrapper.PostOutdials)
+	router.DELETE(options.BaseURL+"/outdials/:id", wrapper.DeleteOutdialsId)
+	router.GET(options.BaseURL+"/outdials/:id", wrapper.GetOutdialsId)
+	router.PUT(options.BaseURL+"/outdials/:id", wrapper.PutOutdialsId)
+	router.PUT(options.BaseURL+"/outdials/:id/campaign_id", wrapper.PutOutdialsIdCampaignId)
+	router.PUT(options.BaseURL+"/outdials/:id/data", wrapper.PutOutdialsIdData)
+	router.POST(options.BaseURL+"/outdials/:id/targets", wrapper.PostOutdialsIdTargets)
+	router.DELETE(options.BaseURL+"/outdials/:id/targets/:target_id", wrapper.DeleteOutdialsIdTargetsTargetId)
+	router.GET(options.BaseURL+"/outdials/:id/targets/:target_id", wrapper.GetOutdialsIdTargetsTargetId)
+	router.GET(options.BaseURL+"/outplans", wrapper.GetOutplans)
+	router.POST(options.BaseURL+"/outplans", wrapper.PostOutplans)
+	router.DELETE(options.BaseURL+"/outplans/:id", wrapper.DeleteOutplansId)
+	router.GET(options.BaseURL+"/outplans/:id", wrapper.GetOutplansId)
+	router.PUT(options.BaseURL+"/outplans/:id", wrapper.PutOutplansId)
+	router.GET(options.BaseURL+"/providers", wrapper.GetProviders)
+	router.POST(options.BaseURL+"/providers", wrapper.PostProviders)
+	router.DELETE(options.BaseURL+"/providers/:id", wrapper.DeleteProvidersId)
+	router.GET(options.BaseURL+"/providers/:id", wrapper.GetProvidersId)
+	router.PUT(options.BaseURL+"/providers/:id", wrapper.PutProvidersId)
+	router.GET(options.BaseURL+"/queuecalls", wrapper.GetQueuecalls)
+	router.POST(options.BaseURL+"/queuecalls/reference_id/:id/kick", wrapper.PostQueuecallsReferenceIdIdKick)
+	router.DELETE(options.BaseURL+"/queuecalls/:id", wrapper.DeleteQueuecallsId)
+	router.GET(options.BaseURL+"/queuecalls/:id", wrapper.GetQueuecallsId)
+	router.POST(options.BaseURL+"/queuecalls/:id/kick", wrapper.PostQueuecallsIdKick)
+	router.GET(options.BaseURL+"/queues", wrapper.GetQueues)
+	router.POST(options.BaseURL+"/queues", wrapper.PostQueues)
+	router.DELETE(options.BaseURL+"/queues/:id", wrapper.DeleteQueuesId)
+	router.GET(options.BaseURL+"/queues/:id", wrapper.GetQueuesId)
+	router.PUT(options.BaseURL+"/queues/:id", wrapper.PutQueuesId)
+	router.PUT(options.BaseURL+"/queues/:id/actions", wrapper.PutQueuesIdActions)
+	router.PUT(options.BaseURL+"/queues/:id/routing_method", wrapper.PutQueuesIdRoutingMethod)
+	router.PUT(options.BaseURL+"/queues/:id/tag_ids", wrapper.PutQueuesIdTagIds)
+	router.GET(options.BaseURL+"/recordingfiles/:id", wrapper.GetRecordingfilesId)
+	router.GET(options.BaseURL+"/recordings", wrapper.GetRecordings)
+	router.DELETE(options.BaseURL+"/recordings/:id", wrapper.DeleteRecordingsId)
+	router.GET(options.BaseURL+"/recordings/:id", wrapper.GetRecordingsId)
+	router.GET(options.BaseURL+"/routes", wrapper.GetRoutes)
+	router.POST(options.BaseURL+"/routes", wrapper.PostRoutes)
+	router.DELETE(options.BaseURL+"/routes/:id", wrapper.DeleteRoutesId)
+	router.GET(options.BaseURL+"/routes/:id", wrapper.GetRoutesId)
+	router.PUT(options.BaseURL+"/routes/:id", wrapper.PutRoutesId)
 }
 
 type GetAccesskeysRequestObject struct {
@@ -2830,7 +6440,7 @@ type GetAccesskeysResponseObject interface {
 type GetAccesskeys200JSONResponse struct {
 	// NextPageToken The token for next pagination.
 	NextPageToken *string                   `json:"next_page_token,omitempty"`
-	Result        *[]externalRef7.Accesskey `json:"result,omitempty"`
+	Result        *[]externalRef9.Accesskey `json:"result,omitempty"`
 }
 
 func (response GetAccesskeys200JSONResponse) VisitGetAccesskeysResponse(w http.ResponseWriter) error {
@@ -2848,7 +6458,7 @@ type PostAccesskeysResponseObject interface {
 	VisitPostAccesskeysResponse(w http.ResponseWriter) error
 }
 
-type PostAccesskeys201JSONResponse externalRef7.Accesskey
+type PostAccesskeys201JSONResponse externalRef9.Accesskey
 
 func (response PostAccesskeys201JSONResponse) VisitPostAccesskeysResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -2881,7 +6491,7 @@ type GetAccesskeysIdResponseObject interface {
 	VisitGetAccesskeysIdResponse(w http.ResponseWriter) error
 }
 
-type GetAccesskeysId200JSONResponse externalRef7.Accesskey
+type GetAccesskeysId200JSONResponse externalRef9.Accesskey
 
 func (response GetAccesskeysId200JSONResponse) VisitGetAccesskeysIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -2899,7 +6509,7 @@ type PutAccesskeysIdResponseObject interface {
 	VisitPutAccesskeysIdResponse(w http.ResponseWriter) error
 }
 
-type PutAccesskeysId200JSONResponse externalRef7.Accesskey
+type PutAccesskeysId200JSONResponse externalRef9.Accesskey
 
 func (response PutAccesskeysId200JSONResponse) VisitPutAccesskeysIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -2918,8 +6528,8 @@ type GetActiveflowsResponseObject interface {
 
 type GetActiveflows200JSONResponse struct {
 	// NextPageToken The token for next pagination.
-	NextPageToken *string                    `json:"next_page_token,omitempty"`
-	Result        *[]externalRef8.Activeflow `json:"result,omitempty"`
+	NextPageToken *string                     `json:"next_page_token,omitempty"`
+	Result        *[]externalRef10.Activeflow `json:"result,omitempty"`
 }
 
 func (response GetActiveflows200JSONResponse) VisitGetActiveflowsResponse(w http.ResponseWriter) error {
@@ -2945,7 +6555,7 @@ type PostActiveflowsResponseObject interface {
 	VisitPostActiveflowsResponse(w http.ResponseWriter) error
 }
 
-type PostActiveflows201JSONResponse externalRef8.Activeflow
+type PostActiveflows201JSONResponse externalRef10.Activeflow
 
 func (response PostActiveflows201JSONResponse) VisitPostActiveflowsResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -2994,7 +6604,7 @@ type GetActiveflowsIdResponseObject interface {
 	VisitGetActiveflowsIdResponse(w http.ResponseWriter) error
 }
 
-type GetActiveflowsId200JSONResponse externalRef8.Activeflow
+type GetActiveflowsId200JSONResponse externalRef10.Activeflow
 
 func (response GetActiveflowsId200JSONResponse) VisitGetActiveflowsIdResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -3019,7 +6629,7 @@ type PostActiveflowsIdStopResponseObject interface {
 	VisitPostActiveflowsIdStopResponse(w http.ResponseWriter) error
 }
 
-type PostActiveflowsIdStop200JSONResponse externalRef8.Activeflow
+type PostActiveflowsIdStop200JSONResponse externalRef10.Activeflow
 
 func (response PostActiveflowsIdStop200JSONResponse) VisitPostActiveflowsIdStopResponse(w http.ResponseWriter) error {
 	w.Header().Set("Content-Type", "application/json")
@@ -3223,7 +6833,7 @@ type GetAvailableNumbersResponseObject interface {
 }
 
 type GetAvailableNumbers200JSONResponse struct {
-	Result *[]externalRef9.AvailableNumber `json:"result,omitempty"`
+	Result *[]externalRef12.AvailableNumber `json:"result,omitempty"`
 }
 
 func (response GetAvailableNumbers200JSONResponse) VisitGetAvailableNumbersResponse(w http.ResponseWriter) error {
@@ -4303,6 +7913,1880 @@ func (response PostChatsIdParticipantIds200JSONResponse) VisitPostChatsIdPartici
 	return json.NewEncoder(w).Encode(response)
 }
 
+type DeleteChatsIdParticipantIdsParticipantIdRequestObject struct {
+	Id            string `json:"id"`
+	ParticipantId string `json:"participant_id"`
+}
+
+type DeleteChatsIdParticipantIdsParticipantIdResponseObject interface {
+	VisitDeleteChatsIdParticipantIdsParticipantIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteChatsIdParticipantIdsParticipantId200JSONResponse externalRef4.Chat
+
+func (response DeleteChatsIdParticipantIdsParticipantId200JSONResponse) VisitDeleteChatsIdParticipantIdsParticipantIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConferencecallsRequestObject struct {
+	Params GetConferencecallsParams
+}
+
+type GetConferencecallsResponseObject interface {
+	VisitGetConferencecallsResponse(w http.ResponseWriter) error
+}
+
+type GetConferencecalls200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                        `json:"next_page_token,omitempty"`
+	Result        *[]externalRef7.Conferencecall `json:"result,omitempty"`
+}
+
+func (response GetConferencecalls200JSONResponse) VisitGetConferencecallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteConferencecallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteConferencecallsIdResponseObject interface {
+	VisitDeleteConferencecallsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteConferencecallsId200JSONResponse externalRef7.Conferencecall
+
+func (response DeleteConferencecallsId200JSONResponse) VisitDeleteConferencecallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConferencecallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetConferencecallsIdResponseObject interface {
+	VisitGetConferencecallsIdResponse(w http.ResponseWriter) error
+}
+
+type GetConferencecallsId200JSONResponse externalRef7.Conferencecall
+
+func (response GetConferencecallsId200JSONResponse) VisitGetConferencecallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConferencesRequestObject struct {
+	Params GetConferencesParams
+}
+
+type GetConferencesResponseObject interface {
+	VisitGetConferencesResponse(w http.ResponseWriter) error
+}
+
+type GetConferences200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                    `json:"next_page_token,omitempty"`
+	Result        *[]externalRef7.Conference `json:"result,omitempty"`
+}
+
+func (response GetConferences200JSONResponse) VisitGetConferencesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostConferencesRequestObject struct {
+	Body *PostConferencesJSONRequestBody
+}
+
+type PostConferencesResponseObject interface {
+	VisitPostConferencesResponse(w http.ResponseWriter) error
+}
+
+type PostConferences200JSONResponse externalRef7.Conference
+
+func (response PostConferences200JSONResponse) VisitPostConferencesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteConferencesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteConferencesIdResponseObject interface {
+	VisitDeleteConferencesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteConferencesId200JSONResponse externalRef7.Conference
+
+func (response DeleteConferencesId200JSONResponse) VisitDeleteConferencesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConferencesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetConferencesIdResponseObject interface {
+	VisitGetConferencesIdResponse(w http.ResponseWriter) error
+}
+
+type GetConferencesId200JSONResponse externalRef7.Conference
+
+func (response GetConferencesId200JSONResponse) VisitGetConferencesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutConferencesIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutConferencesIdJSONRequestBody
+}
+
+type PutConferencesIdResponseObject interface {
+	VisitPutConferencesIdResponse(w http.ResponseWriter) error
+}
+
+type PutConferencesId200JSONResponse externalRef7.Conference
+
+func (response PutConferencesId200JSONResponse) VisitPutConferencesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConferencesIdMediaStreamRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetConferencesIdMediaStreamResponseObject interface {
+	VisitGetConferencesIdMediaStreamResponse(w http.ResponseWriter) error
+}
+
+type GetConferencesIdMediaStream200Response struct {
+}
+
+func (response GetConferencesIdMediaStream200Response) VisitGetConferencesIdMediaStreamResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type PostConferencesIdRecordingStartRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostConferencesIdRecordingStartResponseObject interface {
+	VisitPostConferencesIdRecordingStartResponse(w http.ResponseWriter) error
+}
+
+type PostConferencesIdRecordingStart200Response struct {
+}
+
+func (response PostConferencesIdRecordingStart200Response) VisitPostConferencesIdRecordingStartResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type PostConferencesIdRecordingStopRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostConferencesIdRecordingStopResponseObject interface {
+	VisitPostConferencesIdRecordingStopResponse(w http.ResponseWriter) error
+}
+
+type PostConferencesIdRecordingStop200Response struct {
+}
+
+func (response PostConferencesIdRecordingStop200Response) VisitPostConferencesIdRecordingStopResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type PostConferencesIdTranscribeStartRequestObject struct {
+	Id   string `json:"id"`
+	Body *PostConferencesIdTranscribeStartJSONRequestBody
+}
+
+type PostConferencesIdTranscribeStartResponseObject interface {
+	VisitPostConferencesIdTranscribeStartResponse(w http.ResponseWriter) error
+}
+
+type PostConferencesIdTranscribeStart200Response struct {
+}
+
+func (response PostConferencesIdTranscribeStart200Response) VisitPostConferencesIdTranscribeStartResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type PostConferencesIdTranscribeStopRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostConferencesIdTranscribeStopResponseObject interface {
+	VisitPostConferencesIdTranscribeStopResponse(w http.ResponseWriter) error
+}
+
+type PostConferencesIdTranscribeStop200Response struct {
+}
+
+func (response PostConferencesIdTranscribeStop200Response) VisitPostConferencesIdTranscribeStopResponse(w http.ResponseWriter) error {
+	w.WriteHeader(200)
+	return nil
+}
+
+type GetConversationAccountsRequestObject struct {
+	Params GetConversationAccountsParams
+}
+
+type GetConversationAccountsResponseObject interface {
+	VisitGetConversationAccountsResponse(w http.ResponseWriter) error
+}
+
+type GetConversationAccounts200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                 `json:"next_page_token,omitempty"`
+	Result        *[]externalRef8.Account `json:"result,omitempty"`
+}
+
+func (response GetConversationAccounts200JSONResponse) VisitGetConversationAccountsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostConversationAccountsRequestObject struct {
+	Body *PostConversationAccountsJSONRequestBody
+}
+
+type PostConversationAccountsResponseObject interface {
+	VisitPostConversationAccountsResponse(w http.ResponseWriter) error
+}
+
+type PostConversationAccounts200JSONResponse externalRef8.Account
+
+func (response PostConversationAccounts200JSONResponse) VisitPostConversationAccountsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteConversationAccountsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteConversationAccountsIdResponseObject interface {
+	VisitDeleteConversationAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteConversationAccountsId200JSONResponse externalRef8.Account
+
+func (response DeleteConversationAccountsId200JSONResponse) VisitDeleteConversationAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConversationAccountsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetConversationAccountsIdResponseObject interface {
+	VisitGetConversationAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type GetConversationAccountsId200JSONResponse externalRef8.Account
+
+func (response GetConversationAccountsId200JSONResponse) VisitGetConversationAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutConversationAccountsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutConversationAccountsIdJSONRequestBody
+}
+
+type PutConversationAccountsIdResponseObject interface {
+	VisitPutConversationAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type PutConversationAccountsId200JSONResponse externalRef8.Account
+
+func (response PutConversationAccountsId200JSONResponse) VisitPutConversationAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConversationsRequestObject struct {
+	Params GetConversationsParams
+}
+
+type GetConversationsResponseObject interface {
+	VisitGetConversationsResponse(w http.ResponseWriter) error
+}
+
+type GetConversations200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                      `json:"next_page_token,omitempty"`
+	Result        *[]externalRef8.Conversation `json:"result,omitempty"`
+}
+
+func (response GetConversations200JSONResponse) VisitGetConversationsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConversationsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetConversationsIdResponseObject interface {
+	VisitGetConversationsIdResponse(w http.ResponseWriter) error
+}
+
+type GetConversationsId200JSONResponse externalRef8.Conversation
+
+func (response GetConversationsId200JSONResponse) VisitGetConversationsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutConversationsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutConversationsIdJSONRequestBody
+}
+
+type PutConversationsIdResponseObject interface {
+	VisitPutConversationsIdResponse(w http.ResponseWriter) error
+}
+
+type PutConversationsId200JSONResponse externalRef8.Conversation
+
+func (response PutConversationsId200JSONResponse) VisitPutConversationsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetConversationsIdMessagesRequestObject struct {
+	Id     string `json:"id"`
+	Params GetConversationsIdMessagesParams
+}
+
+type GetConversationsIdMessagesResponseObject interface {
+	VisitGetConversationsIdMessagesResponse(w http.ResponseWriter) error
+}
+
+type GetConversationsIdMessages200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                 `json:"next_page_token,omitempty"`
+	Result        *[]externalRef8.Message `json:"result,omitempty"`
+}
+
+func (response GetConversationsIdMessages200JSONResponse) VisitGetConversationsIdMessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostConversationsIdMessagesRequestObject struct {
+	Id   string `json:"id"`
+	Body *PostConversationsIdMessagesJSONRequestBody
+}
+
+type PostConversationsIdMessagesResponseObject interface {
+	VisitPostConversationsIdMessagesResponse(w http.ResponseWriter) error
+}
+
+type PostConversationsIdMessages200JSONResponse externalRef8.Message
+
+func (response PostConversationsIdMessages200JSONResponse) VisitPostConversationsIdMessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetCustomerRequestObject struct {
+}
+
+type GetCustomerResponseObject interface {
+	VisitGetCustomerResponse(w http.ResponseWriter) error
+}
+
+type GetCustomer200JSONResponse externalRef9.Customer
+
+func (response GetCustomer200JSONResponse) VisitGetCustomerResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutCustomerRequestObject struct {
+	Body *PutCustomerJSONRequestBody
+}
+
+type PutCustomerResponseObject interface {
+	VisitPutCustomerResponse(w http.ResponseWriter) error
+}
+
+type PutCustomer200JSONResponse externalRef9.Customer
+
+func (response PutCustomer200JSONResponse) VisitPutCustomerResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutCustomerBillingAccountIdRequestObject struct {
+	Body *PutCustomerBillingAccountIdJSONRequestBody
+}
+
+type PutCustomerBillingAccountIdResponseObject interface {
+	VisitPutCustomerBillingAccountIdResponse(w http.ResponseWriter) error
+}
+
+type PutCustomerBillingAccountId200JSONResponse externalRef9.Customer
+
+func (response PutCustomerBillingAccountId200JSONResponse) VisitPutCustomerBillingAccountIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetCustomersRequestObject struct {
+	Params GetCustomersParams
+}
+
+type GetCustomersResponseObject interface {
+	VisitGetCustomersResponse(w http.ResponseWriter) error
+}
+
+type GetCustomers200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                  `json:"next_page_token,omitempty"`
+	Result        *[]externalRef9.Customer `json:"result,omitempty"`
+}
+
+func (response GetCustomers200JSONResponse) VisitGetCustomersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostCustomersRequestObject struct {
+	Body *PostCustomersJSONRequestBody
+}
+
+type PostCustomersResponseObject interface {
+	VisitPostCustomersResponse(w http.ResponseWriter) error
+}
+
+type PostCustomers200JSONResponse externalRef9.Customer
+
+func (response PostCustomers200JSONResponse) VisitPostCustomersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteCustomersIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteCustomersIdResponseObject interface {
+	VisitDeleteCustomersIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteCustomersId200JSONResponse externalRef9.Customer
+
+func (response DeleteCustomersId200JSONResponse) VisitDeleteCustomersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetCustomersIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetCustomersIdResponseObject interface {
+	VisitGetCustomersIdResponse(w http.ResponseWriter) error
+}
+
+type GetCustomersId200JSONResponse externalRef9.Customer
+
+func (response GetCustomersId200JSONResponse) VisitGetCustomersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutCustomersIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutCustomersIdJSONRequestBody
+}
+
+type PutCustomersIdResponseObject interface {
+	VisitPutCustomersIdResponse(w http.ResponseWriter) error
+}
+
+type PutCustomersId200JSONResponse externalRef9.Customer
+
+func (response PutCustomersId200JSONResponse) VisitPutCustomersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutCustomersIdBillingAccountIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutCustomersIdBillingAccountIdJSONRequestBody
+}
+
+type PutCustomersIdBillingAccountIdResponseObject interface {
+	VisitPutCustomersIdBillingAccountIdResponse(w http.ResponseWriter) error
+}
+
+type PutCustomersIdBillingAccountId200JSONResponse externalRef9.Customer
+
+func (response PutCustomersIdBillingAccountId200JSONResponse) VisitPutCustomersIdBillingAccountIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetExtensionsRequestObject struct {
+	Params GetExtensionsParams
+}
+
+type GetExtensionsResponseObject interface {
+	VisitGetExtensionsResponse(w http.ResponseWriter) error
+}
+
+type GetExtensions200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                    `json:"next_page_token,omitempty"`
+	Result        *[]externalRef16.Extension `json:"result,omitempty"`
+}
+
+func (response GetExtensions200JSONResponse) VisitGetExtensionsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostExtensionsRequestObject struct {
+	Body *PostExtensionsJSONRequestBody
+}
+
+type PostExtensionsResponseObject interface {
+	VisitPostExtensionsResponse(w http.ResponseWriter) error
+}
+
+type PostExtensions200JSONResponse externalRef16.Extension
+
+func (response PostExtensions200JSONResponse) VisitPostExtensionsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteExtensionsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteExtensionsIdResponseObject interface {
+	VisitDeleteExtensionsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteExtensionsId200JSONResponse externalRef16.Extension
+
+func (response DeleteExtensionsId200JSONResponse) VisitDeleteExtensionsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetExtensionsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetExtensionsIdResponseObject interface {
+	VisitGetExtensionsIdResponse(w http.ResponseWriter) error
+}
+
+type GetExtensionsId200JSONResponse externalRef16.Extension
+
+func (response GetExtensionsId200JSONResponse) VisitGetExtensionsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutExtensionsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutExtensionsIdJSONRequestBody
+}
+
+type PutExtensionsIdResponseObject interface {
+	VisitPutExtensionsIdResponse(w http.ResponseWriter) error
+}
+
+type PutExtensionsId200JSONResponse externalRef16.Extension
+
+func (response PutExtensionsId200JSONResponse) VisitPutExtensionsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetFilesRequestObject struct {
+	Params GetFilesParams
+}
+
+type GetFilesResponseObject interface {
+	VisitGetFilesResponse(w http.ResponseWriter) error
+}
+
+type GetFiles200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string               `json:"next_page_token,omitempty"`
+	Result        *[]externalRef18.File `json:"result,omitempty"`
+}
+
+func (response GetFiles200JSONResponse) VisitGetFilesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostFilesRequestObject struct {
+	Body *multipart.Reader
+}
+
+type PostFilesResponseObject interface {
+	VisitPostFilesResponse(w http.ResponseWriter) error
+}
+
+type PostFiles200JSONResponse externalRef18.File
+
+func (response PostFiles200JSONResponse) VisitPostFilesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteFilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteFilesIdResponseObject interface {
+	VisitDeleteFilesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteFilesId200JSONResponse externalRef18.File
+
+func (response DeleteFilesId200JSONResponse) VisitDeleteFilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetFilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetFilesIdResponseObject interface {
+	VisitGetFilesIdResponse(w http.ResponseWriter) error
+}
+
+type GetFilesId200JSONResponse externalRef18.File
+
+func (response GetFilesId200JSONResponse) VisitGetFilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetFlowsRequestObject struct {
+	Params GetFlowsParams
+}
+
+type GetFlowsResponseObject interface {
+	VisitGetFlowsResponse(w http.ResponseWriter) error
+}
+
+type GetFlows200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string               `json:"next_page_token,omitempty"`
+	Result        *[]externalRef10.Flow `json:"result,omitempty"`
+}
+
+func (response GetFlows200JSONResponse) VisitGetFlowsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostFlowsRequestObject struct {
+	Body *PostFlowsJSONRequestBody
+}
+
+type PostFlowsResponseObject interface {
+	VisitPostFlowsResponse(w http.ResponseWriter) error
+}
+
+type PostFlows200JSONResponse externalRef10.Flow
+
+func (response PostFlows200JSONResponse) VisitPostFlowsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteFlowsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteFlowsIdResponseObject interface {
+	VisitDeleteFlowsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteFlowsId200JSONResponse externalRef10.Flow
+
+func (response DeleteFlowsId200JSONResponse) VisitDeleteFlowsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetFlowsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetFlowsIdResponseObject interface {
+	VisitGetFlowsIdResponse(w http.ResponseWriter) error
+}
+
+type GetFlowsId200JSONResponse externalRef10.Flow
+
+func (response GetFlowsId200JSONResponse) VisitGetFlowsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutFlowsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutFlowsIdJSONRequestBody
+}
+
+type PutFlowsIdResponseObject interface {
+	VisitPutFlowsIdResponse(w http.ResponseWriter) error
+}
+
+type PutFlowsId200JSONResponse externalRef10.Flow
+
+func (response PutFlowsId200JSONResponse) VisitPutFlowsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetGroupcallsRequestObject struct {
+	Params GetGroupcallsParams
+}
+
+type GetGroupcallsResponseObject interface {
+	VisitGetGroupcallsResponse(w http.ResponseWriter) error
+}
+
+type GetGroupcalls200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                   `json:"next_page_token,omitempty"`
+	Result        *[]externalRef2.Groupcall `json:"result,omitempty"`
+}
+
+func (response GetGroupcalls200JSONResponse) VisitGetGroupcallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostGroupcallsRequestObject struct {
+	Body *PostGroupcallsJSONRequestBody
+}
+
+type PostGroupcallsResponseObject interface {
+	VisitPostGroupcallsResponse(w http.ResponseWriter) error
+}
+
+type PostGroupcalls200JSONResponse externalRef2.Groupcall
+
+func (response PostGroupcalls200JSONResponse) VisitPostGroupcallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteGroupcallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteGroupcallsIdResponseObject interface {
+	VisitDeleteGroupcallsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteGroupcallsId200JSONResponse externalRef2.Groupcall
+
+func (response DeleteGroupcallsId200JSONResponse) VisitDeleteGroupcallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetGroupcallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetGroupcallsIdResponseObject interface {
+	VisitGetGroupcallsIdResponse(w http.ResponseWriter) error
+}
+
+type GetGroupcallsId200JSONResponse externalRef2.Groupcall
+
+func (response GetGroupcallsId200JSONResponse) VisitGetGroupcallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostGroupcallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostGroupcallsIdResponseObject interface {
+	VisitPostGroupcallsIdResponse(w http.ResponseWriter) error
+}
+
+type PostGroupcallsId200JSONResponse externalRef2.Groupcall
+
+func (response PostGroupcallsId200JSONResponse) VisitPostGroupcallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetMeRequestObject struct {
+}
+
+type GetMeResponseObject interface {
+	VisitGetMeResponse(w http.ResponseWriter) error
+}
+
+type GetMe200JSONResponse externalRef0.Agent
+
+func (response GetMe200JSONResponse) VisitGetMeResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetMessagesRequestObject struct {
+	Params GetMessagesParams
+}
+
+type GetMessagesResponseObject interface {
+	VisitGetMessagesResponse(w http.ResponseWriter) error
+}
+
+type GetMessages200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                  `json:"next_page_token,omitempty"`
+	Result        *[]externalRef11.Message `json:"result,omitempty"`
+}
+
+func (response GetMessages200JSONResponse) VisitGetMessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostMessagesRequestObject struct {
+	Body *PostMessagesJSONRequestBody
+}
+
+type PostMessagesResponseObject interface {
+	VisitPostMessagesResponse(w http.ResponseWriter) error
+}
+
+type PostMessages200JSONResponse externalRef11.Message
+
+func (response PostMessages200JSONResponse) VisitPostMessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteMessagesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteMessagesIdResponseObject interface {
+	VisitDeleteMessagesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteMessagesId200JSONResponse externalRef11.Message
+
+func (response DeleteMessagesId200JSONResponse) VisitDeleteMessagesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetMessagesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetMessagesIdResponseObject interface {
+	VisitGetMessagesIdResponse(w http.ResponseWriter) error
+}
+
+type GetMessagesId200JSONResponse externalRef11.Message
+
+func (response GetMessagesId200JSONResponse) VisitGetMessagesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetNumbersRequestObject struct {
+	Params GetNumbersParams
+}
+
+type GetNumbersResponseObject interface {
+	VisitGetNumbersResponse(w http.ResponseWriter) error
+}
+
+type GetNumbers200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                 `json:"next_page_token,omitempty"`
+	Result        *[]externalRef12.Number `json:"result,omitempty"`
+}
+
+func (response GetNumbers200JSONResponse) VisitGetNumbersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostNumbersRequestObject struct {
+	Body *PostNumbersJSONRequestBody
+}
+
+type PostNumbersResponseObject interface {
+	VisitPostNumbersResponse(w http.ResponseWriter) error
+}
+
+type PostNumbers200JSONResponse externalRef12.Number
+
+func (response PostNumbers200JSONResponse) VisitPostNumbersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostNumbersRenewRequestObject struct {
+	Body *PostNumbersRenewJSONRequestBody
+}
+
+type PostNumbersRenewResponseObject interface {
+	VisitPostNumbersRenewResponse(w http.ResponseWriter) error
+}
+
+type PostNumbersRenew200JSONResponse []externalRef12.Number
+
+func (response PostNumbersRenew200JSONResponse) VisitPostNumbersRenewResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetOutdialsRequestObject struct {
+	Params GetOutdialsParams
+}
+
+type GetOutdialsResponseObject interface {
+	VisitGetOutdialsResponse(w http.ResponseWriter) error
+}
+
+type GetOutdials200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                  `json:"next_page_token,omitempty"`
+	Result        *[]externalRef13.Outdial `json:"result,omitempty"`
+}
+
+func (response GetOutdials200JSONResponse) VisitGetOutdialsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostOutdialsRequestObject struct {
+	Body *PostOutdialsJSONRequestBody
+}
+
+type PostOutdialsResponseObject interface {
+	VisitPostOutdialsResponse(w http.ResponseWriter) error
+}
+
+type PostOutdials200JSONResponse externalRef13.Outdial
+
+func (response PostOutdials200JSONResponse) VisitPostOutdialsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteOutdialsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteOutdialsIdResponseObject interface {
+	VisitDeleteOutdialsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteOutdialsId200JSONResponse externalRef13.Outdial
+
+func (response DeleteOutdialsId200JSONResponse) VisitDeleteOutdialsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetOutdialsIdRequestObject struct {
+	Id     string `json:"id"`
+	Params GetOutdialsIdParams
+}
+
+type GetOutdialsIdResponseObject interface {
+	VisitGetOutdialsIdResponse(w http.ResponseWriter) error
+}
+
+type GetOutdialsId200JSONResponse externalRef13.Outdial
+
+func (response GetOutdialsId200JSONResponse) VisitGetOutdialsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutOutdialsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutOutdialsIdJSONRequestBody
+}
+
+type PutOutdialsIdResponseObject interface {
+	VisitPutOutdialsIdResponse(w http.ResponseWriter) error
+}
+
+type PutOutdialsId200JSONResponse externalRef13.Outdial
+
+func (response PutOutdialsId200JSONResponse) VisitPutOutdialsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutOutdialsIdCampaignIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutOutdialsIdCampaignIdJSONRequestBody
+}
+
+type PutOutdialsIdCampaignIdResponseObject interface {
+	VisitPutOutdialsIdCampaignIdResponse(w http.ResponseWriter) error
+}
+
+type PutOutdialsIdCampaignId200JSONResponse externalRef13.Outdial
+
+func (response PutOutdialsIdCampaignId200JSONResponse) VisitPutOutdialsIdCampaignIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutOutdialsIdDataRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutOutdialsIdDataJSONRequestBody
+}
+
+type PutOutdialsIdDataResponseObject interface {
+	VisitPutOutdialsIdDataResponse(w http.ResponseWriter) error
+}
+
+type PutOutdialsIdData200JSONResponse externalRef13.Outdial
+
+func (response PutOutdialsIdData200JSONResponse) VisitPutOutdialsIdDataResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostOutdialsIdTargetsRequestObject struct {
+	Id   string `json:"id"`
+	Body *PostOutdialsIdTargetsJSONRequestBody
+}
+
+type PostOutdialsIdTargetsResponseObject interface {
+	VisitPostOutdialsIdTargetsResponse(w http.ResponseWriter) error
+}
+
+type PostOutdialsIdTargets200JSONResponse externalRef13.Outdialtarget
+
+func (response PostOutdialsIdTargets200JSONResponse) VisitPostOutdialsIdTargetsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteOutdialsIdTargetsTargetIdRequestObject struct {
+	Id       string `json:"id"`
+	TargetId string `json:"target_id"`
+}
+
+type DeleteOutdialsIdTargetsTargetIdResponseObject interface {
+	VisitDeleteOutdialsIdTargetsTargetIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteOutdialsIdTargetsTargetId200JSONResponse externalRef13.Outdialtarget
+
+func (response DeleteOutdialsIdTargetsTargetId200JSONResponse) VisitDeleteOutdialsIdTargetsTargetIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetOutdialsIdTargetsTargetIdRequestObject struct {
+	Id       string `json:"id"`
+	TargetId string `json:"target_id"`
+}
+
+type GetOutdialsIdTargetsTargetIdResponseObject interface {
+	VisitGetOutdialsIdTargetsTargetIdResponse(w http.ResponseWriter) error
+}
+
+type GetOutdialsIdTargetsTargetId200JSONResponse externalRef13.Outdialtarget
+
+func (response GetOutdialsIdTargetsTargetId200JSONResponse) VisitGetOutdialsIdTargetsTargetIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetOutplansRequestObject struct {
+	Params GetOutplansParams
+}
+
+type GetOutplansResponseObject interface {
+	VisitGetOutplansResponse(w http.ResponseWriter) error
+}
+
+type GetOutplans200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                 `json:"next_page_token,omitempty"`
+	Result        *[]externalRef3.Outplan `json:"result,omitempty"`
+}
+
+func (response GetOutplans200JSONResponse) VisitGetOutplansResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostOutplansRequestObject struct {
+	Body *PostOutplansJSONRequestBody
+}
+
+type PostOutplansResponseObject interface {
+	VisitPostOutplansResponse(w http.ResponseWriter) error
+}
+
+type PostOutplans200JSONResponse externalRef3.Outplan
+
+func (response PostOutplans200JSONResponse) VisitPostOutplansResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteOutplansIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteOutplansIdResponseObject interface {
+	VisitDeleteOutplansIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteOutplansId200JSONResponse externalRef3.Outplan
+
+func (response DeleteOutplansId200JSONResponse) VisitDeleteOutplansIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetOutplansIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetOutplansIdResponseObject interface {
+	VisitGetOutplansIdResponse(w http.ResponseWriter) error
+}
+
+type GetOutplansId200JSONResponse externalRef3.Outplan
+
+func (response GetOutplansId200JSONResponse) VisitGetOutplansIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutOutplansIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutOutplansIdJSONRequestBody
+}
+
+type PutOutplansIdResponseObject interface {
+	VisitPutOutplansIdResponse(w http.ResponseWriter) error
+}
+
+type PutOutplansId200JSONResponse externalRef3.Outplan
+
+func (response PutOutplansId200JSONResponse) VisitPutOutplansIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetProvidersRequestObject struct {
+	Params GetProvidersParams
+}
+
+type GetProvidersResponseObject interface {
+	VisitGetProvidersResponse(w http.ResponseWriter) error
+}
+
+type GetProviders200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                   `json:"next_page_token,omitempty"`
+	Result        *[]externalRef17.Provider `json:"result,omitempty"`
+}
+
+func (response GetProviders200JSONResponse) VisitGetProvidersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostProvidersRequestObject struct {
+	Body *PostProvidersJSONRequestBody
+}
+
+type PostProvidersResponseObject interface {
+	VisitPostProvidersResponse(w http.ResponseWriter) error
+}
+
+type PostProviders200JSONResponse externalRef17.Provider
+
+func (response PostProviders200JSONResponse) VisitPostProvidersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteProvidersIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteProvidersIdResponseObject interface {
+	VisitDeleteProvidersIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteProvidersId200JSONResponse externalRef17.Provider
+
+func (response DeleteProvidersId200JSONResponse) VisitDeleteProvidersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetProvidersIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetProvidersIdResponseObject interface {
+	VisitGetProvidersIdResponse(w http.ResponseWriter) error
+}
+
+type GetProvidersId200JSONResponse externalRef17.Provider
+
+func (response GetProvidersId200JSONResponse) VisitGetProvidersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutProvidersIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutProvidersIdJSONRequestBody
+}
+
+type PutProvidersIdResponseObject interface {
+	VisitPutProvidersIdResponse(w http.ResponseWriter) error
+}
+
+type PutProvidersId200JSONResponse externalRef17.Provider
+
+func (response PutProvidersId200JSONResponse) VisitPutProvidersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetQueuecallsRequestObject struct {
+	Params GetQueuecallsParams
+}
+
+type GetQueuecallsResponseObject interface {
+	VisitGetQueuecallsResponse(w http.ResponseWriter) error
+}
+
+type GetQueuecalls200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                    `json:"next_page_token,omitempty"`
+	Result        *[]externalRef15.Queuecall `json:"result,omitempty"`
+}
+
+func (response GetQueuecalls200JSONResponse) VisitGetQueuecallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostQueuecallsReferenceIdIdKickRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostQueuecallsReferenceIdIdKickResponseObject interface {
+	VisitPostQueuecallsReferenceIdIdKickResponse(w http.ResponseWriter) error
+}
+
+type PostQueuecallsReferenceIdIdKick200JSONResponse externalRef15.Queuecall
+
+func (response PostQueuecallsReferenceIdIdKick200JSONResponse) VisitPostQueuecallsReferenceIdIdKickResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteQueuecallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteQueuecallsIdResponseObject interface {
+	VisitDeleteQueuecallsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteQueuecallsId200JSONResponse externalRef15.Queuecall
+
+func (response DeleteQueuecallsId200JSONResponse) VisitDeleteQueuecallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetQueuecallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetQueuecallsIdResponseObject interface {
+	VisitGetQueuecallsIdResponse(w http.ResponseWriter) error
+}
+
+type GetQueuecallsId200JSONResponse externalRef15.Queuecall
+
+func (response GetQueuecallsId200JSONResponse) VisitGetQueuecallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostQueuecallsIdKickRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostQueuecallsIdKickResponseObject interface {
+	VisitPostQueuecallsIdKickResponse(w http.ResponseWriter) error
+}
+
+type PostQueuecallsIdKick200JSONResponse externalRef15.Queuecall
+
+func (response PostQueuecallsIdKick200JSONResponse) VisitPostQueuecallsIdKickResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetQueuesRequestObject struct {
+	Params GetQueuesParams
+}
+
+type GetQueuesResponseObject interface {
+	VisitGetQueuesResponse(w http.ResponseWriter) error
+}
+
+type GetQueues200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                `json:"next_page_token,omitempty"`
+	Result        *[]externalRef15.Queue `json:"result,omitempty"`
+}
+
+func (response GetQueues200JSONResponse) VisitGetQueuesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostQueuesRequestObject struct {
+	Body *PostQueuesJSONRequestBody
+}
+
+type PostQueuesResponseObject interface {
+	VisitPostQueuesResponse(w http.ResponseWriter) error
+}
+
+type PostQueues200JSONResponse externalRef15.Queue
+
+func (response PostQueues200JSONResponse) VisitPostQueuesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteQueuesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteQueuesIdResponseObject interface {
+	VisitDeleteQueuesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteQueuesId200JSONResponse externalRef15.Queue
+
+func (response DeleteQueuesId200JSONResponse) VisitDeleteQueuesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetQueuesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetQueuesIdResponseObject interface {
+	VisitGetQueuesIdResponse(w http.ResponseWriter) error
+}
+
+type GetQueuesId200JSONResponse externalRef15.Queue
+
+func (response GetQueuesId200JSONResponse) VisitGetQueuesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutQueuesIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutQueuesIdJSONRequestBody
+}
+
+type PutQueuesIdResponseObject interface {
+	VisitPutQueuesIdResponse(w http.ResponseWriter) error
+}
+
+type PutQueuesId200JSONResponse externalRef15.Queue
+
+func (response PutQueuesId200JSONResponse) VisitPutQueuesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutQueuesIdActionsRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutQueuesIdActionsJSONRequestBody
+}
+
+type PutQueuesIdActionsResponseObject interface {
+	VisitPutQueuesIdActionsResponse(w http.ResponseWriter) error
+}
+
+type PutQueuesIdActions200JSONResponse externalRef15.Queue
+
+func (response PutQueuesIdActions200JSONResponse) VisitPutQueuesIdActionsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutQueuesIdRoutingMethodRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutQueuesIdRoutingMethodJSONRequestBody
+}
+
+type PutQueuesIdRoutingMethodResponseObject interface {
+	VisitPutQueuesIdRoutingMethodResponse(w http.ResponseWriter) error
+}
+
+type PutQueuesIdRoutingMethod200JSONResponse externalRef15.Queue
+
+func (response PutQueuesIdRoutingMethod200JSONResponse) VisitPutQueuesIdRoutingMethodResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutQueuesIdTagIdsRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutQueuesIdTagIdsJSONRequestBody
+}
+
+type PutQueuesIdTagIdsResponseObject interface {
+	VisitPutQueuesIdTagIdsResponse(w http.ResponseWriter) error
+}
+
+type PutQueuesIdTagIds200JSONResponse externalRef15.Queue
+
+func (response PutQueuesIdTagIds200JSONResponse) VisitPutQueuesIdTagIdsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetRecordingfilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetRecordingfilesIdResponseObject interface {
+	VisitGetRecordingfilesIdResponse(w http.ResponseWriter) error
+}
+
+type GetRecordingfilesId307JSONResponse string
+
+func (response GetRecordingfilesId307JSONResponse) VisitGetRecordingfilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(307)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetRecordingfilesId400JSONResponse struct {
+	Error *string `json:"error,omitempty"`
+}
+
+func (response GetRecordingfilesId400JSONResponse) VisitGetRecordingfilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(400)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetRecordingfilesId404JSONResponse struct {
+	Error *string `json:"error,omitempty"`
+}
+
+func (response GetRecordingfilesId404JSONResponse) VisitGetRecordingfilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(404)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetRecordingsRequestObject struct {
+	Params GetRecordingsParams
+}
+
+type GetRecordingsResponseObject interface {
+	VisitGetRecordingsResponse(w http.ResponseWriter) error
+}
+
+type GetRecordings200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                   `json:"next_page_token,omitempty"`
+	Result        *[]externalRef2.Recording `json:"result,omitempty"`
+}
+
+func (response GetRecordings200JSONResponse) VisitGetRecordingsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteRecordingsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteRecordingsIdResponseObject interface {
+	VisitDeleteRecordingsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteRecordingsId200JSONResponse externalRef2.Recording
+
+func (response DeleteRecordingsId200JSONResponse) VisitDeleteRecordingsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteRecordingsId400Response struct {
+}
+
+func (response DeleteRecordingsId400Response) VisitDeleteRecordingsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(400)
+	return nil
+}
+
+type GetRecordingsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetRecordingsIdResponseObject interface {
+	VisitGetRecordingsIdResponse(w http.ResponseWriter) error
+}
+
+type GetRecordingsId200JSONResponse externalRef2.Recording
+
+func (response GetRecordingsId200JSONResponse) VisitGetRecordingsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetRecordingsId400Response struct {
+}
+
+func (response GetRecordingsId400Response) VisitGetRecordingsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(400)
+	return nil
+}
+
+type GetRecordingsId404Response struct {
+}
+
+func (response GetRecordingsId404Response) VisitGetRecordingsIdResponse(w http.ResponseWriter) error {
+	w.WriteHeader(404)
+	return nil
+}
+
+type GetRoutesRequestObject struct {
+	Params GetRoutesParams
+}
+
+type GetRoutesResponseObject interface {
+	VisitGetRoutesResponse(w http.ResponseWriter) error
+}
+
+type GetRoutes200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                `json:"next_page_token,omitempty"`
+	Result        *[]externalRef17.Route `json:"result,omitempty"`
+}
+
+func (response GetRoutes200JSONResponse) VisitGetRoutesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostRoutesRequestObject struct {
+	Body *PostRoutesJSONRequestBody
+}
+
+type PostRoutesResponseObject interface {
+	VisitPostRoutesResponse(w http.ResponseWriter) error
+}
+
+type PostRoutes200JSONResponse externalRef17.Route
+
+func (response PostRoutes200JSONResponse) VisitPostRoutesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteRoutesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteRoutesIdResponseObject interface {
+	VisitDeleteRoutesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteRoutesId200JSONResponse externalRef17.Route
+
+func (response DeleteRoutesId200JSONResponse) VisitDeleteRoutesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetRoutesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetRoutesIdResponseObject interface {
+	VisitGetRoutesIdResponse(w http.ResponseWriter) error
+}
+
+type GetRoutesId200JSONResponse externalRef17.Route
+
+func (response GetRoutesId200JSONResponse) VisitGetRoutesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutRoutesIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutRoutesIdJSONRequestBody
+}
+
+type PutRoutesIdResponseObject interface {
+	VisitPutRoutesIdResponse(w http.ResponseWriter) error
+}
+
+type PutRoutesId200JSONResponse externalRef17.Route
+
+func (response PutRoutesId200JSONResponse) VisitPutRoutesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
 	// Get list of accesskeys
@@ -4542,6 +10026,312 @@ type StrictServerInterface interface {
 	// Add a participant to a chat.
 	// (POST /chats/{id}/participant_ids)
 	PostChatsIdParticipantIds(ctx context.Context, request PostChatsIdParticipantIdsRequestObject) (PostChatsIdParticipantIdsResponseObject, error)
+	// Remove a participant from a chat.
+	// (DELETE /chats/{id}/participant_ids/{participant_id})
+	DeleteChatsIdParticipantIdsParticipantId(ctx context.Context, request DeleteChatsIdParticipantIdsParticipantIdRequestObject) (DeleteChatsIdParticipantIdsParticipantIdResponseObject, error)
+	// Get list of conference calls
+	// (GET /conferencecalls)
+	GetConferencecalls(ctx context.Context, request GetConferencecallsRequestObject) (GetConferencecallsResponseObject, error)
+	// Remove a conference call
+	// (DELETE /conferencecalls/{id})
+	DeleteConferencecallsId(ctx context.Context, request DeleteConferencecallsIdRequestObject) (DeleteConferencecallsIdResponseObject, error)
+	// Get conference call details
+	// (GET /conferencecalls/{id})
+	GetConferencecallsId(ctx context.Context, request GetConferencecallsIdRequestObject) (GetConferencecallsIdResponseObject, error)
+	// Get list of conferences
+	// (GET /conferences)
+	GetConferences(ctx context.Context, request GetConferencesRequestObject) (GetConferencesResponseObject, error)
+	// Create a new conference
+	// (POST /conferences)
+	PostConferences(ctx context.Context, request PostConferencesRequestObject) (PostConferencesResponseObject, error)
+	// Delete a conference
+	// (DELETE /conferences/{id})
+	DeleteConferencesId(ctx context.Context, request DeleteConferencesIdRequestObject) (DeleteConferencesIdResponseObject, error)
+	// Get conference details
+	// (GET /conferences/{id})
+	GetConferencesId(ctx context.Context, request GetConferencesIdRequestObject) (GetConferencesIdResponseObject, error)
+	// Update conference details
+	// (PUT /conferences/{id})
+	PutConferencesId(ctx context.Context, request PutConferencesIdRequestObject) (PutConferencesIdResponseObject, error)
+	// Start media streaming for a conference
+	// (GET /conferences/{id}/media_stream)
+	GetConferencesIdMediaStream(ctx context.Context, request GetConferencesIdMediaStreamRequestObject) (GetConferencesIdMediaStreamResponseObject, error)
+	// Start conference recording
+	// (POST /conferences/{id}/recording_start)
+	PostConferencesIdRecordingStart(ctx context.Context, request PostConferencesIdRecordingStartRequestObject) (PostConferencesIdRecordingStartResponseObject, error)
+	// Stop conference recording
+	// (POST /conferences/{id}/recording_stop)
+	PostConferencesIdRecordingStop(ctx context.Context, request PostConferencesIdRecordingStopRequestObject) (PostConferencesIdRecordingStopResponseObject, error)
+	// Start conference transcription
+	// (POST /conferences/{id}/transcribe_start)
+	PostConferencesIdTranscribeStart(ctx context.Context, request PostConferencesIdTranscribeStartRequestObject) (PostConferencesIdTranscribeStartResponseObject, error)
+	// Stop conference transcription
+	// (POST /conferences/{id}/transcribe_stop)
+	PostConferencesIdTranscribeStop(ctx context.Context, request PostConferencesIdTranscribeStopRequestObject) (PostConferencesIdTranscribeStopResponseObject, error)
+	// Gets a list of conversation accounts
+	// (GET /conversation_accounts)
+	GetConversationAccounts(ctx context.Context, request GetConversationAccountsRequestObject) (GetConversationAccountsResponseObject, error)
+	// Create a new conversation account
+	// (POST /conversation_accounts)
+	PostConversationAccounts(ctx context.Context, request PostConversationAccountsRequestObject) (PostConversationAccountsResponseObject, error)
+	// Delete a conversation account
+	// (DELETE /conversation_accounts/{id})
+	DeleteConversationAccountsId(ctx context.Context, request DeleteConversationAccountsIdRequestObject) (DeleteConversationAccountsIdResponseObject, error)
+	// Get details of a conversation account
+	// (GET /conversation_accounts/{id})
+	GetConversationAccountsId(ctx context.Context, request GetConversationAccountsIdRequestObject) (GetConversationAccountsIdResponseObject, error)
+	// Update a conversation account
+	// (PUT /conversation_accounts/{id})
+	PutConversationAccountsId(ctx context.Context, request PutConversationAccountsIdRequestObject) (PutConversationAccountsIdResponseObject, error)
+	// Gets a list of conversations
+	// (GET /conversations)
+	GetConversations(ctx context.Context, request GetConversationsRequestObject) (GetConversationsResponseObject, error)
+	// Returns detailed conversation info
+	// (GET /conversations/{id})
+	GetConversationsId(ctx context.Context, request GetConversationsIdRequestObject) (GetConversationsIdResponseObject, error)
+	// Update conversation info
+	// (PUT /conversations/{id})
+	PutConversationsId(ctx context.Context, request PutConversationsIdRequestObject) (PutConversationsIdResponseObject, error)
+	// Gets a list of conversation messages
+	// (GET /conversations/{id}/messages)
+	GetConversationsIdMessages(ctx context.Context, request GetConversationsIdMessagesRequestObject) (GetConversationsIdMessagesResponseObject, error)
+	// Send a message
+	// (POST /conversations/{id}/messages)
+	PostConversationsIdMessages(ctx context.Context, request PostConversationsIdMessagesRequestObject) (PostConversationsIdMessagesResponseObject, error)
+	// Get customer info
+	// (GET /customer)
+	GetCustomer(ctx context.Context, request GetCustomerRequestObject) (GetCustomerResponseObject, error)
+	// Update a customer
+	// (PUT /customer)
+	PutCustomer(ctx context.Context, request PutCustomerRequestObject) (PutCustomerResponseObject, error)
+	// Update a customer's billing account ID
+	// (PUT /customer/billing_account_id)
+	PutCustomerBillingAccountId(ctx context.Context, request PutCustomerBillingAccountIdRequestObject) (PutCustomerBillingAccountIdResponseObject, error)
+	// Gets a list of customers.
+	// (GET /customers)
+	GetCustomers(ctx context.Context, request GetCustomersRequestObject) (GetCustomersResponseObject, error)
+	// Create a new customer.
+	// (POST /customers)
+	PostCustomers(ctx context.Context, request PostCustomersRequestObject) (PostCustomersResponseObject, error)
+	// Delete a customer.
+	// (DELETE /customers/{id})
+	DeleteCustomersId(ctx context.Context, request DeleteCustomersIdRequestObject) (DeleteCustomersIdResponseObject, error)
+	// Retrieve customer details.
+	// (GET /customers/{id})
+	GetCustomersId(ctx context.Context, request GetCustomersIdRequestObject) (GetCustomersIdResponseObject, error)
+	// Update a customer.
+	// (PUT /customers/{id})
+	PutCustomersId(ctx context.Context, request PutCustomersIdRequestObject) (PutCustomersIdResponseObject, error)
+	// Update a customer's billing account ID.
+	// (PUT /customers/{id}/billing_account_id)
+	PutCustomersIdBillingAccountId(ctx context.Context, request PutCustomersIdBillingAccountIdRequestObject) (PutCustomersIdBillingAccountIdResponseObject, error)
+	// Get a list of extensions
+	// (GET /extensions)
+	GetExtensions(ctx context.Context, request GetExtensionsRequestObject) (GetExtensionsResponseObject, error)
+	// Create a new extension
+	// (POST /extensions)
+	PostExtensions(ctx context.Context, request PostExtensionsRequestObject) (PostExtensionsResponseObject, error)
+	// Delete an extension
+	// (DELETE /extensions/{id})
+	DeleteExtensionsId(ctx context.Context, request DeleteExtensionsIdRequestObject) (DeleteExtensionsIdResponseObject, error)
+	// Get extension details
+	// (GET /extensions/{id})
+	GetExtensionsId(ctx context.Context, request GetExtensionsIdRequestObject) (GetExtensionsIdResponseObject, error)
+	// Update an extension
+	// (PUT /extensions/{id})
+	PutExtensionsId(ctx context.Context, request PutExtensionsIdRequestObject) (PutExtensionsIdResponseObject, error)
+	// Gets a list of files
+	// (GET /files)
+	GetFiles(ctx context.Context, request GetFilesRequestObject) (GetFilesResponseObject, error)
+	// Upload file
+	// (POST /files)
+	PostFiles(ctx context.Context, request PostFilesRequestObject) (PostFilesResponseObject, error)
+	// Delete a file
+	// (DELETE /files/{id})
+	DeleteFilesId(ctx context.Context, request DeleteFilesIdRequestObject) (DeleteFilesIdResponseObject, error)
+	// Returns detail file info
+	// (GET /files/{id})
+	GetFilesId(ctx context.Context, request GetFilesIdRequestObject) (GetFilesIdResponseObject, error)
+	// Retrieve a list of flows
+	// (GET /flows)
+	GetFlows(ctx context.Context, request GetFlowsRequestObject) (GetFlowsResponseObject, error)
+	// Create a new flow
+	// (POST /flows)
+	PostFlows(ctx context.Context, request PostFlowsRequestObject) (PostFlowsResponseObject, error)
+	// Delete a flow
+	// (DELETE /flows/{id})
+	DeleteFlowsId(ctx context.Context, request DeleteFlowsIdRequestObject) (DeleteFlowsIdResponseObject, error)
+	// Retrieve flow details
+	// (GET /flows/{id})
+	GetFlowsId(ctx context.Context, request GetFlowsIdRequestObject) (GetFlowsIdResponseObject, error)
+	// Update a flow
+	// (PUT /flows/{id})
+	PutFlowsId(ctx context.Context, request PutFlowsIdRequestObject) (PutFlowsIdResponseObject, error)
+	// Get a list of groupcalls
+	// (GET /groupcalls)
+	GetGroupcalls(ctx context.Context, request GetGroupcallsRequestObject) (GetGroupcallsResponseObject, error)
+	// Create a new groupcall
+	// (POST /groupcalls)
+	PostGroupcalls(ctx context.Context, request PostGroupcallsRequestObject) (PostGroupcallsResponseObject, error)
+	// Delete a groupcall
+	// (DELETE /groupcalls/{id})
+	DeleteGroupcallsId(ctx context.Context, request DeleteGroupcallsIdRequestObject) (DeleteGroupcallsIdResponseObject, error)
+	// Get detailed information of a groupcall
+	// (GET /groupcalls/{id})
+	GetGroupcallsId(ctx context.Context, request GetGroupcallsIdRequestObject) (GetGroupcallsIdResponseObject, error)
+	// Hangup the groupcall
+	// (POST /groupcalls/{id})
+	PostGroupcallsId(ctx context.Context, request PostGroupcallsIdRequestObject) (PostGroupcallsIdResponseObject, error)
+	// Get the logged-in agent
+	// (GET /me)
+	GetMe(ctx context.Context, request GetMeRequestObject) (GetMeResponseObject, error)
+	// List all messages
+	// (GET /messages)
+	GetMessages(ctx context.Context, request GetMessagesRequestObject) (GetMessagesResponseObject, error)
+	// Send a message and return the sent message
+	// (POST /messages)
+	PostMessages(ctx context.Context, request PostMessagesRequestObject) (PostMessagesResponseObject, error)
+	// Delete a message by ID
+	// (DELETE /messages/{id})
+	DeleteMessagesId(ctx context.Context, request DeleteMessagesIdRequestObject) (DeleteMessagesIdResponseObject, error)
+	// Get a message by ID
+	// (GET /messages/{id})
+	GetMessagesId(ctx context.Context, request GetMessagesIdRequestObject) (GetMessagesIdResponseObject, error)
+	// List order numbers
+	// (GET /numbers)
+	GetNumbers(ctx context.Context, request GetNumbersRequestObject) (GetNumbersResponseObject, error)
+	// Create a new number
+	// (POST /numbers)
+	PostNumbers(ctx context.Context, request PostNumbersRequestObject) (PostNumbersResponseObject, error)
+	// Renew the numbers
+	// (POST /numbers/renew)
+	PostNumbersRenew(ctx context.Context, request PostNumbersRenewRequestObject) (PostNumbersRenewResponseObject, error)
+	// Retrieve a list of outdials.
+	// (GET /outdials)
+	GetOutdials(ctx context.Context, request GetOutdialsRequestObject) (GetOutdialsResponseObject, error)
+	// Create a new outdial.
+	// (POST /outdials)
+	PostOutdials(ctx context.Context, request PostOutdialsRequestObject) (PostOutdialsResponseObject, error)
+	// Delete an existing outdial.
+	// (DELETE /outdials/{id})
+	DeleteOutdialsId(ctx context.Context, request DeleteOutdialsIdRequestObject) (DeleteOutdialsIdResponseObject, error)
+	// Retrieve an outdial by its ID.
+	// (GET /outdials/{id})
+	GetOutdialsId(ctx context.Context, request GetOutdialsIdRequestObject) (GetOutdialsIdResponseObject, error)
+	// Update an outdial.
+	// (PUT /outdials/{id})
+	PutOutdialsId(ctx context.Context, request PutOutdialsIdRequestObject) (PutOutdialsIdResponseObject, error)
+	// Update an outdial's campaign ID.
+	// (PUT /outdials/{id}/campaign_id)
+	PutOutdialsIdCampaignId(ctx context.Context, request PutOutdialsIdCampaignIdRequestObject) (PutOutdialsIdCampaignIdResponseObject, error)
+	// Update an outdial's data.
+	// (PUT /outdials/{id}/data)
+	PutOutdialsIdData(ctx context.Context, request PutOutdialsIdDataRequestObject) (PutOutdialsIdDataResponseObject, error)
+	// Create a new target for an outdial.
+	// (POST /outdials/{id}/targets)
+	PostOutdialsIdTargets(ctx context.Context, request PostOutdialsIdTargetsRequestObject) (PostOutdialsIdTargetsResponseObject, error)
+	// Delete an outdial target.
+	// (DELETE /outdials/{id}/targets/{target_id})
+	DeleteOutdialsIdTargetsTargetId(ctx context.Context, request DeleteOutdialsIdTargetsTargetIdRequestObject) (DeleteOutdialsIdTargetsTargetIdResponseObject, error)
+	// Retrieve an outdial target by its ID.
+	// (GET /outdials/{id}/targets/{target_id})
+	GetOutdialsIdTargetsTargetId(ctx context.Context, request GetOutdialsIdTargetsTargetIdRequestObject) (GetOutdialsIdTargetsTargetIdResponseObject, error)
+	// Retrieve a list of outplans.
+	// (GET /outplans)
+	GetOutplans(ctx context.Context, request GetOutplansRequestObject) (GetOutplansResponseObject, error)
+	// Create a new outplan.
+	// (POST /outplans)
+	PostOutplans(ctx context.Context, request PostOutplansRequestObject) (PostOutplansResponseObject, error)
+	// Delete an existing outplan.
+	// (DELETE /outplans/{id})
+	DeleteOutplansId(ctx context.Context, request DeleteOutplansIdRequestObject) (DeleteOutplansIdResponseObject, error)
+	// Retrieve outplan details by ID.
+	// (GET /outplans/{id})
+	GetOutplansId(ctx context.Context, request GetOutplansIdRequestObject) (GetOutplansIdResponseObject, error)
+	// Update dial information of an existing outplan.
+	// (PUT /outplans/{id})
+	PutOutplansId(ctx context.Context, request PutOutplansIdRequestObject) (PutOutplansIdResponseObject, error)
+	// List providers of the given customer
+	// (GET /providers)
+	GetProviders(ctx context.Context, request GetProvidersRequestObject) (GetProvidersResponseObject, error)
+	// Create a new provider
+	// (POST /providers)
+	PostProviders(ctx context.Context, request PostProvidersRequestObject) (PostProvidersResponseObject, error)
+	// Delete provider by ID
+	// (DELETE /providers/{id})
+	DeleteProvidersId(ctx context.Context, request DeleteProvidersIdRequestObject) (DeleteProvidersIdResponseObject, error)
+	// Get provider by ID
+	// (GET /providers/{id})
+	GetProvidersId(ctx context.Context, request GetProvidersIdRequestObject) (GetProvidersIdResponseObject, error)
+	// Update provider information
+	// (PUT /providers/{id})
+	PutProvidersId(ctx context.Context, request PutProvidersIdRequestObject) (PutProvidersIdResponseObject, error)
+	// List queue calls
+	// (GET /queuecalls)
+	GetQueuecalls(ctx context.Context, request GetQueuecallsRequestObject) (GetQueuecallsResponseObject, error)
+	// Kick a queue call by reference ID
+	// (POST /queuecalls/reference_id/{id}/kick)
+	PostQueuecallsReferenceIdIdKick(ctx context.Context, request PostQueuecallsReferenceIdIdKickRequestObject) (PostQueuecallsReferenceIdIdKickResponseObject, error)
+	// Delete a queue call
+	// (DELETE /queuecalls/{id})
+	DeleteQueuecallsId(ctx context.Context, request DeleteQueuecallsIdRequestObject) (DeleteQueuecallsIdResponseObject, error)
+	// Get detailed queue call information
+	// (GET /queuecalls/{id})
+	GetQueuecallsId(ctx context.Context, request GetQueuecallsIdRequestObject) (GetQueuecallsIdResponseObject, error)
+	// Kick a queue call from the queue
+	// (POST /queuecalls/{id}/kick)
+	PostQueuecallsIdKick(ctx context.Context, request PostQueuecallsIdKickRequestObject) (PostQueuecallsIdKickResponseObject, error)
+	// List queues of the customer
+	// (GET /queues)
+	GetQueues(ctx context.Context, request GetQueuesRequestObject) (GetQueuesResponseObject, error)
+	// Create a new queue
+	// (POST /queues)
+	PostQueues(ctx context.Context, request PostQueuesRequestObject) (PostQueuesResponseObject, error)
+	// Delete a queue by ID
+	// (DELETE /queues/{id})
+	DeleteQueuesId(ctx context.Context, request DeleteQueuesIdRequestObject) (DeleteQueuesIdResponseObject, error)
+	// Get the queue by ID
+	// (GET /queues/{id})
+	GetQueuesId(ctx context.Context, request GetQueuesIdRequestObject) (GetQueuesIdResponseObject, error)
+	// Update the queue details
+	// (PUT /queues/{id})
+	PutQueuesId(ctx context.Context, request PutQueuesIdRequestObject) (PutQueuesIdResponseObject, error)
+	// Update the queue's action handle
+	// (PUT /queues/{id}/actions)
+	PutQueuesIdActions(ctx context.Context, request PutQueuesIdActionsRequestObject) (PutQueuesIdActionsResponseObject, error)
+	// Update the queue's routing method
+	// (PUT /queues/{id}/routing_method)
+	PutQueuesIdRoutingMethod(ctx context.Context, request PutQueuesIdRoutingMethodRequestObject) (PutQueuesIdRoutingMethodResponseObject, error)
+	// Update the queue's tag IDs
+	// (PUT /queues/{id}/tag_ids)
+	PutQueuesIdTagIds(ctx context.Context, request PutQueuesIdTagIdsRequestObject) (PutQueuesIdTagIdsResponseObject, error)
+	// Download the recording file
+	// (GET /recordingfiles/{id})
+	GetRecordingfilesId(ctx context.Context, request GetRecordingfilesIdRequestObject) (GetRecordingfilesIdResponseObject, error)
+	// List recordings
+	// (GET /recordings)
+	GetRecordings(ctx context.Context, request GetRecordingsRequestObject) (GetRecordingsResponseObject, error)
+	// Delete recording
+	// (DELETE /recordings/{id})
+	DeleteRecordingsId(ctx context.Context, request DeleteRecordingsIdRequestObject) (DeleteRecordingsIdResponseObject, error)
+	// Get recording details
+	// (GET /recordings/{id})
+	GetRecordingsId(ctx context.Context, request GetRecordingsIdRequestObject) (GetRecordingsIdResponseObject, error)
+	// List routes
+	// (GET /routes)
+	GetRoutes(ctx context.Context, request GetRoutesRequestObject) (GetRoutesResponseObject, error)
+	// Create a new route
+	// (POST /routes)
+	PostRoutes(ctx context.Context, request PostRoutesRequestObject) (PostRoutesResponseObject, error)
+	// Delete the route
+	// (DELETE /routes/{id})
+	DeleteRoutesId(ctx context.Context, request DeleteRoutesIdRequestObject) (DeleteRoutesIdResponseObject, error)
+	// Get a route
+	// (GET /routes/{id})
+	GetRoutesId(ctx context.Context, request GetRoutesIdRequestObject) (GetRoutesIdResponseObject, error)
+	// Update a route
+	// (PUT /routes/{id})
+	PutRoutesId(ctx context.Context, request PutRoutesIdRequestObject) (PutRoutesIdResponseObject, error)
 }
 
 type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
@@ -6876,6 +12666,3022 @@ func (sh *strictHandler) PostChatsIdParticipantIds(ctx *gin.Context, id string) 
 		ctx.Status(http.StatusInternalServerError)
 	} else if validResponse, ok := response.(PostChatsIdParticipantIdsResponseObject); ok {
 		if err := validResponse.VisitPostChatsIdParticipantIdsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteChatsIdParticipantIdsParticipantId operation middleware
+func (sh *strictHandler) DeleteChatsIdParticipantIdsParticipantId(ctx *gin.Context, id string, participantId string) {
+	var request DeleteChatsIdParticipantIdsParticipantIdRequestObject
+
+	request.Id = id
+	request.ParticipantId = participantId
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteChatsIdParticipantIdsParticipantId(ctx, request.(DeleteChatsIdParticipantIdsParticipantIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteChatsIdParticipantIdsParticipantId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteChatsIdParticipantIdsParticipantIdResponseObject); ok {
+		if err := validResponse.VisitDeleteChatsIdParticipantIdsParticipantIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConferencecalls operation middleware
+func (sh *strictHandler) GetConferencecalls(ctx *gin.Context, params GetConferencecallsParams) {
+	var request GetConferencecallsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConferencecalls(ctx, request.(GetConferencecallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConferencecalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConferencecallsResponseObject); ok {
+		if err := validResponse.VisitGetConferencecallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteConferencecallsId operation middleware
+func (sh *strictHandler) DeleteConferencecallsId(ctx *gin.Context, id string) {
+	var request DeleteConferencecallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteConferencecallsId(ctx, request.(DeleteConferencecallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteConferencecallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteConferencecallsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteConferencecallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConferencecallsId operation middleware
+func (sh *strictHandler) GetConferencecallsId(ctx *gin.Context, id string) {
+	var request GetConferencecallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConferencecallsId(ctx, request.(GetConferencecallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConferencecallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConferencecallsIdResponseObject); ok {
+		if err := validResponse.VisitGetConferencecallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConferences operation middleware
+func (sh *strictHandler) GetConferences(ctx *gin.Context, params GetConferencesParams) {
+	var request GetConferencesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConferences(ctx, request.(GetConferencesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConferences")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConferencesResponseObject); ok {
+		if err := validResponse.VisitGetConferencesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConferences operation middleware
+func (sh *strictHandler) PostConferences(ctx *gin.Context) {
+	var request PostConferencesRequestObject
+
+	var body PostConferencesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConferences(ctx, request.(PostConferencesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConferences")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConferencesResponseObject); ok {
+		if err := validResponse.VisitPostConferencesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteConferencesId operation middleware
+func (sh *strictHandler) DeleteConferencesId(ctx *gin.Context, id string) {
+	var request DeleteConferencesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteConferencesId(ctx, request.(DeleteConferencesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteConferencesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteConferencesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteConferencesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConferencesId operation middleware
+func (sh *strictHandler) GetConferencesId(ctx *gin.Context, id string) {
+	var request GetConferencesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConferencesId(ctx, request.(GetConferencesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConferencesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConferencesIdResponseObject); ok {
+		if err := validResponse.VisitGetConferencesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutConferencesId operation middleware
+func (sh *strictHandler) PutConferencesId(ctx *gin.Context, id string) {
+	var request PutConferencesIdRequestObject
+
+	request.Id = id
+
+	var body PutConferencesIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutConferencesId(ctx, request.(PutConferencesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutConferencesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutConferencesIdResponseObject); ok {
+		if err := validResponse.VisitPutConferencesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConferencesIdMediaStream operation middleware
+func (sh *strictHandler) GetConferencesIdMediaStream(ctx *gin.Context, id string) {
+	var request GetConferencesIdMediaStreamRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConferencesIdMediaStream(ctx, request.(GetConferencesIdMediaStreamRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConferencesIdMediaStream")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConferencesIdMediaStreamResponseObject); ok {
+		if err := validResponse.VisitGetConferencesIdMediaStreamResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConferencesIdRecordingStart operation middleware
+func (sh *strictHandler) PostConferencesIdRecordingStart(ctx *gin.Context, id string) {
+	var request PostConferencesIdRecordingStartRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConferencesIdRecordingStart(ctx, request.(PostConferencesIdRecordingStartRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConferencesIdRecordingStart")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConferencesIdRecordingStartResponseObject); ok {
+		if err := validResponse.VisitPostConferencesIdRecordingStartResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConferencesIdRecordingStop operation middleware
+func (sh *strictHandler) PostConferencesIdRecordingStop(ctx *gin.Context, id string) {
+	var request PostConferencesIdRecordingStopRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConferencesIdRecordingStop(ctx, request.(PostConferencesIdRecordingStopRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConferencesIdRecordingStop")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConferencesIdRecordingStopResponseObject); ok {
+		if err := validResponse.VisitPostConferencesIdRecordingStopResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConferencesIdTranscribeStart operation middleware
+func (sh *strictHandler) PostConferencesIdTranscribeStart(ctx *gin.Context, id string) {
+	var request PostConferencesIdTranscribeStartRequestObject
+
+	request.Id = id
+
+	var body PostConferencesIdTranscribeStartJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConferencesIdTranscribeStart(ctx, request.(PostConferencesIdTranscribeStartRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConferencesIdTranscribeStart")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConferencesIdTranscribeStartResponseObject); ok {
+		if err := validResponse.VisitPostConferencesIdTranscribeStartResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConferencesIdTranscribeStop operation middleware
+func (sh *strictHandler) PostConferencesIdTranscribeStop(ctx *gin.Context, id string) {
+	var request PostConferencesIdTranscribeStopRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConferencesIdTranscribeStop(ctx, request.(PostConferencesIdTranscribeStopRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConferencesIdTranscribeStop")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConferencesIdTranscribeStopResponseObject); ok {
+		if err := validResponse.VisitPostConferencesIdTranscribeStopResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConversationAccounts operation middleware
+func (sh *strictHandler) GetConversationAccounts(ctx *gin.Context, params GetConversationAccountsParams) {
+	var request GetConversationAccountsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConversationAccounts(ctx, request.(GetConversationAccountsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConversationAccounts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConversationAccountsResponseObject); ok {
+		if err := validResponse.VisitGetConversationAccountsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConversationAccounts operation middleware
+func (sh *strictHandler) PostConversationAccounts(ctx *gin.Context) {
+	var request PostConversationAccountsRequestObject
+
+	var body PostConversationAccountsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConversationAccounts(ctx, request.(PostConversationAccountsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConversationAccounts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConversationAccountsResponseObject); ok {
+		if err := validResponse.VisitPostConversationAccountsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteConversationAccountsId operation middleware
+func (sh *strictHandler) DeleteConversationAccountsId(ctx *gin.Context, id string) {
+	var request DeleteConversationAccountsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteConversationAccountsId(ctx, request.(DeleteConversationAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteConversationAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteConversationAccountsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteConversationAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConversationAccountsId operation middleware
+func (sh *strictHandler) GetConversationAccountsId(ctx *gin.Context, id string) {
+	var request GetConversationAccountsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConversationAccountsId(ctx, request.(GetConversationAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConversationAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConversationAccountsIdResponseObject); ok {
+		if err := validResponse.VisitGetConversationAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutConversationAccountsId operation middleware
+func (sh *strictHandler) PutConversationAccountsId(ctx *gin.Context, id string) {
+	var request PutConversationAccountsIdRequestObject
+
+	request.Id = id
+
+	var body PutConversationAccountsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutConversationAccountsId(ctx, request.(PutConversationAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutConversationAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutConversationAccountsIdResponseObject); ok {
+		if err := validResponse.VisitPutConversationAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConversations operation middleware
+func (sh *strictHandler) GetConversations(ctx *gin.Context, params GetConversationsParams) {
+	var request GetConversationsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConversations(ctx, request.(GetConversationsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConversations")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConversationsResponseObject); ok {
+		if err := validResponse.VisitGetConversationsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConversationsId operation middleware
+func (sh *strictHandler) GetConversationsId(ctx *gin.Context, id string) {
+	var request GetConversationsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConversationsId(ctx, request.(GetConversationsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConversationsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConversationsIdResponseObject); ok {
+		if err := validResponse.VisitGetConversationsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutConversationsId operation middleware
+func (sh *strictHandler) PutConversationsId(ctx *gin.Context, id string) {
+	var request PutConversationsIdRequestObject
+
+	request.Id = id
+
+	var body PutConversationsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutConversationsId(ctx, request.(PutConversationsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutConversationsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutConversationsIdResponseObject); ok {
+		if err := validResponse.VisitPutConversationsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetConversationsIdMessages operation middleware
+func (sh *strictHandler) GetConversationsIdMessages(ctx *gin.Context, id string, params GetConversationsIdMessagesParams) {
+	var request GetConversationsIdMessagesRequestObject
+
+	request.Id = id
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetConversationsIdMessages(ctx, request.(GetConversationsIdMessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetConversationsIdMessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetConversationsIdMessagesResponseObject); ok {
+		if err := validResponse.VisitGetConversationsIdMessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostConversationsIdMessages operation middleware
+func (sh *strictHandler) PostConversationsIdMessages(ctx *gin.Context, id string) {
+	var request PostConversationsIdMessagesRequestObject
+
+	request.Id = id
+
+	var body PostConversationsIdMessagesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostConversationsIdMessages(ctx, request.(PostConversationsIdMessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostConversationsIdMessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostConversationsIdMessagesResponseObject); ok {
+		if err := validResponse.VisitPostConversationsIdMessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetCustomer operation middleware
+func (sh *strictHandler) GetCustomer(ctx *gin.Context) {
+	var request GetCustomerRequestObject
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetCustomer(ctx, request.(GetCustomerRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetCustomer")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetCustomerResponseObject); ok {
+		if err := validResponse.VisitGetCustomerResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutCustomer operation middleware
+func (sh *strictHandler) PutCustomer(ctx *gin.Context) {
+	var request PutCustomerRequestObject
+
+	var body PutCustomerJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutCustomer(ctx, request.(PutCustomerRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutCustomer")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutCustomerResponseObject); ok {
+		if err := validResponse.VisitPutCustomerResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutCustomerBillingAccountId operation middleware
+func (sh *strictHandler) PutCustomerBillingAccountId(ctx *gin.Context) {
+	var request PutCustomerBillingAccountIdRequestObject
+
+	var body PutCustomerBillingAccountIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutCustomerBillingAccountId(ctx, request.(PutCustomerBillingAccountIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutCustomerBillingAccountId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutCustomerBillingAccountIdResponseObject); ok {
+		if err := validResponse.VisitPutCustomerBillingAccountIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetCustomers operation middleware
+func (sh *strictHandler) GetCustomers(ctx *gin.Context, params GetCustomersParams) {
+	var request GetCustomersRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetCustomers(ctx, request.(GetCustomersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetCustomers")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetCustomersResponseObject); ok {
+		if err := validResponse.VisitGetCustomersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostCustomers operation middleware
+func (sh *strictHandler) PostCustomers(ctx *gin.Context) {
+	var request PostCustomersRequestObject
+
+	var body PostCustomersJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostCustomers(ctx, request.(PostCustomersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostCustomers")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostCustomersResponseObject); ok {
+		if err := validResponse.VisitPostCustomersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteCustomersId operation middleware
+func (sh *strictHandler) DeleteCustomersId(ctx *gin.Context, id string) {
+	var request DeleteCustomersIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteCustomersId(ctx, request.(DeleteCustomersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteCustomersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteCustomersIdResponseObject); ok {
+		if err := validResponse.VisitDeleteCustomersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetCustomersId operation middleware
+func (sh *strictHandler) GetCustomersId(ctx *gin.Context, id string) {
+	var request GetCustomersIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetCustomersId(ctx, request.(GetCustomersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetCustomersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetCustomersIdResponseObject); ok {
+		if err := validResponse.VisitGetCustomersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutCustomersId operation middleware
+func (sh *strictHandler) PutCustomersId(ctx *gin.Context, id string) {
+	var request PutCustomersIdRequestObject
+
+	request.Id = id
+
+	var body PutCustomersIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutCustomersId(ctx, request.(PutCustomersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutCustomersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutCustomersIdResponseObject); ok {
+		if err := validResponse.VisitPutCustomersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutCustomersIdBillingAccountId operation middleware
+func (sh *strictHandler) PutCustomersIdBillingAccountId(ctx *gin.Context, id string) {
+	var request PutCustomersIdBillingAccountIdRequestObject
+
+	request.Id = id
+
+	var body PutCustomersIdBillingAccountIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutCustomersIdBillingAccountId(ctx, request.(PutCustomersIdBillingAccountIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutCustomersIdBillingAccountId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutCustomersIdBillingAccountIdResponseObject); ok {
+		if err := validResponse.VisitPutCustomersIdBillingAccountIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetExtensions operation middleware
+func (sh *strictHandler) GetExtensions(ctx *gin.Context, params GetExtensionsParams) {
+	var request GetExtensionsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetExtensions(ctx, request.(GetExtensionsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetExtensions")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetExtensionsResponseObject); ok {
+		if err := validResponse.VisitGetExtensionsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostExtensions operation middleware
+func (sh *strictHandler) PostExtensions(ctx *gin.Context) {
+	var request PostExtensionsRequestObject
+
+	var body PostExtensionsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostExtensions(ctx, request.(PostExtensionsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostExtensions")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostExtensionsResponseObject); ok {
+		if err := validResponse.VisitPostExtensionsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteExtensionsId operation middleware
+func (sh *strictHandler) DeleteExtensionsId(ctx *gin.Context, id string) {
+	var request DeleteExtensionsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteExtensionsId(ctx, request.(DeleteExtensionsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteExtensionsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteExtensionsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteExtensionsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetExtensionsId operation middleware
+func (sh *strictHandler) GetExtensionsId(ctx *gin.Context, id string) {
+	var request GetExtensionsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetExtensionsId(ctx, request.(GetExtensionsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetExtensionsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetExtensionsIdResponseObject); ok {
+		if err := validResponse.VisitGetExtensionsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutExtensionsId operation middleware
+func (sh *strictHandler) PutExtensionsId(ctx *gin.Context, id string) {
+	var request PutExtensionsIdRequestObject
+
+	request.Id = id
+
+	var body PutExtensionsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutExtensionsId(ctx, request.(PutExtensionsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutExtensionsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutExtensionsIdResponseObject); ok {
+		if err := validResponse.VisitPutExtensionsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetFiles operation middleware
+func (sh *strictHandler) GetFiles(ctx *gin.Context, params GetFilesParams) {
+	var request GetFilesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetFiles(ctx, request.(GetFilesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetFiles")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetFilesResponseObject); ok {
+		if err := validResponse.VisitGetFilesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostFiles operation middleware
+func (sh *strictHandler) PostFiles(ctx *gin.Context) {
+	var request PostFilesRequestObject
+
+	if reader, err := ctx.Request.MultipartReader(); err == nil {
+		request.Body = reader
+	} else {
+		ctx.Error(err)
+		return
+	}
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostFiles(ctx, request.(PostFilesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostFiles")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostFilesResponseObject); ok {
+		if err := validResponse.VisitPostFilesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteFilesId operation middleware
+func (sh *strictHandler) DeleteFilesId(ctx *gin.Context, id string) {
+	var request DeleteFilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteFilesId(ctx, request.(DeleteFilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteFilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteFilesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteFilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetFilesId operation middleware
+func (sh *strictHandler) GetFilesId(ctx *gin.Context, id string) {
+	var request GetFilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetFilesId(ctx, request.(GetFilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetFilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetFilesIdResponseObject); ok {
+		if err := validResponse.VisitGetFilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetFlows operation middleware
+func (sh *strictHandler) GetFlows(ctx *gin.Context, params GetFlowsParams) {
+	var request GetFlowsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetFlows(ctx, request.(GetFlowsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetFlows")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetFlowsResponseObject); ok {
+		if err := validResponse.VisitGetFlowsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostFlows operation middleware
+func (sh *strictHandler) PostFlows(ctx *gin.Context) {
+	var request PostFlowsRequestObject
+
+	var body PostFlowsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostFlows(ctx, request.(PostFlowsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostFlows")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostFlowsResponseObject); ok {
+		if err := validResponse.VisitPostFlowsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteFlowsId operation middleware
+func (sh *strictHandler) DeleteFlowsId(ctx *gin.Context, id string) {
+	var request DeleteFlowsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteFlowsId(ctx, request.(DeleteFlowsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteFlowsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteFlowsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteFlowsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetFlowsId operation middleware
+func (sh *strictHandler) GetFlowsId(ctx *gin.Context, id string) {
+	var request GetFlowsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetFlowsId(ctx, request.(GetFlowsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetFlowsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetFlowsIdResponseObject); ok {
+		if err := validResponse.VisitGetFlowsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutFlowsId operation middleware
+func (sh *strictHandler) PutFlowsId(ctx *gin.Context, id string) {
+	var request PutFlowsIdRequestObject
+
+	request.Id = id
+
+	var body PutFlowsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutFlowsId(ctx, request.(PutFlowsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutFlowsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutFlowsIdResponseObject); ok {
+		if err := validResponse.VisitPutFlowsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetGroupcalls operation middleware
+func (sh *strictHandler) GetGroupcalls(ctx *gin.Context, params GetGroupcallsParams) {
+	var request GetGroupcallsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetGroupcalls(ctx, request.(GetGroupcallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetGroupcalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetGroupcallsResponseObject); ok {
+		if err := validResponse.VisitGetGroupcallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostGroupcalls operation middleware
+func (sh *strictHandler) PostGroupcalls(ctx *gin.Context) {
+	var request PostGroupcallsRequestObject
+
+	var body PostGroupcallsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostGroupcalls(ctx, request.(PostGroupcallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostGroupcalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostGroupcallsResponseObject); ok {
+		if err := validResponse.VisitPostGroupcallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteGroupcallsId operation middleware
+func (sh *strictHandler) DeleteGroupcallsId(ctx *gin.Context, id string) {
+	var request DeleteGroupcallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteGroupcallsId(ctx, request.(DeleteGroupcallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteGroupcallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteGroupcallsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteGroupcallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetGroupcallsId operation middleware
+func (sh *strictHandler) GetGroupcallsId(ctx *gin.Context, id string) {
+	var request GetGroupcallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetGroupcallsId(ctx, request.(GetGroupcallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetGroupcallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetGroupcallsIdResponseObject); ok {
+		if err := validResponse.VisitGetGroupcallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostGroupcallsId operation middleware
+func (sh *strictHandler) PostGroupcallsId(ctx *gin.Context, id string) {
+	var request PostGroupcallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostGroupcallsId(ctx, request.(PostGroupcallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostGroupcallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostGroupcallsIdResponseObject); ok {
+		if err := validResponse.VisitPostGroupcallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetMe operation middleware
+func (sh *strictHandler) GetMe(ctx *gin.Context) {
+	var request GetMeRequestObject
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetMe(ctx, request.(GetMeRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetMe")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetMeResponseObject); ok {
+		if err := validResponse.VisitGetMeResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetMessages operation middleware
+func (sh *strictHandler) GetMessages(ctx *gin.Context, params GetMessagesParams) {
+	var request GetMessagesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetMessages(ctx, request.(GetMessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetMessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetMessagesResponseObject); ok {
+		if err := validResponse.VisitGetMessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostMessages operation middleware
+func (sh *strictHandler) PostMessages(ctx *gin.Context) {
+	var request PostMessagesRequestObject
+
+	var body PostMessagesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostMessages(ctx, request.(PostMessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostMessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostMessagesResponseObject); ok {
+		if err := validResponse.VisitPostMessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteMessagesId operation middleware
+func (sh *strictHandler) DeleteMessagesId(ctx *gin.Context, id string) {
+	var request DeleteMessagesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteMessagesId(ctx, request.(DeleteMessagesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteMessagesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteMessagesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteMessagesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetMessagesId operation middleware
+func (sh *strictHandler) GetMessagesId(ctx *gin.Context, id string) {
+	var request GetMessagesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetMessagesId(ctx, request.(GetMessagesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetMessagesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetMessagesIdResponseObject); ok {
+		if err := validResponse.VisitGetMessagesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetNumbers operation middleware
+func (sh *strictHandler) GetNumbers(ctx *gin.Context, params GetNumbersParams) {
+	var request GetNumbersRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetNumbers(ctx, request.(GetNumbersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetNumbers")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetNumbersResponseObject); ok {
+		if err := validResponse.VisitGetNumbersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostNumbers operation middleware
+func (sh *strictHandler) PostNumbers(ctx *gin.Context) {
+	var request PostNumbersRequestObject
+
+	var body PostNumbersJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostNumbers(ctx, request.(PostNumbersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostNumbers")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostNumbersResponseObject); ok {
+		if err := validResponse.VisitPostNumbersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostNumbersRenew operation middleware
+func (sh *strictHandler) PostNumbersRenew(ctx *gin.Context) {
+	var request PostNumbersRenewRequestObject
+
+	var body PostNumbersRenewJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostNumbersRenew(ctx, request.(PostNumbersRenewRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostNumbersRenew")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostNumbersRenewResponseObject); ok {
+		if err := validResponse.VisitPostNumbersRenewResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetOutdials operation middleware
+func (sh *strictHandler) GetOutdials(ctx *gin.Context, params GetOutdialsParams) {
+	var request GetOutdialsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetOutdials(ctx, request.(GetOutdialsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetOutdials")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetOutdialsResponseObject); ok {
+		if err := validResponse.VisitGetOutdialsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostOutdials operation middleware
+func (sh *strictHandler) PostOutdials(ctx *gin.Context) {
+	var request PostOutdialsRequestObject
+
+	var body PostOutdialsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostOutdials(ctx, request.(PostOutdialsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostOutdials")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostOutdialsResponseObject); ok {
+		if err := validResponse.VisitPostOutdialsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteOutdialsId operation middleware
+func (sh *strictHandler) DeleteOutdialsId(ctx *gin.Context, id string) {
+	var request DeleteOutdialsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteOutdialsId(ctx, request.(DeleteOutdialsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteOutdialsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteOutdialsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteOutdialsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetOutdialsId operation middleware
+func (sh *strictHandler) GetOutdialsId(ctx *gin.Context, id string, params GetOutdialsIdParams) {
+	var request GetOutdialsIdRequestObject
+
+	request.Id = id
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetOutdialsId(ctx, request.(GetOutdialsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetOutdialsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetOutdialsIdResponseObject); ok {
+		if err := validResponse.VisitGetOutdialsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutOutdialsId operation middleware
+func (sh *strictHandler) PutOutdialsId(ctx *gin.Context, id string) {
+	var request PutOutdialsIdRequestObject
+
+	request.Id = id
+
+	var body PutOutdialsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutOutdialsId(ctx, request.(PutOutdialsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutOutdialsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutOutdialsIdResponseObject); ok {
+		if err := validResponse.VisitPutOutdialsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutOutdialsIdCampaignId operation middleware
+func (sh *strictHandler) PutOutdialsIdCampaignId(ctx *gin.Context, id string) {
+	var request PutOutdialsIdCampaignIdRequestObject
+
+	request.Id = id
+
+	var body PutOutdialsIdCampaignIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutOutdialsIdCampaignId(ctx, request.(PutOutdialsIdCampaignIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutOutdialsIdCampaignId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutOutdialsIdCampaignIdResponseObject); ok {
+		if err := validResponse.VisitPutOutdialsIdCampaignIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutOutdialsIdData operation middleware
+func (sh *strictHandler) PutOutdialsIdData(ctx *gin.Context, id string) {
+	var request PutOutdialsIdDataRequestObject
+
+	request.Id = id
+
+	var body PutOutdialsIdDataJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutOutdialsIdData(ctx, request.(PutOutdialsIdDataRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutOutdialsIdData")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutOutdialsIdDataResponseObject); ok {
+		if err := validResponse.VisitPutOutdialsIdDataResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostOutdialsIdTargets operation middleware
+func (sh *strictHandler) PostOutdialsIdTargets(ctx *gin.Context, id string) {
+	var request PostOutdialsIdTargetsRequestObject
+
+	request.Id = id
+
+	var body PostOutdialsIdTargetsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostOutdialsIdTargets(ctx, request.(PostOutdialsIdTargetsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostOutdialsIdTargets")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostOutdialsIdTargetsResponseObject); ok {
+		if err := validResponse.VisitPostOutdialsIdTargetsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteOutdialsIdTargetsTargetId operation middleware
+func (sh *strictHandler) DeleteOutdialsIdTargetsTargetId(ctx *gin.Context, id string, targetId string) {
+	var request DeleteOutdialsIdTargetsTargetIdRequestObject
+
+	request.Id = id
+	request.TargetId = targetId
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteOutdialsIdTargetsTargetId(ctx, request.(DeleteOutdialsIdTargetsTargetIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteOutdialsIdTargetsTargetId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteOutdialsIdTargetsTargetIdResponseObject); ok {
+		if err := validResponse.VisitDeleteOutdialsIdTargetsTargetIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetOutdialsIdTargetsTargetId operation middleware
+func (sh *strictHandler) GetOutdialsIdTargetsTargetId(ctx *gin.Context, id string, targetId string) {
+	var request GetOutdialsIdTargetsTargetIdRequestObject
+
+	request.Id = id
+	request.TargetId = targetId
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetOutdialsIdTargetsTargetId(ctx, request.(GetOutdialsIdTargetsTargetIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetOutdialsIdTargetsTargetId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetOutdialsIdTargetsTargetIdResponseObject); ok {
+		if err := validResponse.VisitGetOutdialsIdTargetsTargetIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetOutplans operation middleware
+func (sh *strictHandler) GetOutplans(ctx *gin.Context, params GetOutplansParams) {
+	var request GetOutplansRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetOutplans(ctx, request.(GetOutplansRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetOutplans")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetOutplansResponseObject); ok {
+		if err := validResponse.VisitGetOutplansResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostOutplans operation middleware
+func (sh *strictHandler) PostOutplans(ctx *gin.Context) {
+	var request PostOutplansRequestObject
+
+	var body PostOutplansJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostOutplans(ctx, request.(PostOutplansRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostOutplans")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostOutplansResponseObject); ok {
+		if err := validResponse.VisitPostOutplansResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteOutplansId operation middleware
+func (sh *strictHandler) DeleteOutplansId(ctx *gin.Context, id string) {
+	var request DeleteOutplansIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteOutplansId(ctx, request.(DeleteOutplansIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteOutplansId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteOutplansIdResponseObject); ok {
+		if err := validResponse.VisitDeleteOutplansIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetOutplansId operation middleware
+func (sh *strictHandler) GetOutplansId(ctx *gin.Context, id string) {
+	var request GetOutplansIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetOutplansId(ctx, request.(GetOutplansIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetOutplansId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetOutplansIdResponseObject); ok {
+		if err := validResponse.VisitGetOutplansIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutOutplansId operation middleware
+func (sh *strictHandler) PutOutplansId(ctx *gin.Context, id string) {
+	var request PutOutplansIdRequestObject
+
+	request.Id = id
+
+	var body PutOutplansIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutOutplansId(ctx, request.(PutOutplansIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutOutplansId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutOutplansIdResponseObject); ok {
+		if err := validResponse.VisitPutOutplansIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetProviders operation middleware
+func (sh *strictHandler) GetProviders(ctx *gin.Context, params GetProvidersParams) {
+	var request GetProvidersRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetProviders(ctx, request.(GetProvidersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetProviders")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetProvidersResponseObject); ok {
+		if err := validResponse.VisitGetProvidersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostProviders operation middleware
+func (sh *strictHandler) PostProviders(ctx *gin.Context) {
+	var request PostProvidersRequestObject
+
+	var body PostProvidersJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostProviders(ctx, request.(PostProvidersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostProviders")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostProvidersResponseObject); ok {
+		if err := validResponse.VisitPostProvidersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteProvidersId operation middleware
+func (sh *strictHandler) DeleteProvidersId(ctx *gin.Context, id string) {
+	var request DeleteProvidersIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteProvidersId(ctx, request.(DeleteProvidersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteProvidersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteProvidersIdResponseObject); ok {
+		if err := validResponse.VisitDeleteProvidersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetProvidersId operation middleware
+func (sh *strictHandler) GetProvidersId(ctx *gin.Context, id string) {
+	var request GetProvidersIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetProvidersId(ctx, request.(GetProvidersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetProvidersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetProvidersIdResponseObject); ok {
+		if err := validResponse.VisitGetProvidersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutProvidersId operation middleware
+func (sh *strictHandler) PutProvidersId(ctx *gin.Context, id string) {
+	var request PutProvidersIdRequestObject
+
+	request.Id = id
+
+	var body PutProvidersIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutProvidersId(ctx, request.(PutProvidersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutProvidersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutProvidersIdResponseObject); ok {
+		if err := validResponse.VisitPutProvidersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetQueuecalls operation middleware
+func (sh *strictHandler) GetQueuecalls(ctx *gin.Context, params GetQueuecallsParams) {
+	var request GetQueuecallsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetQueuecalls(ctx, request.(GetQueuecallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetQueuecalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetQueuecallsResponseObject); ok {
+		if err := validResponse.VisitGetQueuecallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostQueuecallsReferenceIdIdKick operation middleware
+func (sh *strictHandler) PostQueuecallsReferenceIdIdKick(ctx *gin.Context, id string) {
+	var request PostQueuecallsReferenceIdIdKickRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostQueuecallsReferenceIdIdKick(ctx, request.(PostQueuecallsReferenceIdIdKickRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostQueuecallsReferenceIdIdKick")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostQueuecallsReferenceIdIdKickResponseObject); ok {
+		if err := validResponse.VisitPostQueuecallsReferenceIdIdKickResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteQueuecallsId operation middleware
+func (sh *strictHandler) DeleteQueuecallsId(ctx *gin.Context, id string) {
+	var request DeleteQueuecallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteQueuecallsId(ctx, request.(DeleteQueuecallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteQueuecallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteQueuecallsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteQueuecallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetQueuecallsId operation middleware
+func (sh *strictHandler) GetQueuecallsId(ctx *gin.Context, id string) {
+	var request GetQueuecallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetQueuecallsId(ctx, request.(GetQueuecallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetQueuecallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetQueuecallsIdResponseObject); ok {
+		if err := validResponse.VisitGetQueuecallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostQueuecallsIdKick operation middleware
+func (sh *strictHandler) PostQueuecallsIdKick(ctx *gin.Context, id string) {
+	var request PostQueuecallsIdKickRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostQueuecallsIdKick(ctx, request.(PostQueuecallsIdKickRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostQueuecallsIdKick")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostQueuecallsIdKickResponseObject); ok {
+		if err := validResponse.VisitPostQueuecallsIdKickResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetQueues operation middleware
+func (sh *strictHandler) GetQueues(ctx *gin.Context, params GetQueuesParams) {
+	var request GetQueuesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetQueues(ctx, request.(GetQueuesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetQueues")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetQueuesResponseObject); ok {
+		if err := validResponse.VisitGetQueuesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostQueues operation middleware
+func (sh *strictHandler) PostQueues(ctx *gin.Context) {
+	var request PostQueuesRequestObject
+
+	var body PostQueuesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostQueues(ctx, request.(PostQueuesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostQueues")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostQueuesResponseObject); ok {
+		if err := validResponse.VisitPostQueuesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteQueuesId operation middleware
+func (sh *strictHandler) DeleteQueuesId(ctx *gin.Context, id string) {
+	var request DeleteQueuesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteQueuesId(ctx, request.(DeleteQueuesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteQueuesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteQueuesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteQueuesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetQueuesId operation middleware
+func (sh *strictHandler) GetQueuesId(ctx *gin.Context, id string) {
+	var request GetQueuesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetQueuesId(ctx, request.(GetQueuesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetQueuesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetQueuesIdResponseObject); ok {
+		if err := validResponse.VisitGetQueuesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutQueuesId operation middleware
+func (sh *strictHandler) PutQueuesId(ctx *gin.Context, id string) {
+	var request PutQueuesIdRequestObject
+
+	request.Id = id
+
+	var body PutQueuesIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutQueuesId(ctx, request.(PutQueuesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutQueuesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutQueuesIdResponseObject); ok {
+		if err := validResponse.VisitPutQueuesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutQueuesIdActions operation middleware
+func (sh *strictHandler) PutQueuesIdActions(ctx *gin.Context, id string) {
+	var request PutQueuesIdActionsRequestObject
+
+	request.Id = id
+
+	var body PutQueuesIdActionsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutQueuesIdActions(ctx, request.(PutQueuesIdActionsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutQueuesIdActions")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutQueuesIdActionsResponseObject); ok {
+		if err := validResponse.VisitPutQueuesIdActionsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutQueuesIdRoutingMethod operation middleware
+func (sh *strictHandler) PutQueuesIdRoutingMethod(ctx *gin.Context, id string) {
+	var request PutQueuesIdRoutingMethodRequestObject
+
+	request.Id = id
+
+	var body PutQueuesIdRoutingMethodJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutQueuesIdRoutingMethod(ctx, request.(PutQueuesIdRoutingMethodRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutQueuesIdRoutingMethod")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutQueuesIdRoutingMethodResponseObject); ok {
+		if err := validResponse.VisitPutQueuesIdRoutingMethodResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutQueuesIdTagIds operation middleware
+func (sh *strictHandler) PutQueuesIdTagIds(ctx *gin.Context, id string) {
+	var request PutQueuesIdTagIdsRequestObject
+
+	request.Id = id
+
+	var body PutQueuesIdTagIdsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutQueuesIdTagIds(ctx, request.(PutQueuesIdTagIdsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutQueuesIdTagIds")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutQueuesIdTagIdsResponseObject); ok {
+		if err := validResponse.VisitPutQueuesIdTagIdsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetRecordingfilesId operation middleware
+func (sh *strictHandler) GetRecordingfilesId(ctx *gin.Context, id string) {
+	var request GetRecordingfilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetRecordingfilesId(ctx, request.(GetRecordingfilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetRecordingfilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetRecordingfilesIdResponseObject); ok {
+		if err := validResponse.VisitGetRecordingfilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetRecordings operation middleware
+func (sh *strictHandler) GetRecordings(ctx *gin.Context, params GetRecordingsParams) {
+	var request GetRecordingsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetRecordings(ctx, request.(GetRecordingsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetRecordings")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetRecordingsResponseObject); ok {
+		if err := validResponse.VisitGetRecordingsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteRecordingsId operation middleware
+func (sh *strictHandler) DeleteRecordingsId(ctx *gin.Context, id string) {
+	var request DeleteRecordingsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteRecordingsId(ctx, request.(DeleteRecordingsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteRecordingsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteRecordingsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteRecordingsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetRecordingsId operation middleware
+func (sh *strictHandler) GetRecordingsId(ctx *gin.Context, id string) {
+	var request GetRecordingsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetRecordingsId(ctx, request.(GetRecordingsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetRecordingsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetRecordingsIdResponseObject); ok {
+		if err := validResponse.VisitGetRecordingsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetRoutes operation middleware
+func (sh *strictHandler) GetRoutes(ctx *gin.Context, params GetRoutesParams) {
+	var request GetRoutesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetRoutes(ctx, request.(GetRoutesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetRoutes")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetRoutesResponseObject); ok {
+		if err := validResponse.VisitGetRoutesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostRoutes operation middleware
+func (sh *strictHandler) PostRoutes(ctx *gin.Context) {
+	var request PostRoutesRequestObject
+
+	var body PostRoutesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostRoutes(ctx, request.(PostRoutesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostRoutes")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostRoutesResponseObject); ok {
+		if err := validResponse.VisitPostRoutesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteRoutesId operation middleware
+func (sh *strictHandler) DeleteRoutesId(ctx *gin.Context, id string) {
+	var request DeleteRoutesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteRoutesId(ctx, request.(DeleteRoutesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteRoutesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteRoutesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteRoutesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetRoutesId operation middleware
+func (sh *strictHandler) GetRoutesId(ctx *gin.Context, id string) {
+	var request GetRoutesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetRoutesId(ctx, request.(GetRoutesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetRoutesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetRoutesIdResponseObject); ok {
+		if err := validResponse.VisitGetRoutesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutRoutesId operation middleware
+func (sh *strictHandler) PutRoutesId(ctx *gin.Context, id string) {
+	var request PutRoutesIdRequestObject
+
+	request.Id = id
+
+	var body PutRoutesIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutRoutesId(ctx, request.(PutRoutesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutRoutesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutRoutesIdResponseObject); ok {
+		if err := validResponse.VisitPutRoutesIdResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {

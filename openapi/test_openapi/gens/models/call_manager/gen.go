@@ -82,6 +82,25 @@ const (
 	GroupcallStatusProgressing GroupcallStatus = "progressing"
 )
 
+// Defines values for RecordingFormat.
+const (
+	Wav RecordingFormat = "wav"
+)
+
+// Defines values for RecordingReferenceType.
+const (
+	RecordingReferenceTypeCall       RecordingReferenceType = "call"
+	RecordingReferenceTypeConfbridge RecordingReferenceType = "confbridge"
+)
+
+// Defines values for RecordingStatus.
+const (
+	RecordingStatusEnded      RecordingStatus = "ended"
+	RecordingStatusInitiating RecordingStatus = "initiating"
+	RecordingStatusRecording  RecordingStatus = "recording"
+	RecordingStatusStopping   RecordingStatus = "stopping"
+)
+
 // Call defines model for Call.
 type Call struct {
 	Action *externalRef1.Action `json:"action,omitempty"`
@@ -257,3 +276,54 @@ type GroupcallRingMethod string
 
 // GroupcallStatus Current status of the call or group call
 type GroupcallStatus string
+
+// Recording defines model for Recording.
+type Recording struct {
+	// CustomerId Resource's customer ID
+	CustomerId *string `json:"customer_id,omitempty"`
+
+	// Format The format of the recording.
+	Format *RecordingFormat `json:"format,omitempty"`
+
+	// Id Resource identifier
+	Id *string `json:"id,omitempty"`
+
+	// OwnerId Resource's owner ID
+	OwnerId *string `json:"owner_id,omitempty"`
+
+	// OwnerType Resource's owner type
+	OwnerType *string `json:"owner_type,omitempty"`
+
+	// ReferenceId The UUID of the reference.
+	ReferenceId *string `json:"reference_id,omitempty"`
+
+	// ReferenceType Type of reference for the recording.
+	ReferenceType *RecordingReferenceType `json:"reference_type,omitempty"`
+
+	// Status The status of the recording.
+	Status *RecordingStatus `json:"status,omitempty"`
+
+	// TmCreate The creation timestamp of the recording.
+	TmCreate *time.Time `json:"tm_create,omitempty"`
+
+	// TmDelete The timestamp when the recording was deleted.
+	TmDelete *time.Time `json:"tm_delete,omitempty"`
+
+	// TmEnd The end timestamp of the recording.
+	TmEnd *time.Time `json:"tm_end,omitempty"`
+
+	// TmStart The start timestamp of the recording.
+	TmStart *time.Time `json:"tm_start,omitempty"`
+
+	// TmUpdate The last update timestamp of the recording.
+	TmUpdate *time.Time `json:"tm_update,omitempty"`
+}
+
+// RecordingFormat The format of the recording.
+type RecordingFormat string
+
+// RecordingReferenceType Type of reference for the recording.
+type RecordingReferenceType string
+
+// RecordingStatus The status of the recording.
+type RecordingStatus string
