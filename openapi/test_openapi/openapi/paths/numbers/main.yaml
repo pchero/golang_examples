@@ -18,6 +18,7 @@ get:
                     type: array
                     items:
                       $ref: '../../components/number_manager/main.yaml#/components/schemas/Number'
+
 post:
   summary: Create a new number
   description: Create a new order number and return the details of the created number.

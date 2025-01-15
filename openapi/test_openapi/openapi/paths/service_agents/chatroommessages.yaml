@@ -6,7 +6,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../components/chat_manager/main.yaml#/components/schemas/MessageChatroom'
+          $ref: '../../components/chat_manager/main.yaml#/components/schemas/Messagechatroom'
   responses:
     '200':
       description: The details of the created chatroom message.

@@ -29,6 +29,9 @@ import (
 	externalRef16 "testoapi/gens/models/registrar_manager"
 	externalRef17 "testoapi/gens/models/route_manager"
 	externalRef18 "testoapi/gens/models/storage_manager"
+	externalRef19 "testoapi/gens/models/tag_manager"
+	externalRef20 "testoapi/gens/models/transcribe_manager"
+	externalRef21 "testoapi/gens/models/transfer_manager"
 
 	"github.com/gin-gonic/gin"
 	"github.com/oapi-codegen/runtime"
@@ -748,6 +751,36 @@ type PostNumbersRenewJSONBody struct {
 	TmRenew *string `json:"tm_renew,omitempty"`
 }
 
+// PutNumbersIdJSONBody defines parameters for PutNumbersId.
+type PutNumbersIdJSONBody struct {
+	// CallFlowId The ID of the updated call flow.
+	CallFlowId *string `json:"call_flow_id,omitempty"`
+
+	// Detail Updated details for the number.
+	Detail *string `json:"detail,omitempty"`
+
+	// MessageFlowId The ID of the updated message flow.
+	MessageFlowId *string `json:"message_flow_id,omitempty"`
+
+	// Name The updated name of the number.
+	Name *string `json:"name,omitempty"`
+}
+
+// PutNumbersIdFlowIdJSONBody defines parameters for PutNumbersIdFlowId.
+type PutNumbersIdFlowIdJSONBody struct {
+	// CallFlowId The ID of the updated call flow.
+	CallFlowId *string `json:"call_flow_id,omitempty"`
+
+	// Detail Updated details for the number.
+	Detail *string `json:"detail,omitempty"`
+
+	// MessageFlowId The ID of the updated message flow.
+	MessageFlowId *string `json:"message_flow_id,omitempty"`
+
+	// Name The updated name of the number.
+	Name *string `json:"name,omitempty"`
+}
+
 // GetOutdialsParams defines parameters for GetOutdials.
 type GetOutdialsParams struct {
 	// PageSize The size of results.
@@ -1027,6 +1060,252 @@ type PutRoutesIdJSONBody struct {
 	Target *string `json:"target,omitempty"`
 }
 
+// GetServiceAgentsAgentsParams defines parameters for GetServiceAgentsAgents.
+type GetServiceAgentsAgentsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetServiceAgentsCallsParams defines parameters for GetServiceAgentsCalls.
+type GetServiceAgentsCallsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetServiceAgentsChatroommessagesParams defines parameters for GetServiceAgentsChatroommessages.
+type GetServiceAgentsChatroommessagesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+
+	// ChatroomId The ID of the chatroom to retrieve messages for.
+	ChatroomId string `form:"chatroom_id" json:"chatroom_id"`
+}
+
+// GetServiceAgentsChatroomsParams defines parameters for GetServiceAgentsChatrooms.
+type GetServiceAgentsChatroomsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostServiceAgentsChatroomsJSONBody defines parameters for PostServiceAgentsChatrooms.
+type PostServiceAgentsChatroomsJSONBody struct {
+	Detail         *string   `json:"detail,omitempty"`
+	Name           *string   `json:"name,omitempty"`
+	ParticipantIds *[]string `json:"participant_ids,omitempty"`
+}
+
+// PutServiceAgentsChatroomsIdJSONBody defines parameters for PutServiceAgentsChatroomsId.
+type PutServiceAgentsChatroomsIdJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+}
+
+// GetServiceAgentsConversationsParams defines parameters for GetServiceAgentsConversations.
+type GetServiceAgentsConversationsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetServiceAgentsConversationsIdMessagesParams defines parameters for GetServiceAgentsConversationsIdMessages.
+type GetServiceAgentsConversationsIdMessagesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostServiceAgentsConversationsIdMessagesJSONBody defines parameters for PostServiceAgentsConversationsIdMessages.
+type PostServiceAgentsConversationsIdMessagesJSONBody struct {
+	Media *[]externalRef8.Media `json:"media,omitempty"`
+
+	// Text The text content of the message.
+	Text *string `json:"text,omitempty"`
+}
+
+// GetServiceAgentsExtensionsParams defines parameters for GetServiceAgentsExtensions.
+type GetServiceAgentsExtensionsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// GetServiceAgentsFilesParams defines parameters for GetServiceAgentsFiles.
+type GetServiceAgentsFilesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostServiceAgentsFilesMultipartBody defines parameters for PostServiceAgentsFiles.
+type PostServiceAgentsFilesMultipartBody struct {
+	// File The file to upload.
+	File *openapi_types.File `json:"file,omitempty"`
+}
+
+// PutServiceAgentsMeJSONBody defines parameters for PutServiceAgentsMe.
+type PutServiceAgentsMeJSONBody struct {
+	// Detail Additional details about the agent.
+	Detail *string `json:"detail,omitempty"`
+
+	// Name The updated name of the agent.
+	Name *string `json:"name,omitempty"`
+
+	// RingMethod Represents an agent resource.
+	RingMethod *externalRef0.AgentRingMethod `json:"ringMethod,omitempty"`
+}
+
+// PutServiceAgentsMeAddressesJSONBody defines parameters for PutServiceAgentsMeAddresses.
+type PutServiceAgentsMeAddressesJSONBody struct {
+	// Addresses The updated list of addresses.
+	Addresses *[]externalRef6.Address `json:"addresses,omitempty"`
+}
+
+// PutServiceAgentsMePasswordJSONBody defines parameters for PutServiceAgentsMePassword.
+type PutServiceAgentsMePasswordJSONBody struct {
+	// Password The new password for the agent.
+	Password *string `json:"password,omitempty"`
+}
+
+// PutServiceAgentsMeStatusJSONBody defines parameters for PutServiceAgentsMeStatus.
+type PutServiceAgentsMeStatusJSONBody struct {
+	// Status Agent's status
+	Status *externalRef0.AgentStatus `json:"status,omitempty"`
+}
+
+// GetStorageAccountsParams defines parameters for GetStorageAccounts.
+type GetStorageAccountsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostStorageAccountsJSONBody defines parameters for PostStorageAccounts.
+type PostStorageAccountsJSONBody struct {
+	CustomerId *string `json:"customer_id,omitempty"`
+}
+
+// GetStorageFilesParams defines parameters for GetStorageFiles.
+type GetStorageFilesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostStorageFilesMultipartBody defines parameters for PostStorageFiles.
+type PostStorageFilesMultipartBody struct {
+	File *openapi_types.File `json:"file,omitempty"`
+}
+
+// GetTagsParams defines parameters for GetTags.
+type GetTagsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostTagsJSONBody defines parameters for PostTags.
+type PostTagsJSONBody struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+}
+
+// GetTranscribesParams defines parameters for GetTranscribes.
+type GetTranscribesParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostTranscribesJSONBody defines parameters for PostTranscribes.
+type PostTranscribesJSONBody struct {
+	Direction *interface{} `json:"direction,omitempty"`
+
+	// Language The language of the transcription.
+	Language *string `json:"language,omitempty"`
+
+	// ReferenceId The ID of the reference for the transcription.
+	ReferenceId   *string                                `json:"reference_id,omitempty"`
+	ReferenceType *externalRef20.TranscribeReferenceType `json:"reference_type,omitempty"`
+}
+
+// GetTranscriptsParams defines parameters for GetTranscripts.
+type GetTranscriptsParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostTransfersJSONBody defines parameters for PostTransfers.
+type PostTransfersJSONBody struct {
+	TransferType externalRef21.TransferType `json:"transferType"`
+
+	// TransfereeAddresses Addresses of the transfer recipients.
+	TransfereeAddresses []externalRef6.Address `json:"transfereeAddresses"`
+
+	// TransfererCallID Call ID of the transfer initiator.
+	TransfererCallID string `json:"transfererCallID"`
+}
+
+// GetTrunksParams defines parameters for GetTrunks.
+type GetTrunksParams struct {
+	// PageSize The size of results.
+	PageSize *externalRef6.PageSize `form:"page_size,omitempty" json:"page_size,omitempty"`
+
+	// PageToken The token. tm_create
+	PageToken *externalRef6.PageToken `form:"page_token,omitempty" json:"page_token,omitempty"`
+}
+
+// PostTrunksJSONBody defines parameters for PostTrunks.
+type PostTrunksJSONBody struct {
+	AllowedIPs *[]string                 `json:"allowedIPs,omitempty"`
+	AuthTypes  *[]externalRef16.AuthType `json:"authTypes,omitempty"`
+	Detail     *string                   `json:"detail,omitempty"`
+	DomainName *string                   `json:"domainName,omitempty"`
+	Name       *string                   `json:"name,omitempty"`
+	Password   *string                   `json:"password,omitempty"`
+	Username   *string                   `json:"username,omitempty"`
+}
+
+// PutTrunksIdJSONBody defines parameters for PutTrunksId.
+type PutTrunksIdJSONBody struct {
+	AllowedIPs *[]string                 `json:"allowedIPs,omitempty"`
+	AuthTypes  *[]externalRef16.AuthType `json:"authTypes,omitempty"`
+	Detail     *string                   `json:"detail,omitempty"`
+	Name       *string                   `json:"name,omitempty"`
+	Password   *string                   `json:"password,omitempty"`
+	Username   *string                   `json:"username,omitempty"`
+}
+
 // PostAccesskeysJSONRequestBody defines body for PostAccesskeys for application/json ContentType.
 type PostAccesskeysJSONRequestBody PostAccesskeysJSONBody
 
@@ -1171,6 +1450,12 @@ type PostNumbersJSONRequestBody PostNumbersJSONBody
 // PostNumbersRenewJSONRequestBody defines body for PostNumbersRenew for application/json ContentType.
 type PostNumbersRenewJSONRequestBody PostNumbersRenewJSONBody
 
+// PutNumbersIdJSONRequestBody defines body for PutNumbersId for application/json ContentType.
+type PutNumbersIdJSONRequestBody PutNumbersIdJSONBody
+
+// PutNumbersIdFlowIdJSONRequestBody defines body for PutNumbersIdFlowId for application/json ContentType.
+type PutNumbersIdFlowIdJSONRequestBody PutNumbersIdFlowIdJSONBody
+
 // PostOutdialsJSONRequestBody defines body for PostOutdials for application/json ContentType.
 type PostOutdialsJSONRequestBody PostOutdialsJSONBody
 
@@ -1218,6 +1503,54 @@ type PostRoutesJSONRequestBody PostRoutesJSONBody
 
 // PutRoutesIdJSONRequestBody defines body for PutRoutesId for application/json ContentType.
 type PutRoutesIdJSONRequestBody PutRoutesIdJSONBody
+
+// PostServiceAgentsChatroommessagesJSONRequestBody defines body for PostServiceAgentsChatroommessages for application/json ContentType.
+type PostServiceAgentsChatroommessagesJSONRequestBody = externalRef4.Messagechatroom
+
+// PostServiceAgentsChatroomsJSONRequestBody defines body for PostServiceAgentsChatrooms for application/json ContentType.
+type PostServiceAgentsChatroomsJSONRequestBody PostServiceAgentsChatroomsJSONBody
+
+// PutServiceAgentsChatroomsIdJSONRequestBody defines body for PutServiceAgentsChatroomsId for application/json ContentType.
+type PutServiceAgentsChatroomsIdJSONRequestBody PutServiceAgentsChatroomsIdJSONBody
+
+// PostServiceAgentsConversationsIdMessagesJSONRequestBody defines body for PostServiceAgentsConversationsIdMessages for application/json ContentType.
+type PostServiceAgentsConversationsIdMessagesJSONRequestBody PostServiceAgentsConversationsIdMessagesJSONBody
+
+// PostServiceAgentsFilesMultipartRequestBody defines body for PostServiceAgentsFiles for multipart/form-data ContentType.
+type PostServiceAgentsFilesMultipartRequestBody PostServiceAgentsFilesMultipartBody
+
+// PutServiceAgentsMeJSONRequestBody defines body for PutServiceAgentsMe for application/json ContentType.
+type PutServiceAgentsMeJSONRequestBody PutServiceAgentsMeJSONBody
+
+// PutServiceAgentsMeAddressesJSONRequestBody defines body for PutServiceAgentsMeAddresses for application/json ContentType.
+type PutServiceAgentsMeAddressesJSONRequestBody PutServiceAgentsMeAddressesJSONBody
+
+// PutServiceAgentsMePasswordJSONRequestBody defines body for PutServiceAgentsMePassword for application/json ContentType.
+type PutServiceAgentsMePasswordJSONRequestBody PutServiceAgentsMePasswordJSONBody
+
+// PutServiceAgentsMeStatusJSONRequestBody defines body for PutServiceAgentsMeStatus for application/json ContentType.
+type PutServiceAgentsMeStatusJSONRequestBody PutServiceAgentsMeStatusJSONBody
+
+// PostStorageAccountsJSONRequestBody defines body for PostStorageAccounts for application/json ContentType.
+type PostStorageAccountsJSONRequestBody PostStorageAccountsJSONBody
+
+// PostStorageFilesMultipartRequestBody defines body for PostStorageFiles for multipart/form-data ContentType.
+type PostStorageFilesMultipartRequestBody PostStorageFilesMultipartBody
+
+// PostTagsJSONRequestBody defines body for PostTags for application/json ContentType.
+type PostTagsJSONRequestBody PostTagsJSONBody
+
+// PostTranscribesJSONRequestBody defines body for PostTranscribes for application/json ContentType.
+type PostTranscribesJSONRequestBody PostTranscribesJSONBody
+
+// PostTransfersJSONRequestBody defines body for PostTransfers for application/json ContentType.
+type PostTransfersJSONRequestBody PostTransfersJSONBody
+
+// PostTrunksJSONRequestBody defines body for PostTrunks for application/json ContentType.
+type PostTrunksJSONRequestBody PostTrunksJSONBody
+
+// PutTrunksIdJSONRequestBody defines body for PutTrunksId for application/json ContentType.
+type PutTrunksIdJSONRequestBody PutTrunksIdJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -1638,6 +1971,24 @@ type ServerInterface interface {
 	// Renew the numbers
 	// (POST /numbers/renew)
 	PostNumbersRenew(c *gin.Context)
+	// Delete order number by ID
+	// (DELETE /numbers/{id})
+	DeleteNumbersId(c *gin.Context, id string)
+	// Get order number by ID
+	// (GET /numbers/{id})
+	GetNumbersId(c *gin.Context, id string)
+	// Update order number by ID
+	// (PUT /numbers/{id})
+	PutNumbersId(c *gin.Context, id string)
+	// Delete order number by ID
+	// (DELETE /numbers/{id}/flow_id)
+	DeleteNumbersIdFlowId(c *gin.Context, id string)
+	// Get order number by ID
+	// (GET /numbers/{id}/flow_id)
+	GetNumbersIdFlowId(c *gin.Context, id string)
+	// Update order number by ID
+	// (PUT /numbers/{id}/flow_id)
+	PutNumbersIdFlowId(c *gin.Context, id string)
 	// Retrieve a list of outdials.
 	// (GET /outdials)
 	GetOutdials(c *gin.Context, params GetOutdialsParams)
@@ -1764,6 +2115,177 @@ type ServerInterface interface {
 	// Update a route
 	// (PUT /routes/{id})
 	PutRoutesId(c *gin.Context, id string)
+	// Retrieve a list of service agents
+	// (GET /service_agents/agents)
+	GetServiceAgentsAgents(c *gin.Context, params GetServiceAgentsAgentsParams)
+	// Retrieve detailed information of a service agent
+	// (GET /service_agents/agents/{id})
+	GetServiceAgentsAgentsId(c *gin.Context, id string)
+	// Retrieve a list of calls for the given customer
+	// (GET /service_agents/calls)
+	GetServiceAgentsCalls(c *gin.Context, params GetServiceAgentsCallsParams)
+	// Retrieve detailed information of a specific call
+	// (GET /service_agents/calls/{id})
+	GetServiceAgentsCallsId(c *gin.Context, id string)
+	// Retrieve a list of chatroom messages
+	// (GET /service_agents/chatroommessages)
+	GetServiceAgentsChatroommessages(c *gin.Context, params GetServiceAgentsChatroommessagesParams)
+	// Create a new chatroom message
+	// (POST /service_agents/chatroommessages)
+	PostServiceAgentsChatroommessages(c *gin.Context)
+	// Delete a specific chatroom message
+	// (DELETE /service_agents/chatroommessages/{id})
+	DeleteServiceAgentsChatroommessagesId(c *gin.Context, id string)
+	// Retrieve detailed information of a specific chatroom message
+	// (GET /service_agents/chatroommessages/{id})
+	GetServiceAgentsChatroommessagesId(c *gin.Context, id string)
+	// Get list of chatrooms
+	// (GET /service_agents/chatrooms)
+	GetServiceAgentsChatrooms(c *gin.Context, params GetServiceAgentsChatroomsParams)
+	// Create a new chatroom and return the created chatroom's details
+	// (POST /service_agents/chatrooms)
+	PostServiceAgentsChatrooms(c *gin.Context)
+	// Delete a chatroom and return the deleted chatroom's details
+	// (DELETE /service_agents/chatrooms/{id})
+	DeleteServiceAgentsChatroomsId(c *gin.Context, id string)
+	// Get detailed information of a chatroom
+	// (GET /service_agents/chatrooms/{id})
+	GetServiceAgentsChatroomsId(c *gin.Context, id string)
+	// Update the chatroom and return the updated information
+	// (PUT /service_agents/chatrooms/{id})
+	PutServiceAgentsChatroomsId(c *gin.Context, id string)
+	// Get list of conversations
+	// (GET /service_agents/conversations)
+	GetServiceAgentsConversations(c *gin.Context, params GetServiceAgentsConversationsParams)
+	// Get detailed conversation info
+	// (GET /service_agents/conversations/{id})
+	GetServiceAgentsConversationsId(c *gin.Context, id string)
+	// Get list of conversation messages
+	// (GET /service_agents/conversations/{id}/messages)
+	GetServiceAgentsConversationsIdMessages(c *gin.Context, id string, params GetServiceAgentsConversationsIdMessagesParams)
+	// Send a message to the conversation
+	// (POST /service_agents/conversations/{id}/messages)
+	PostServiceAgentsConversationsIdMessages(c *gin.Context, id string)
+	// Get customer details
+	// (GET /service_agents/customer)
+	GetServiceAgentsCustomer(c *gin.Context)
+	// Get list of extensions
+	// (GET /service_agents/extensions)
+	GetServiceAgentsExtensions(c *gin.Context, params GetServiceAgentsExtensionsParams)
+	// Get extension details
+	// (GET /service_agents/extensions/{id})
+	GetServiceAgentsExtensionsId(c *gin.Context, id string)
+	// Get list of files
+	// (GET /service_agents/files)
+	GetServiceAgentsFiles(c *gin.Context, params GetServiceAgentsFilesParams)
+	// Upload a file
+	// (POST /service_agents/files)
+	PostServiceAgentsFiles(c *gin.Context)
+	// Delete a file
+	// (DELETE /service_agents/files/{id})
+	DeleteServiceAgentsFilesId(c *gin.Context, id string)
+	// Get file details
+	// (GET /service_agents/files/{id})
+	GetServiceAgentsFilesId(c *gin.Context, id string)
+	// Get authenticated agent's details
+	// (GET /service_agents/me)
+	GetServiceAgentsMe(c *gin.Context)
+	// Update authenticated agent's information
+	// (PUT /service_agents/me)
+	PutServiceAgentsMe(c *gin.Context)
+	// Update authenticated agent's addresses
+	// (PUT /service_agents/me/addresses)
+	PutServiceAgentsMeAddresses(c *gin.Context)
+	// Update authenticated agent's password
+	// (PUT /service_agents/me/password)
+	PutServiceAgentsMePassword(c *gin.Context)
+	// Update authenticated agent's status
+	// (PUT /service_agents/me/status)
+	PutServiceAgentsMeStatus(c *gin.Context)
+	// Establish a WebSocket connection
+	// (GET /service_agents/ws)
+	GetServiceAgentsWs(c *gin.Context)
+	// Get a list of storage accounts
+	// (GET /storage_accounts)
+	GetStorageAccounts(c *gin.Context, params GetStorageAccountsParams)
+	// Create a new storage account
+	// (POST /storage_accounts)
+	PostStorageAccounts(c *gin.Context)
+	// Delete a specific storage account
+	// (DELETE /storage_accounts/{id})
+	DeleteStorageAccountsId(c *gin.Context, id string)
+	// Get details of a specific storage account
+	// (GET /storage_accounts/{id})
+	GetStorageAccountsId(c *gin.Context, id string)
+	// Get a list of files
+	// (GET /storage_files)
+	GetStorageFiles(c *gin.Context, params GetStorageFilesParams)
+	// Upload a file and create a call with it
+	// (POST /storage_files)
+	PostStorageFiles(c *gin.Context)
+	// Delete a file
+	// (DELETE /storage_files/{id})
+	DeleteStorageFilesId(c *gin.Context, id string)
+	// Get file details by ID
+	// (GET /storage_files/{id})
+	GetStorageFilesId(c *gin.Context, id string)
+	// List tags
+	// (GET /tags)
+	GetTags(c *gin.Context, params GetTagsParams)
+	// Create a new tag.
+	// (POST /tags)
+	PostTags(c *gin.Context)
+	// Delete the tag
+	// (DELETE /tags/{id})
+	DeleteTagsId(c *gin.Context, id string)
+	// Get the tag
+	// (GET /tags/{id})
+	GetTagsId(c *gin.Context, id string)
+	// Update the tag info
+	// (PUT /tags/{id})
+	PutTagsId(c *gin.Context, id struct {
+		Detail *string `json:"detail,omitempty"`
+		Name   *string `json:"name,omitempty"`
+	})
+	// Get list of transcribes
+	// (GET /transcribes)
+	GetTranscribes(c *gin.Context, params GetTranscribesParams)
+	// Create a transcribe
+	// (POST /transcribes)
+	PostTranscribes(c *gin.Context)
+	// Delete a transcribe
+	// (DELETE /transcribes/{id})
+	DeleteTranscribesId(c *gin.Context, id string)
+	// Get detailed transcribe info
+	// (GET /transcribes/{id})
+	GetTranscribesId(c *gin.Context, id string)
+	// Stop an ongoing transcription
+	// (POST /transcribes/{id}/stop)
+	PostTranscribesIdStop(c *gin.Context, id string)
+	// Retrieve a list of transcripts
+	// (GET /transcripts)
+	GetTranscripts(c *gin.Context, params GetTranscriptsParams)
+	// Start a transfer
+	// (POST /transfers)
+	PostTransfers(c *gin.Context)
+	// Retrieve a list of trunks.
+	// (GET /trunks)
+	GetTrunks(c *gin.Context, params GetTrunksParams)
+	// Create a new trunk.
+	// (POST /trunks)
+	PostTrunks(c *gin.Context)
+	// Delete a trunk.
+	// (DELETE /trunks/{id})
+	DeleteTrunksId(c *gin.Context, id string)
+	// Retrieve trunk details.
+	// (GET /trunks/{id})
+	GetTrunksId(c *gin.Context, id string)
+	// Update a trunk.
+	// (PUT /trunks/{id})
+	PutTrunksId(c *gin.Context, id string)
+	// Create a new websocket connection.
+	// (GET /ws)
+	GetWs(c *gin.Context)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -5167,6 +5689,150 @@ func (siw *ServerInterfaceWrapper) PostNumbersRenew(c *gin.Context) {
 	siw.Handler.PostNumbersRenew(c)
 }
 
+// DeleteNumbersId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteNumbersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteNumbersId(c, id)
+}
+
+// GetNumbersId operation middleware
+func (siw *ServerInterfaceWrapper) GetNumbersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetNumbersId(c, id)
+}
+
+// PutNumbersId operation middleware
+func (siw *ServerInterfaceWrapper) PutNumbersId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutNumbersId(c, id)
+}
+
+// DeleteNumbersIdFlowId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteNumbersIdFlowId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteNumbersIdFlowId(c, id)
+}
+
+// GetNumbersIdFlowId operation middleware
+func (siw *ServerInterfaceWrapper) GetNumbersIdFlowId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetNumbersIdFlowId(c, id)
+}
+
+// PutNumbersIdFlowId operation middleware
+func (siw *ServerInterfaceWrapper) PutNumbersIdFlowId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutNumbersIdFlowId(c, id)
+}
+
 // GetOutdials operation middleware
 func (siw *ServerInterfaceWrapper) GetOutdials(c *gin.Context) {
 
@@ -6219,6 +6885,1330 @@ func (siw *ServerInterfaceWrapper) PutRoutesId(c *gin.Context) {
 	siw.Handler.PutRoutesId(c, id)
 }
 
+// GetServiceAgentsAgents operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsAgents(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsAgentsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsAgents(c, params)
+}
+
+// GetServiceAgentsAgentsId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsAgentsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsAgentsId(c, id)
+}
+
+// GetServiceAgentsCalls operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsCalls(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsCallsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsCalls(c, params)
+}
+
+// GetServiceAgentsCallsId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsCallsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsCallsId(c, id)
+}
+
+// GetServiceAgentsChatroommessages operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsChatroommessages(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsChatroommessagesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Required query parameter "chatroom_id" -------------
+
+	if paramValue := c.Query("chatroom_id"); paramValue != "" {
+
+	} else {
+		siw.ErrorHandler(c, fmt.Errorf("Query argument chatroom_id is required, but not found"), http.StatusBadRequest)
+		return
+	}
+
+	err = runtime.BindQueryParameter("form", true, true, "chatroom_id", c.Request.URL.Query(), &params.ChatroomId)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter chatroom_id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsChatroommessages(c, params)
+}
+
+// PostServiceAgentsChatroommessages operation middleware
+func (siw *ServerInterfaceWrapper) PostServiceAgentsChatroommessages(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostServiceAgentsChatroommessages(c)
+}
+
+// DeleteServiceAgentsChatroommessagesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteServiceAgentsChatroommessagesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteServiceAgentsChatroommessagesId(c, id)
+}
+
+// GetServiceAgentsChatroommessagesId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsChatroommessagesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsChatroommessagesId(c, id)
+}
+
+// GetServiceAgentsChatrooms operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsChatrooms(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsChatroomsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsChatrooms(c, params)
+}
+
+// PostServiceAgentsChatrooms operation middleware
+func (siw *ServerInterfaceWrapper) PostServiceAgentsChatrooms(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostServiceAgentsChatrooms(c)
+}
+
+// DeleteServiceAgentsChatroomsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteServiceAgentsChatroomsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteServiceAgentsChatroomsId(c, id)
+}
+
+// GetServiceAgentsChatroomsId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsChatroomsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsChatroomsId(c, id)
+}
+
+// PutServiceAgentsChatroomsId operation middleware
+func (siw *ServerInterfaceWrapper) PutServiceAgentsChatroomsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutServiceAgentsChatroomsId(c, id)
+}
+
+// GetServiceAgentsConversations operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsConversations(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsConversationsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsConversations(c, params)
+}
+
+// GetServiceAgentsConversationsId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsConversationsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsConversationsId(c, id)
+}
+
+// GetServiceAgentsConversationsIdMessages operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsConversationsIdMessages(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsConversationsIdMessagesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsConversationsIdMessages(c, id, params)
+}
+
+// PostServiceAgentsConversationsIdMessages operation middleware
+func (siw *ServerInterfaceWrapper) PostServiceAgentsConversationsIdMessages(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostServiceAgentsConversationsIdMessages(c, id)
+}
+
+// GetServiceAgentsCustomer operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsCustomer(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsCustomer(c)
+}
+
+// GetServiceAgentsExtensions operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsExtensions(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsExtensionsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsExtensions(c, params)
+}
+
+// GetServiceAgentsExtensionsId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsExtensionsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsExtensionsId(c, id)
+}
+
+// GetServiceAgentsFiles operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsFiles(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetServiceAgentsFilesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsFiles(c, params)
+}
+
+// PostServiceAgentsFiles operation middleware
+func (siw *ServerInterfaceWrapper) PostServiceAgentsFiles(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostServiceAgentsFiles(c)
+}
+
+// DeleteServiceAgentsFilesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteServiceAgentsFilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteServiceAgentsFilesId(c, id)
+}
+
+// GetServiceAgentsFilesId operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsFilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsFilesId(c, id)
+}
+
+// GetServiceAgentsMe operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsMe(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsMe(c)
+}
+
+// PutServiceAgentsMe operation middleware
+func (siw *ServerInterfaceWrapper) PutServiceAgentsMe(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutServiceAgentsMe(c)
+}
+
+// PutServiceAgentsMeAddresses operation middleware
+func (siw *ServerInterfaceWrapper) PutServiceAgentsMeAddresses(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutServiceAgentsMeAddresses(c)
+}
+
+// PutServiceAgentsMePassword operation middleware
+func (siw *ServerInterfaceWrapper) PutServiceAgentsMePassword(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutServiceAgentsMePassword(c)
+}
+
+// PutServiceAgentsMeStatus operation middleware
+func (siw *ServerInterfaceWrapper) PutServiceAgentsMeStatus(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutServiceAgentsMeStatus(c)
+}
+
+// GetServiceAgentsWs operation middleware
+func (siw *ServerInterfaceWrapper) GetServiceAgentsWs(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetServiceAgentsWs(c)
+}
+
+// GetStorageAccounts operation middleware
+func (siw *ServerInterfaceWrapper) GetStorageAccounts(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetStorageAccountsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetStorageAccounts(c, params)
+}
+
+// PostStorageAccounts operation middleware
+func (siw *ServerInterfaceWrapper) PostStorageAccounts(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostStorageAccounts(c)
+}
+
+// DeleteStorageAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteStorageAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteStorageAccountsId(c, id)
+}
+
+// GetStorageAccountsId operation middleware
+func (siw *ServerInterfaceWrapper) GetStorageAccountsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetStorageAccountsId(c, id)
+}
+
+// GetStorageFiles operation middleware
+func (siw *ServerInterfaceWrapper) GetStorageFiles(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetStorageFilesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetStorageFiles(c, params)
+}
+
+// PostStorageFiles operation middleware
+func (siw *ServerInterfaceWrapper) PostStorageFiles(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostStorageFiles(c)
+}
+
+// DeleteStorageFilesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteStorageFilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteStorageFilesId(c, id)
+}
+
+// GetStorageFilesId operation middleware
+func (siw *ServerInterfaceWrapper) GetStorageFilesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetStorageFilesId(c, id)
+}
+
+// GetTags operation middleware
+func (siw *ServerInterfaceWrapper) GetTags(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetTagsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTags(c, params)
+}
+
+// PostTags operation middleware
+func (siw *ServerInterfaceWrapper) PostTags(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostTags(c)
+}
+
+// DeleteTagsId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteTagsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteTagsId(c, id)
+}
+
+// GetTagsId operation middleware
+func (siw *ServerInterfaceWrapper) GetTagsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTagsId(c, id)
+}
+
+// PutTagsId operation middleware
+func (siw *ServerInterfaceWrapper) PutTagsId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id struct {
+		Detail *string `json:"detail,omitempty"`
+		Name   *string `json:"name,omitempty"`
+	}
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutTagsId(c, id)
+}
+
+// GetTranscribes operation middleware
+func (siw *ServerInterfaceWrapper) GetTranscribes(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetTranscribesParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTranscribes(c, params)
+}
+
+// PostTranscribes operation middleware
+func (siw *ServerInterfaceWrapper) PostTranscribes(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostTranscribes(c)
+}
+
+// DeleteTranscribesId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteTranscribesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteTranscribesId(c, id)
+}
+
+// GetTranscribesId operation middleware
+func (siw *ServerInterfaceWrapper) GetTranscribesId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTranscribesId(c, id)
+}
+
+// PostTranscribesIdStop operation middleware
+func (siw *ServerInterfaceWrapper) PostTranscribesIdStop(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostTranscribesIdStop(c, id)
+}
+
+// GetTranscripts operation middleware
+func (siw *ServerInterfaceWrapper) GetTranscripts(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetTranscriptsParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTranscripts(c, params)
+}
+
+// PostTransfers operation middleware
+func (siw *ServerInterfaceWrapper) PostTransfers(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostTransfers(c)
+}
+
+// GetTrunks operation middleware
+func (siw *ServerInterfaceWrapper) GetTrunks(c *gin.Context) {
+
+	var err error
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetTrunksParams
+
+	// ------------- Optional query parameter "page_size" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_size", c.Request.URL.Query(), &params.PageSize)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_size: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "page_token" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "page_token", c.Request.URL.Query(), &params.PageToken)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter page_token: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTrunks(c, params)
+}
+
+// PostTrunks operation middleware
+func (siw *ServerInterfaceWrapper) PostTrunks(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostTrunks(c)
+}
+
+// DeleteTrunksId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteTrunksId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteTrunksId(c, id)
+}
+
+// GetTrunksId operation middleware
+func (siw *ServerInterfaceWrapper) GetTrunksId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetTrunksId(c, id)
+}
+
+// PutTrunksId operation middleware
+func (siw *ServerInterfaceWrapper) PutTrunksId(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PutTrunksId(c, id)
+}
+
+// GetWs operation middleware
+func (siw *ServerInterfaceWrapper) GetWs(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetWs(c)
+}
+
 // GinServerOptions provides options for the Gin server.
 type GinServerOptions struct {
 	BaseURL      string
@@ -6385,6 +8375,12 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.GET(options.BaseURL+"/numbers", wrapper.GetNumbers)
 	router.POST(options.BaseURL+"/numbers", wrapper.PostNumbers)
 	router.POST(options.BaseURL+"/numbers/renew", wrapper.PostNumbersRenew)
+	router.DELETE(options.BaseURL+"/numbers/:id", wrapper.DeleteNumbersId)
+	router.GET(options.BaseURL+"/numbers/:id", wrapper.GetNumbersId)
+	router.PUT(options.BaseURL+"/numbers/:id", wrapper.PutNumbersId)
+	router.DELETE(options.BaseURL+"/numbers/:id/flow_id", wrapper.DeleteNumbersIdFlowId)
+	router.GET(options.BaseURL+"/numbers/:id/flow_id", wrapper.GetNumbersIdFlowId)
+	router.PUT(options.BaseURL+"/numbers/:id/flow_id", wrapper.PutNumbersIdFlowId)
 	router.GET(options.BaseURL+"/outdials", wrapper.GetOutdials)
 	router.POST(options.BaseURL+"/outdials", wrapper.PostOutdials)
 	router.DELETE(options.BaseURL+"/outdials/:id", wrapper.DeleteOutdialsId)
@@ -6427,6 +8423,62 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.DELETE(options.BaseURL+"/routes/:id", wrapper.DeleteRoutesId)
 	router.GET(options.BaseURL+"/routes/:id", wrapper.GetRoutesId)
 	router.PUT(options.BaseURL+"/routes/:id", wrapper.PutRoutesId)
+	router.GET(options.BaseURL+"/service_agents/agents", wrapper.GetServiceAgentsAgents)
+	router.GET(options.BaseURL+"/service_agents/agents/:id", wrapper.GetServiceAgentsAgentsId)
+	router.GET(options.BaseURL+"/service_agents/calls", wrapper.GetServiceAgentsCalls)
+	router.GET(options.BaseURL+"/service_agents/calls/:id", wrapper.GetServiceAgentsCallsId)
+	router.GET(options.BaseURL+"/service_agents/chatroommessages", wrapper.GetServiceAgentsChatroommessages)
+	router.POST(options.BaseURL+"/service_agents/chatroommessages", wrapper.PostServiceAgentsChatroommessages)
+	router.DELETE(options.BaseURL+"/service_agents/chatroommessages/:id", wrapper.DeleteServiceAgentsChatroommessagesId)
+	router.GET(options.BaseURL+"/service_agents/chatroommessages/:id", wrapper.GetServiceAgentsChatroommessagesId)
+	router.GET(options.BaseURL+"/service_agents/chatrooms", wrapper.GetServiceAgentsChatrooms)
+	router.POST(options.BaseURL+"/service_agents/chatrooms", wrapper.PostServiceAgentsChatrooms)
+	router.DELETE(options.BaseURL+"/service_agents/chatrooms/:id", wrapper.DeleteServiceAgentsChatroomsId)
+	router.GET(options.BaseURL+"/service_agents/chatrooms/:id", wrapper.GetServiceAgentsChatroomsId)
+	router.PUT(options.BaseURL+"/service_agents/chatrooms/:id", wrapper.PutServiceAgentsChatroomsId)
+	router.GET(options.BaseURL+"/service_agents/conversations", wrapper.GetServiceAgentsConversations)
+	router.GET(options.BaseURL+"/service_agents/conversations/:id", wrapper.GetServiceAgentsConversationsId)
+	router.GET(options.BaseURL+"/service_agents/conversations/:id/messages", wrapper.GetServiceAgentsConversationsIdMessages)
+	router.POST(options.BaseURL+"/service_agents/conversations/:id/messages", wrapper.PostServiceAgentsConversationsIdMessages)
+	router.GET(options.BaseURL+"/service_agents/customer", wrapper.GetServiceAgentsCustomer)
+	router.GET(options.BaseURL+"/service_agents/extensions", wrapper.GetServiceAgentsExtensions)
+	router.GET(options.BaseURL+"/service_agents/extensions/:id", wrapper.GetServiceAgentsExtensionsId)
+	router.GET(options.BaseURL+"/service_agents/files", wrapper.GetServiceAgentsFiles)
+	router.POST(options.BaseURL+"/service_agents/files", wrapper.PostServiceAgentsFiles)
+	router.DELETE(options.BaseURL+"/service_agents/files/:id", wrapper.DeleteServiceAgentsFilesId)
+	router.GET(options.BaseURL+"/service_agents/files/:id", wrapper.GetServiceAgentsFilesId)
+	router.GET(options.BaseURL+"/service_agents/me", wrapper.GetServiceAgentsMe)
+	router.PUT(options.BaseURL+"/service_agents/me", wrapper.PutServiceAgentsMe)
+	router.PUT(options.BaseURL+"/service_agents/me/addresses", wrapper.PutServiceAgentsMeAddresses)
+	router.PUT(options.BaseURL+"/service_agents/me/password", wrapper.PutServiceAgentsMePassword)
+	router.PUT(options.BaseURL+"/service_agents/me/status", wrapper.PutServiceAgentsMeStatus)
+	router.GET(options.BaseURL+"/service_agents/ws", wrapper.GetServiceAgentsWs)
+	router.GET(options.BaseURL+"/storage_accounts", wrapper.GetStorageAccounts)
+	router.POST(options.BaseURL+"/storage_accounts", wrapper.PostStorageAccounts)
+	router.DELETE(options.BaseURL+"/storage_accounts/:id", wrapper.DeleteStorageAccountsId)
+	router.GET(options.BaseURL+"/storage_accounts/:id", wrapper.GetStorageAccountsId)
+	router.GET(options.BaseURL+"/storage_files", wrapper.GetStorageFiles)
+	router.POST(options.BaseURL+"/storage_files", wrapper.PostStorageFiles)
+	router.DELETE(options.BaseURL+"/storage_files/:id", wrapper.DeleteStorageFilesId)
+	router.GET(options.BaseURL+"/storage_files/:id", wrapper.GetStorageFilesId)
+	router.GET(options.BaseURL+"/tags", wrapper.GetTags)
+	router.POST(options.BaseURL+"/tags", wrapper.PostTags)
+	router.DELETE(options.BaseURL+"/tags/:id", wrapper.DeleteTagsId)
+	router.GET(options.BaseURL+"/tags/:id", wrapper.GetTagsId)
+	router.PUT(options.BaseURL+"/tags/:id", wrapper.PutTagsId)
+	router.GET(options.BaseURL+"/transcribes", wrapper.GetTranscribes)
+	router.POST(options.BaseURL+"/transcribes", wrapper.PostTranscribes)
+	router.DELETE(options.BaseURL+"/transcribes/:id", wrapper.DeleteTranscribesId)
+	router.GET(options.BaseURL+"/transcribes/:id", wrapper.GetTranscribesId)
+	router.POST(options.BaseURL+"/transcribes/:id/stop", wrapper.PostTranscribesIdStop)
+	router.GET(options.BaseURL+"/transcripts", wrapper.GetTranscripts)
+	router.POST(options.BaseURL+"/transfers", wrapper.PostTransfers)
+	router.GET(options.BaseURL+"/trunks", wrapper.GetTrunks)
+	router.POST(options.BaseURL+"/trunks", wrapper.PostTrunks)
+	router.DELETE(options.BaseURL+"/trunks/:id", wrapper.DeleteTrunksId)
+	router.GET(options.BaseURL+"/trunks/:id", wrapper.GetTrunksId)
+	router.PUT(options.BaseURL+"/trunks/:id", wrapper.PutTrunksId)
+	router.GET(options.BaseURL+"/ws", wrapper.GetWs)
 }
 
 type GetAccesskeysRequestObject struct {
@@ -8985,6 +11037,110 @@ func (response PostNumbersRenew200JSONResponse) VisitPostNumbersRenewResponse(w 
 	return json.NewEncoder(w).Encode(response)
 }
 
+type DeleteNumbersIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteNumbersIdResponseObject interface {
+	VisitDeleteNumbersIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteNumbersId200JSONResponse externalRef12.Number
+
+func (response DeleteNumbersId200JSONResponse) VisitDeleteNumbersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetNumbersIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetNumbersIdResponseObject interface {
+	VisitGetNumbersIdResponse(w http.ResponseWriter) error
+}
+
+type GetNumbersId200JSONResponse externalRef12.Number
+
+func (response GetNumbersId200JSONResponse) VisitGetNumbersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutNumbersIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutNumbersIdJSONRequestBody
+}
+
+type PutNumbersIdResponseObject interface {
+	VisitPutNumbersIdResponse(w http.ResponseWriter) error
+}
+
+type PutNumbersId200JSONResponse externalRef12.Number
+
+func (response PutNumbersId200JSONResponse) VisitPutNumbersIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteNumbersIdFlowIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteNumbersIdFlowIdResponseObject interface {
+	VisitDeleteNumbersIdFlowIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteNumbersIdFlowId200JSONResponse externalRef12.Number
+
+func (response DeleteNumbersIdFlowId200JSONResponse) VisitDeleteNumbersIdFlowIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetNumbersIdFlowIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetNumbersIdFlowIdResponseObject interface {
+	VisitGetNumbersIdFlowIdResponse(w http.ResponseWriter) error
+}
+
+type GetNumbersIdFlowId200JSONResponse externalRef12.Number
+
+func (response GetNumbersIdFlowId200JSONResponse) VisitGetNumbersIdFlowIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutNumbersIdFlowIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutNumbersIdFlowIdJSONRequestBody
+}
+
+type PutNumbersIdFlowIdResponseObject interface {
+	VisitPutNumbersIdFlowIdResponse(w http.ResponseWriter) error
+}
+
+type PutNumbersIdFlowId200JSONResponse externalRef12.Number
+
+func (response PutNumbersIdFlowId200JSONResponse) VisitPutNumbersIdFlowIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
 type GetOutdialsRequestObject struct {
 	Params GetOutdialsParams
 }
@@ -9787,6 +11943,999 @@ func (response PutRoutesId200JSONResponse) VisitPutRoutesIdResponse(w http.Respo
 	return json.NewEncoder(w).Encode(response)
 }
 
+type GetServiceAgentsAgentsRequestObject struct {
+	Params GetServiceAgentsAgentsParams
+}
+
+type GetServiceAgentsAgentsResponseObject interface {
+	VisitGetServiceAgentsAgentsResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsAgents200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string               `json:"next_page_token,omitempty"`
+	Result        *[]externalRef0.Agent `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsAgents200JSONResponse) VisitGetServiceAgentsAgentsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsAgentsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsAgentsIdResponseObject interface {
+	VisitGetServiceAgentsAgentsIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsAgentsId200JSONResponse externalRef0.Agent
+
+func (response GetServiceAgentsAgentsId200JSONResponse) VisitGetServiceAgentsAgentsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsCallsRequestObject struct {
+	Params GetServiceAgentsCallsParams
+}
+
+type GetServiceAgentsCallsResponseObject interface {
+	VisitGetServiceAgentsCallsResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsCalls200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string              `json:"next_page_token,omitempty"`
+	Result        *[]externalRef2.Call `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsCalls200JSONResponse) VisitGetServiceAgentsCallsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsCallsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsCallsIdResponseObject interface {
+	VisitGetServiceAgentsCallsIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsCallsId200JSONResponse externalRef2.Call
+
+func (response GetServiceAgentsCallsId200JSONResponse) VisitGetServiceAgentsCallsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsChatroommessagesRequestObject struct {
+	Params GetServiceAgentsChatroommessagesParams
+}
+
+type GetServiceAgentsChatroommessagesResponseObject interface {
+	VisitGetServiceAgentsChatroommessagesResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsChatroommessages200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                         `json:"next_page_token,omitempty"`
+	Result        *[]externalRef4.Messagechatroom `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsChatroommessages200JSONResponse) VisitGetServiceAgentsChatroommessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostServiceAgentsChatroommessagesRequestObject struct {
+	Body *PostServiceAgentsChatroommessagesJSONRequestBody
+}
+
+type PostServiceAgentsChatroommessagesResponseObject interface {
+	VisitPostServiceAgentsChatroommessagesResponse(w http.ResponseWriter) error
+}
+
+type PostServiceAgentsChatroommessages200JSONResponse externalRef4.Messagechatroom
+
+func (response PostServiceAgentsChatroommessages200JSONResponse) VisitPostServiceAgentsChatroommessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteServiceAgentsChatroommessagesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteServiceAgentsChatroommessagesIdResponseObject interface {
+	VisitDeleteServiceAgentsChatroommessagesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteServiceAgentsChatroommessagesId200JSONResponse externalRef4.Messagechatroom
+
+func (response DeleteServiceAgentsChatroommessagesId200JSONResponse) VisitDeleteServiceAgentsChatroommessagesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsChatroommessagesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsChatroommessagesIdResponseObject interface {
+	VisitGetServiceAgentsChatroommessagesIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsChatroommessagesId200JSONResponse externalRef4.Messagechatroom
+
+func (response GetServiceAgentsChatroommessagesId200JSONResponse) VisitGetServiceAgentsChatroommessagesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsChatroomsRequestObject struct {
+	Params GetServiceAgentsChatroomsParams
+}
+
+type GetServiceAgentsChatroomsResponseObject interface {
+	VisitGetServiceAgentsChatroomsResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsChatrooms200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                  `json:"next_page_token,omitempty"`
+	Result        *[]externalRef4.Chatroom `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsChatrooms200JSONResponse) VisitGetServiceAgentsChatroomsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostServiceAgentsChatroomsRequestObject struct {
+	Body *PostServiceAgentsChatroomsJSONRequestBody
+}
+
+type PostServiceAgentsChatroomsResponseObject interface {
+	VisitPostServiceAgentsChatroomsResponse(w http.ResponseWriter) error
+}
+
+type PostServiceAgentsChatrooms200JSONResponse externalRef4.Chatroom
+
+func (response PostServiceAgentsChatrooms200JSONResponse) VisitPostServiceAgentsChatroomsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteServiceAgentsChatroomsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteServiceAgentsChatroomsIdResponseObject interface {
+	VisitDeleteServiceAgentsChatroomsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteServiceAgentsChatroomsId200JSONResponse externalRef4.Chatroom
+
+func (response DeleteServiceAgentsChatroomsId200JSONResponse) VisitDeleteServiceAgentsChatroomsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsChatroomsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsChatroomsIdResponseObject interface {
+	VisitGetServiceAgentsChatroomsIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsChatroomsId200JSONResponse externalRef4.Chatroom
+
+func (response GetServiceAgentsChatroomsId200JSONResponse) VisitGetServiceAgentsChatroomsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutServiceAgentsChatroomsIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutServiceAgentsChatroomsIdJSONRequestBody
+}
+
+type PutServiceAgentsChatroomsIdResponseObject interface {
+	VisitPutServiceAgentsChatroomsIdResponse(w http.ResponseWriter) error
+}
+
+type PutServiceAgentsChatroomsId200JSONResponse externalRef4.Chatroom
+
+func (response PutServiceAgentsChatroomsId200JSONResponse) VisitPutServiceAgentsChatroomsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsConversationsRequestObject struct {
+	Params GetServiceAgentsConversationsParams
+}
+
+type GetServiceAgentsConversationsResponseObject interface {
+	VisitGetServiceAgentsConversationsResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsConversations200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                      `json:"next_page_token,omitempty"`
+	Result        *[]externalRef8.Conversation `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsConversations200JSONResponse) VisitGetServiceAgentsConversationsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsConversationsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsConversationsIdResponseObject interface {
+	VisitGetServiceAgentsConversationsIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsConversationsId200JSONResponse externalRef8.Conversation
+
+func (response GetServiceAgentsConversationsId200JSONResponse) VisitGetServiceAgentsConversationsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsConversationsIdMessagesRequestObject struct {
+	Id     string `json:"id"`
+	Params GetServiceAgentsConversationsIdMessagesParams
+}
+
+type GetServiceAgentsConversationsIdMessagesResponseObject interface {
+	VisitGetServiceAgentsConversationsIdMessagesResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsConversationsIdMessages200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                 `json:"next_page_token,omitempty"`
+	Result        *[]externalRef8.Message `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsConversationsIdMessages200JSONResponse) VisitGetServiceAgentsConversationsIdMessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostServiceAgentsConversationsIdMessagesRequestObject struct {
+	Id   string `json:"id"`
+	Body *PostServiceAgentsConversationsIdMessagesJSONRequestBody
+}
+
+type PostServiceAgentsConversationsIdMessagesResponseObject interface {
+	VisitPostServiceAgentsConversationsIdMessagesResponse(w http.ResponseWriter) error
+}
+
+type PostServiceAgentsConversationsIdMessages200JSONResponse externalRef8.Message
+
+func (response PostServiceAgentsConversationsIdMessages200JSONResponse) VisitPostServiceAgentsConversationsIdMessagesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsCustomerRequestObject struct {
+}
+
+type GetServiceAgentsCustomerResponseObject interface {
+	VisitGetServiceAgentsCustomerResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsCustomer200JSONResponse externalRef9.Customer
+
+func (response GetServiceAgentsCustomer200JSONResponse) VisitGetServiceAgentsCustomerResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsExtensionsRequestObject struct {
+	Params GetServiceAgentsExtensionsParams
+}
+
+type GetServiceAgentsExtensionsResponseObject interface {
+	VisitGetServiceAgentsExtensionsResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsExtensions200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                    `json:"next_page_token,omitempty"`
+	Result        *[]externalRef16.Extension `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsExtensions200JSONResponse) VisitGetServiceAgentsExtensionsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsExtensionsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsExtensionsIdResponseObject interface {
+	VisitGetServiceAgentsExtensionsIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsExtensionsId200JSONResponse externalRef16.Extension
+
+func (response GetServiceAgentsExtensionsId200JSONResponse) VisitGetServiceAgentsExtensionsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsFilesRequestObject struct {
+	Params GetServiceAgentsFilesParams
+}
+
+type GetServiceAgentsFilesResponseObject interface {
+	VisitGetServiceAgentsFilesResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsFiles200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string               `json:"next_page_token,omitempty"`
+	Result        *[]externalRef18.File `json:"result,omitempty"`
+}
+
+func (response GetServiceAgentsFiles200JSONResponse) VisitGetServiceAgentsFilesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostServiceAgentsFilesRequestObject struct {
+	Body *multipart.Reader
+}
+
+type PostServiceAgentsFilesResponseObject interface {
+	VisitPostServiceAgentsFilesResponse(w http.ResponseWriter) error
+}
+
+type PostServiceAgentsFiles200JSONResponse externalRef18.File
+
+func (response PostServiceAgentsFiles200JSONResponse) VisitPostServiceAgentsFilesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteServiceAgentsFilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteServiceAgentsFilesIdResponseObject interface {
+	VisitDeleteServiceAgentsFilesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteServiceAgentsFilesId200JSONResponse externalRef18.File
+
+func (response DeleteServiceAgentsFilesId200JSONResponse) VisitDeleteServiceAgentsFilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsFilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetServiceAgentsFilesIdResponseObject interface {
+	VisitGetServiceAgentsFilesIdResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsFilesId200JSONResponse externalRef18.File
+
+func (response GetServiceAgentsFilesId200JSONResponse) VisitGetServiceAgentsFilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsMeRequestObject struct {
+}
+
+type GetServiceAgentsMeResponseObject interface {
+	VisitGetServiceAgentsMeResponse(w http.ResponseWriter) error
+}
+
+type GetServiceAgentsMe200JSONResponse externalRef0.Agent
+
+func (response GetServiceAgentsMe200JSONResponse) VisitGetServiceAgentsMeResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutServiceAgentsMeRequestObject struct {
+	Body *PutServiceAgentsMeJSONRequestBody
+}
+
+type PutServiceAgentsMeResponseObject interface {
+	VisitPutServiceAgentsMeResponse(w http.ResponseWriter) error
+}
+
+type PutServiceAgentsMe200JSONResponse externalRef0.Agent
+
+func (response PutServiceAgentsMe200JSONResponse) VisitPutServiceAgentsMeResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutServiceAgentsMeAddressesRequestObject struct {
+	Body *PutServiceAgentsMeAddressesJSONRequestBody
+}
+
+type PutServiceAgentsMeAddressesResponseObject interface {
+	VisitPutServiceAgentsMeAddressesResponse(w http.ResponseWriter) error
+}
+
+type PutServiceAgentsMeAddresses200JSONResponse externalRef0.Agent
+
+func (response PutServiceAgentsMeAddresses200JSONResponse) VisitPutServiceAgentsMeAddressesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutServiceAgentsMePasswordRequestObject struct {
+	Body *PutServiceAgentsMePasswordJSONRequestBody
+}
+
+type PutServiceAgentsMePasswordResponseObject interface {
+	VisitPutServiceAgentsMePasswordResponse(w http.ResponseWriter) error
+}
+
+type PutServiceAgentsMePassword200JSONResponse externalRef0.Agent
+
+func (response PutServiceAgentsMePassword200JSONResponse) VisitPutServiceAgentsMePasswordResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutServiceAgentsMeStatusRequestObject struct {
+	Body *PutServiceAgentsMeStatusJSONRequestBody
+}
+
+type PutServiceAgentsMeStatusResponseObject interface {
+	VisitPutServiceAgentsMeStatusResponse(w http.ResponseWriter) error
+}
+
+type PutServiceAgentsMeStatus200JSONResponse externalRef0.Agent
+
+func (response PutServiceAgentsMeStatus200JSONResponse) VisitPutServiceAgentsMeStatusResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetServiceAgentsWsRequestObject struct {
+}
+
+type GetServiceAgentsWsResponseObject interface {
+	VisitGetServiceAgentsWsResponse(w http.ResponseWriter) error
+}
+
+type GetStorageAccountsRequestObject struct {
+	Params GetStorageAccountsParams
+}
+
+type GetStorageAccountsResponseObject interface {
+	VisitGetStorageAccountsResponse(w http.ResponseWriter) error
+}
+
+type GetStorageAccounts200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                  `json:"next_page_token,omitempty"`
+	Result        *[]externalRef18.Account `json:"result,omitempty"`
+}
+
+func (response GetStorageAccounts200JSONResponse) VisitGetStorageAccountsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostStorageAccountsRequestObject struct {
+	Body *PostStorageAccountsJSONRequestBody
+}
+
+type PostStorageAccountsResponseObject interface {
+	VisitPostStorageAccountsResponse(w http.ResponseWriter) error
+}
+
+type PostStorageAccounts200JSONResponse externalRef18.Account
+
+func (response PostStorageAccounts200JSONResponse) VisitPostStorageAccountsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteStorageAccountsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteStorageAccountsIdResponseObject interface {
+	VisitDeleteStorageAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteStorageAccountsId200JSONResponse externalRef18.Account
+
+func (response DeleteStorageAccountsId200JSONResponse) VisitDeleteStorageAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetStorageAccountsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetStorageAccountsIdResponseObject interface {
+	VisitGetStorageAccountsIdResponse(w http.ResponseWriter) error
+}
+
+type GetStorageAccountsId200JSONResponse externalRef18.Account
+
+func (response GetStorageAccountsId200JSONResponse) VisitGetStorageAccountsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetStorageFilesRequestObject struct {
+	Params GetStorageFilesParams
+}
+
+type GetStorageFilesResponseObject interface {
+	VisitGetStorageFilesResponse(w http.ResponseWriter) error
+}
+
+type GetStorageFiles200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string               `json:"next_page_token,omitempty"`
+	Result        *[]externalRef18.File `json:"result,omitempty"`
+}
+
+func (response GetStorageFiles200JSONResponse) VisitGetStorageFilesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostStorageFilesRequestObject struct {
+	Body *multipart.Reader
+}
+
+type PostStorageFilesResponseObject interface {
+	VisitPostStorageFilesResponse(w http.ResponseWriter) error
+}
+
+type PostStorageFiles200JSONResponse externalRef18.File
+
+func (response PostStorageFiles200JSONResponse) VisitPostStorageFilesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteStorageFilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteStorageFilesIdResponseObject interface {
+	VisitDeleteStorageFilesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteStorageFilesId200JSONResponse externalRef18.File
+
+func (response DeleteStorageFilesId200JSONResponse) VisitDeleteStorageFilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetStorageFilesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetStorageFilesIdResponseObject interface {
+	VisitGetStorageFilesIdResponse(w http.ResponseWriter) error
+}
+
+type GetStorageFilesId200JSONResponse externalRef18.File
+
+func (response GetStorageFilesId200JSONResponse) VisitGetStorageFilesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTagsRequestObject struct {
+	Params GetTagsParams
+}
+
+type GetTagsResponseObject interface {
+	VisitGetTagsResponse(w http.ResponseWriter) error
+}
+
+type GetTags200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string              `json:"next_page_token,omitempty"`
+	Result        *[]externalRef19.Tag `json:"result,omitempty"`
+}
+
+func (response GetTags200JSONResponse) VisitGetTagsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostTagsRequestObject struct {
+	Body *PostTagsJSONRequestBody
+}
+
+type PostTagsResponseObject interface {
+	VisitPostTagsResponse(w http.ResponseWriter) error
+}
+
+type PostTags200JSONResponse externalRef19.Tag
+
+func (response PostTags200JSONResponse) VisitPostTagsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteTagsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteTagsIdResponseObject interface {
+	VisitDeleteTagsIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteTagsId200JSONResponse externalRef19.Tag
+
+func (response DeleteTagsId200JSONResponse) VisitDeleteTagsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTagsIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetTagsIdResponseObject interface {
+	VisitGetTagsIdResponse(w http.ResponseWriter) error
+}
+
+type GetTagsId200JSONResponse externalRef19.Tag
+
+func (response GetTagsId200JSONResponse) VisitGetTagsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutTagsIdRequestObject struct {
+	Id struct {
+		Detail *string `json:"detail,omitempty"`
+		Name   *string `json:"name,omitempty"`
+	} `json:"id"`
+}
+
+type PutTagsIdResponseObject interface {
+	VisitPutTagsIdResponse(w http.ResponseWriter) error
+}
+
+type PutTagsId200JSONResponse externalRef19.Tag
+
+func (response PutTagsId200JSONResponse) VisitPutTagsIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTranscribesRequestObject struct {
+	Params GetTranscribesParams
+}
+
+type GetTranscribesResponseObject interface {
+	VisitGetTranscribesResponse(w http.ResponseWriter) error
+}
+
+type GetTranscribes200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                     `json:"next_page_token,omitempty"`
+	Result        *[]externalRef20.Transcribe `json:"result,omitempty"`
+}
+
+func (response GetTranscribes200JSONResponse) VisitGetTranscribesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostTranscribesRequestObject struct {
+	Body *PostTranscribesJSONRequestBody
+}
+
+type PostTranscribesResponseObject interface {
+	VisitPostTranscribesResponse(w http.ResponseWriter) error
+}
+
+type PostTranscribes200JSONResponse externalRef20.Transcribe
+
+func (response PostTranscribes200JSONResponse) VisitPostTranscribesResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteTranscribesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteTranscribesIdResponseObject interface {
+	VisitDeleteTranscribesIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteTranscribesId200JSONResponse externalRef20.Transcribe
+
+func (response DeleteTranscribesId200JSONResponse) VisitDeleteTranscribesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTranscribesIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetTranscribesIdResponseObject interface {
+	VisitGetTranscribesIdResponse(w http.ResponseWriter) error
+}
+
+type GetTranscribesId200JSONResponse externalRef20.Transcribe
+
+func (response GetTranscribesId200JSONResponse) VisitGetTranscribesIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostTranscribesIdStopRequestObject struct {
+	Id string `json:"id"`
+}
+
+type PostTranscribesIdStopResponseObject interface {
+	VisitPostTranscribesIdStopResponse(w http.ResponseWriter) error
+}
+
+type PostTranscribesIdStop200JSONResponse externalRef20.Transcribe
+
+func (response PostTranscribesIdStop200JSONResponse) VisitPostTranscribesIdStopResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTranscriptsRequestObject struct {
+	Params GetTranscriptsParams
+}
+
+type GetTranscriptsResponseObject interface {
+	VisitGetTranscriptsResponse(w http.ResponseWriter) error
+}
+
+type GetTranscripts200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                     `json:"next_page_token,omitempty"`
+	Result        *[]externalRef20.Transcript `json:"result,omitempty"`
+}
+
+func (response GetTranscripts200JSONResponse) VisitGetTranscriptsResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostTransfersRequestObject struct {
+	Body *PostTransfersJSONRequestBody
+}
+
+type PostTransfersResponseObject interface {
+	VisitPostTransfersResponse(w http.ResponseWriter) error
+}
+
+type PostTransfers200JSONResponse externalRef21.Transfer
+
+func (response PostTransfers200JSONResponse) VisitPostTransfersResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTrunksRequestObject struct {
+	Params GetTrunksParams
+}
+
+type GetTrunksResponseObject interface {
+	VisitGetTrunksResponse(w http.ResponseWriter) error
+}
+
+type GetTrunks200JSONResponse struct {
+	// NextPageToken The token for next pagination.
+	NextPageToken *string                `json:"next_page_token,omitempty"`
+	Result        *[]externalRef16.Trunk `json:"result,omitempty"`
+}
+
+func (response GetTrunks200JSONResponse) VisitGetTrunksResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PostTrunksRequestObject struct {
+	Body *PostTrunksJSONRequestBody
+}
+
+type PostTrunksResponseObject interface {
+	VisitPostTrunksResponse(w http.ResponseWriter) error
+}
+
+type PostTrunks200JSONResponse externalRef16.Trunk
+
+func (response PostTrunks200JSONResponse) VisitPostTrunksResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type DeleteTrunksIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type DeleteTrunksIdResponseObject interface {
+	VisitDeleteTrunksIdResponse(w http.ResponseWriter) error
+}
+
+type DeleteTrunksId200JSONResponse externalRef16.Trunk
+
+func (response DeleteTrunksId200JSONResponse) VisitDeleteTrunksIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetTrunksIdRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetTrunksIdResponseObject interface {
+	VisitGetTrunksIdResponse(w http.ResponseWriter) error
+}
+
+type GetTrunksId200JSONResponse externalRef16.Trunk
+
+func (response GetTrunksId200JSONResponse) VisitGetTrunksIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type PutTrunksIdRequestObject struct {
+	Id   string `json:"id"`
+	Body *PutTrunksIdJSONRequestBody
+}
+
+type PutTrunksIdResponseObject interface {
+	VisitPutTrunksIdResponse(w http.ResponseWriter) error
+}
+
+type PutTrunksId200JSONResponse externalRef16.Trunk
+
+func (response PutTrunksId200JSONResponse) VisitPutTrunksIdResponse(w http.ResponseWriter) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	return json.NewEncoder(w).Encode(response)
+}
+
+type GetWsRequestObject struct {
+}
+
+type GetWsResponseObject interface {
+	VisitGetWsResponse(w http.ResponseWriter) error
+}
+
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
 	// Get list of accesskeys
@@ -10206,6 +13355,24 @@ type StrictServerInterface interface {
 	// Renew the numbers
 	// (POST /numbers/renew)
 	PostNumbersRenew(ctx context.Context, request PostNumbersRenewRequestObject) (PostNumbersRenewResponseObject, error)
+	// Delete order number by ID
+	// (DELETE /numbers/{id})
+	DeleteNumbersId(ctx context.Context, request DeleteNumbersIdRequestObject) (DeleteNumbersIdResponseObject, error)
+	// Get order number by ID
+	// (GET /numbers/{id})
+	GetNumbersId(ctx context.Context, request GetNumbersIdRequestObject) (GetNumbersIdResponseObject, error)
+	// Update order number by ID
+	// (PUT /numbers/{id})
+	PutNumbersId(ctx context.Context, request PutNumbersIdRequestObject) (PutNumbersIdResponseObject, error)
+	// Delete order number by ID
+	// (DELETE /numbers/{id}/flow_id)
+	DeleteNumbersIdFlowId(ctx context.Context, request DeleteNumbersIdFlowIdRequestObject) (DeleteNumbersIdFlowIdResponseObject, error)
+	// Get order number by ID
+	// (GET /numbers/{id}/flow_id)
+	GetNumbersIdFlowId(ctx context.Context, request GetNumbersIdFlowIdRequestObject) (GetNumbersIdFlowIdResponseObject, error)
+	// Update order number by ID
+	// (PUT /numbers/{id}/flow_id)
+	PutNumbersIdFlowId(ctx context.Context, request PutNumbersIdFlowIdRequestObject) (PutNumbersIdFlowIdResponseObject, error)
 	// Retrieve a list of outdials.
 	// (GET /outdials)
 	GetOutdials(ctx context.Context, request GetOutdialsRequestObject) (GetOutdialsResponseObject, error)
@@ -10332,6 +13499,174 @@ type StrictServerInterface interface {
 	// Update a route
 	// (PUT /routes/{id})
 	PutRoutesId(ctx context.Context, request PutRoutesIdRequestObject) (PutRoutesIdResponseObject, error)
+	// Retrieve a list of service agents
+	// (GET /service_agents/agents)
+	GetServiceAgentsAgents(ctx context.Context, request GetServiceAgentsAgentsRequestObject) (GetServiceAgentsAgentsResponseObject, error)
+	// Retrieve detailed information of a service agent
+	// (GET /service_agents/agents/{id})
+	GetServiceAgentsAgentsId(ctx context.Context, request GetServiceAgentsAgentsIdRequestObject) (GetServiceAgentsAgentsIdResponseObject, error)
+	// Retrieve a list of calls for the given customer
+	// (GET /service_agents/calls)
+	GetServiceAgentsCalls(ctx context.Context, request GetServiceAgentsCallsRequestObject) (GetServiceAgentsCallsResponseObject, error)
+	// Retrieve detailed information of a specific call
+	// (GET /service_agents/calls/{id})
+	GetServiceAgentsCallsId(ctx context.Context, request GetServiceAgentsCallsIdRequestObject) (GetServiceAgentsCallsIdResponseObject, error)
+	// Retrieve a list of chatroom messages
+	// (GET /service_agents/chatroommessages)
+	GetServiceAgentsChatroommessages(ctx context.Context, request GetServiceAgentsChatroommessagesRequestObject) (GetServiceAgentsChatroommessagesResponseObject, error)
+	// Create a new chatroom message
+	// (POST /service_agents/chatroommessages)
+	PostServiceAgentsChatroommessages(ctx context.Context, request PostServiceAgentsChatroommessagesRequestObject) (PostServiceAgentsChatroommessagesResponseObject, error)
+	// Delete a specific chatroom message
+	// (DELETE /service_agents/chatroommessages/{id})
+	DeleteServiceAgentsChatroommessagesId(ctx context.Context, request DeleteServiceAgentsChatroommessagesIdRequestObject) (DeleteServiceAgentsChatroommessagesIdResponseObject, error)
+	// Retrieve detailed information of a specific chatroom message
+	// (GET /service_agents/chatroommessages/{id})
+	GetServiceAgentsChatroommessagesId(ctx context.Context, request GetServiceAgentsChatroommessagesIdRequestObject) (GetServiceAgentsChatroommessagesIdResponseObject, error)
+	// Get list of chatrooms
+	// (GET /service_agents/chatrooms)
+	GetServiceAgentsChatrooms(ctx context.Context, request GetServiceAgentsChatroomsRequestObject) (GetServiceAgentsChatroomsResponseObject, error)
+	// Create a new chatroom and return the created chatroom's details
+	// (POST /service_agents/chatrooms)
+	PostServiceAgentsChatrooms(ctx context.Context, request PostServiceAgentsChatroomsRequestObject) (PostServiceAgentsChatroomsResponseObject, error)
+	// Delete a chatroom and return the deleted chatroom's details
+	// (DELETE /service_agents/chatrooms/{id})
+	DeleteServiceAgentsChatroomsId(ctx context.Context, request DeleteServiceAgentsChatroomsIdRequestObject) (DeleteServiceAgentsChatroomsIdResponseObject, error)
+	// Get detailed information of a chatroom
+	// (GET /service_agents/chatrooms/{id})
+	GetServiceAgentsChatroomsId(ctx context.Context, request GetServiceAgentsChatroomsIdRequestObject) (GetServiceAgentsChatroomsIdResponseObject, error)
+	// Update the chatroom and return the updated information
+	// (PUT /service_agents/chatrooms/{id})
+	PutServiceAgentsChatroomsId(ctx context.Context, request PutServiceAgentsChatroomsIdRequestObject) (PutServiceAgentsChatroomsIdResponseObject, error)
+	// Get list of conversations
+	// (GET /service_agents/conversations)
+	GetServiceAgentsConversations(ctx context.Context, request GetServiceAgentsConversationsRequestObject) (GetServiceAgentsConversationsResponseObject, error)
+	// Get detailed conversation info
+	// (GET /service_agents/conversations/{id})
+	GetServiceAgentsConversationsId(ctx context.Context, request GetServiceAgentsConversationsIdRequestObject) (GetServiceAgentsConversationsIdResponseObject, error)
+	// Get list of conversation messages
+	// (GET /service_agents/conversations/{id}/messages)
+	GetServiceAgentsConversationsIdMessages(ctx context.Context, request GetServiceAgentsConversationsIdMessagesRequestObject) (GetServiceAgentsConversationsIdMessagesResponseObject, error)
+	// Send a message to the conversation
+	// (POST /service_agents/conversations/{id}/messages)
+	PostServiceAgentsConversationsIdMessages(ctx context.Context, request PostServiceAgentsConversationsIdMessagesRequestObject) (PostServiceAgentsConversationsIdMessagesResponseObject, error)
+	// Get customer details
+	// (GET /service_agents/customer)
+	GetServiceAgentsCustomer(ctx context.Context, request GetServiceAgentsCustomerRequestObject) (GetServiceAgentsCustomerResponseObject, error)
+	// Get list of extensions
+	// (GET /service_agents/extensions)
+	GetServiceAgentsExtensions(ctx context.Context, request GetServiceAgentsExtensionsRequestObject) (GetServiceAgentsExtensionsResponseObject, error)
+	// Get extension details
+	// (GET /service_agents/extensions/{id})
+	GetServiceAgentsExtensionsId(ctx context.Context, request GetServiceAgentsExtensionsIdRequestObject) (GetServiceAgentsExtensionsIdResponseObject, error)
+	// Get list of files
+	// (GET /service_agents/files)
+	GetServiceAgentsFiles(ctx context.Context, request GetServiceAgentsFilesRequestObject) (GetServiceAgentsFilesResponseObject, error)
+	// Upload a file
+	// (POST /service_agents/files)
+	PostServiceAgentsFiles(ctx context.Context, request PostServiceAgentsFilesRequestObject) (PostServiceAgentsFilesResponseObject, error)
+	// Delete a file
+	// (DELETE /service_agents/files/{id})
+	DeleteServiceAgentsFilesId(ctx context.Context, request DeleteServiceAgentsFilesIdRequestObject) (DeleteServiceAgentsFilesIdResponseObject, error)
+	// Get file details
+	// (GET /service_agents/files/{id})
+	GetServiceAgentsFilesId(ctx context.Context, request GetServiceAgentsFilesIdRequestObject) (GetServiceAgentsFilesIdResponseObject, error)
+	// Get authenticated agent's details
+	// (GET /service_agents/me)
+	GetServiceAgentsMe(ctx context.Context, request GetServiceAgentsMeRequestObject) (GetServiceAgentsMeResponseObject, error)
+	// Update authenticated agent's information
+	// (PUT /service_agents/me)
+	PutServiceAgentsMe(ctx context.Context, request PutServiceAgentsMeRequestObject) (PutServiceAgentsMeResponseObject, error)
+	// Update authenticated agent's addresses
+	// (PUT /service_agents/me/addresses)
+	PutServiceAgentsMeAddresses(ctx context.Context, request PutServiceAgentsMeAddressesRequestObject) (PutServiceAgentsMeAddressesResponseObject, error)
+	// Update authenticated agent's password
+	// (PUT /service_agents/me/password)
+	PutServiceAgentsMePassword(ctx context.Context, request PutServiceAgentsMePasswordRequestObject) (PutServiceAgentsMePasswordResponseObject, error)
+	// Update authenticated agent's status
+	// (PUT /service_agents/me/status)
+	PutServiceAgentsMeStatus(ctx context.Context, request PutServiceAgentsMeStatusRequestObject) (PutServiceAgentsMeStatusResponseObject, error)
+	// Establish a WebSocket connection
+	// (GET /service_agents/ws)
+	GetServiceAgentsWs(ctx context.Context, request GetServiceAgentsWsRequestObject) (GetServiceAgentsWsResponseObject, error)
+	// Get a list of storage accounts
+	// (GET /storage_accounts)
+	GetStorageAccounts(ctx context.Context, request GetStorageAccountsRequestObject) (GetStorageAccountsResponseObject, error)
+	// Create a new storage account
+	// (POST /storage_accounts)
+	PostStorageAccounts(ctx context.Context, request PostStorageAccountsRequestObject) (PostStorageAccountsResponseObject, error)
+	// Delete a specific storage account
+	// (DELETE /storage_accounts/{id})
+	DeleteStorageAccountsId(ctx context.Context, request DeleteStorageAccountsIdRequestObject) (DeleteStorageAccountsIdResponseObject, error)
+	// Get details of a specific storage account
+	// (GET /storage_accounts/{id})
+	GetStorageAccountsId(ctx context.Context, request GetStorageAccountsIdRequestObject) (GetStorageAccountsIdResponseObject, error)
+	// Get a list of files
+	// (GET /storage_files)
+	GetStorageFiles(ctx context.Context, request GetStorageFilesRequestObject) (GetStorageFilesResponseObject, error)
+	// Upload a file and create a call with it
+	// (POST /storage_files)
+	PostStorageFiles(ctx context.Context, request PostStorageFilesRequestObject) (PostStorageFilesResponseObject, error)
+	// Delete a file
+	// (DELETE /storage_files/{id})
+	DeleteStorageFilesId(ctx context.Context, request DeleteStorageFilesIdRequestObject) (DeleteStorageFilesIdResponseObject, error)
+	// Get file details by ID
+	// (GET /storage_files/{id})
+	GetStorageFilesId(ctx context.Context, request GetStorageFilesIdRequestObject) (GetStorageFilesIdResponseObject, error)
+	// List tags
+	// (GET /tags)
+	GetTags(ctx context.Context, request GetTagsRequestObject) (GetTagsResponseObject, error)
+	// Create a new tag.
+	// (POST /tags)
+	PostTags(ctx context.Context, request PostTagsRequestObject) (PostTagsResponseObject, error)
+	// Delete the tag
+	// (DELETE /tags/{id})
+	DeleteTagsId(ctx context.Context, request DeleteTagsIdRequestObject) (DeleteTagsIdResponseObject, error)
+	// Get the tag
+	// (GET /tags/{id})
+	GetTagsId(ctx context.Context, request GetTagsIdRequestObject) (GetTagsIdResponseObject, error)
+	// Update the tag info
+	// (PUT /tags/{id})
+	PutTagsId(ctx context.Context, request PutTagsIdRequestObject) (PutTagsIdResponseObject, error)
+	// Get list of transcribes
+	// (GET /transcribes)
+	GetTranscribes(ctx context.Context, request GetTranscribesRequestObject) (GetTranscribesResponseObject, error)
+	// Create a transcribe
+	// (POST /transcribes)
+	PostTranscribes(ctx context.Context, request PostTranscribesRequestObject) (PostTranscribesResponseObject, error)
+	// Delete a transcribe
+	// (DELETE /transcribes/{id})
+	DeleteTranscribesId(ctx context.Context, request DeleteTranscribesIdRequestObject) (DeleteTranscribesIdResponseObject, error)
+	// Get detailed transcribe info
+	// (GET /transcribes/{id})
+	GetTranscribesId(ctx context.Context, request GetTranscribesIdRequestObject) (GetTranscribesIdResponseObject, error)
+	// Stop an ongoing transcription
+	// (POST /transcribes/{id}/stop)
+	PostTranscribesIdStop(ctx context.Context, request PostTranscribesIdStopRequestObject) (PostTranscribesIdStopResponseObject, error)
+	// Retrieve a list of transcripts
+	// (GET /transcripts)
+	GetTranscripts(ctx context.Context, request GetTranscriptsRequestObject) (GetTranscriptsResponseObject, error)
+	// Start a transfer
+	// (POST /transfers)
+	PostTransfers(ctx context.Context, request PostTransfersRequestObject) (PostTransfersResponseObject, error)
+	// Retrieve a list of trunks.
+	// (GET /trunks)
+	GetTrunks(ctx context.Context, request GetTrunksRequestObject) (GetTrunksResponseObject, error)
+	// Create a new trunk.
+	// (POST /trunks)
+	PostTrunks(ctx context.Context, request PostTrunksRequestObject) (PostTrunksResponseObject, error)
+	// Delete a trunk.
+	// (DELETE /trunks/{id})
+	DeleteTrunksId(ctx context.Context, request DeleteTrunksIdRequestObject) (DeleteTrunksIdResponseObject, error)
+	// Retrieve trunk details.
+	// (GET /trunks/{id})
+	GetTrunksId(ctx context.Context, request GetTrunksIdRequestObject) (GetTrunksIdResponseObject, error)
+	// Update a trunk.
+	// (PUT /trunks/{id})
+	PutTrunksId(ctx context.Context, request PutTrunksIdRequestObject) (PutTrunksIdResponseObject, error)
+	// Create a new websocket connection.
+	// (GET /ws)
+	GetWs(ctx context.Context, request GetWsRequestObject) (GetWsResponseObject, error)
 }
 
 type StrictHandlerFunc = strictgin.StrictGinHandlerFunc
@@ -14434,6 +17769,184 @@ func (sh *strictHandler) PostNumbersRenew(ctx *gin.Context) {
 	}
 }
 
+// DeleteNumbersId operation middleware
+func (sh *strictHandler) DeleteNumbersId(ctx *gin.Context, id string) {
+	var request DeleteNumbersIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteNumbersId(ctx, request.(DeleteNumbersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteNumbersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteNumbersIdResponseObject); ok {
+		if err := validResponse.VisitDeleteNumbersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetNumbersId operation middleware
+func (sh *strictHandler) GetNumbersId(ctx *gin.Context, id string) {
+	var request GetNumbersIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetNumbersId(ctx, request.(GetNumbersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetNumbersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetNumbersIdResponseObject); ok {
+		if err := validResponse.VisitGetNumbersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutNumbersId operation middleware
+func (sh *strictHandler) PutNumbersId(ctx *gin.Context, id string) {
+	var request PutNumbersIdRequestObject
+
+	request.Id = id
+
+	var body PutNumbersIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutNumbersId(ctx, request.(PutNumbersIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutNumbersId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutNumbersIdResponseObject); ok {
+		if err := validResponse.VisitPutNumbersIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteNumbersIdFlowId operation middleware
+func (sh *strictHandler) DeleteNumbersIdFlowId(ctx *gin.Context, id string) {
+	var request DeleteNumbersIdFlowIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteNumbersIdFlowId(ctx, request.(DeleteNumbersIdFlowIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteNumbersIdFlowId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteNumbersIdFlowIdResponseObject); ok {
+		if err := validResponse.VisitDeleteNumbersIdFlowIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetNumbersIdFlowId operation middleware
+func (sh *strictHandler) GetNumbersIdFlowId(ctx *gin.Context, id string) {
+	var request GetNumbersIdFlowIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetNumbersIdFlowId(ctx, request.(GetNumbersIdFlowIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetNumbersIdFlowId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetNumbersIdFlowIdResponseObject); ok {
+		if err := validResponse.VisitGetNumbersIdFlowIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutNumbersIdFlowId operation middleware
+func (sh *strictHandler) PutNumbersIdFlowId(ctx *gin.Context, id string) {
+	var request PutNumbersIdFlowIdRequestObject
+
+	request.Id = id
+
+	var body PutNumbersIdFlowIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutNumbersIdFlowId(ctx, request.(PutNumbersIdFlowIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutNumbersIdFlowId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutNumbersIdFlowIdResponseObject); ok {
+		if err := validResponse.VisitPutNumbersIdFlowIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
 // GetOutdials operation middleware
 func (sh *strictHandler) GetOutdials(ctx *gin.Context, params GetOutdialsParams) {
 	var request GetOutdialsRequestObject
@@ -15682,6 +19195,1614 @@ func (sh *strictHandler) PutRoutesId(ctx *gin.Context, id string) {
 		ctx.Status(http.StatusInternalServerError)
 	} else if validResponse, ok := response.(PutRoutesIdResponseObject); ok {
 		if err := validResponse.VisitPutRoutesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsAgents operation middleware
+func (sh *strictHandler) GetServiceAgentsAgents(ctx *gin.Context, params GetServiceAgentsAgentsParams) {
+	var request GetServiceAgentsAgentsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsAgents(ctx, request.(GetServiceAgentsAgentsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsAgents")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsAgentsResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsAgentsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsAgentsId operation middleware
+func (sh *strictHandler) GetServiceAgentsAgentsId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsAgentsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsAgentsId(ctx, request.(GetServiceAgentsAgentsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsAgentsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsAgentsIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsAgentsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsCalls operation middleware
+func (sh *strictHandler) GetServiceAgentsCalls(ctx *gin.Context, params GetServiceAgentsCallsParams) {
+	var request GetServiceAgentsCallsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsCalls(ctx, request.(GetServiceAgentsCallsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsCalls")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsCallsResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsCallsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsCallsId operation middleware
+func (sh *strictHandler) GetServiceAgentsCallsId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsCallsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsCallsId(ctx, request.(GetServiceAgentsCallsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsCallsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsCallsIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsCallsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsChatroommessages operation middleware
+func (sh *strictHandler) GetServiceAgentsChatroommessages(ctx *gin.Context, params GetServiceAgentsChatroommessagesParams) {
+	var request GetServiceAgentsChatroommessagesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsChatroommessages(ctx, request.(GetServiceAgentsChatroommessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsChatroommessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsChatroommessagesResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsChatroommessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostServiceAgentsChatroommessages operation middleware
+func (sh *strictHandler) PostServiceAgentsChatroommessages(ctx *gin.Context) {
+	var request PostServiceAgentsChatroommessagesRequestObject
+
+	var body PostServiceAgentsChatroommessagesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostServiceAgentsChatroommessages(ctx, request.(PostServiceAgentsChatroommessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostServiceAgentsChatroommessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostServiceAgentsChatroommessagesResponseObject); ok {
+		if err := validResponse.VisitPostServiceAgentsChatroommessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteServiceAgentsChatroommessagesId operation middleware
+func (sh *strictHandler) DeleteServiceAgentsChatroommessagesId(ctx *gin.Context, id string) {
+	var request DeleteServiceAgentsChatroommessagesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteServiceAgentsChatroommessagesId(ctx, request.(DeleteServiceAgentsChatroommessagesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteServiceAgentsChatroommessagesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteServiceAgentsChatroommessagesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteServiceAgentsChatroommessagesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsChatroommessagesId operation middleware
+func (sh *strictHandler) GetServiceAgentsChatroommessagesId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsChatroommessagesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsChatroommessagesId(ctx, request.(GetServiceAgentsChatroommessagesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsChatroommessagesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsChatroommessagesIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsChatroommessagesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsChatrooms operation middleware
+func (sh *strictHandler) GetServiceAgentsChatrooms(ctx *gin.Context, params GetServiceAgentsChatroomsParams) {
+	var request GetServiceAgentsChatroomsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsChatrooms(ctx, request.(GetServiceAgentsChatroomsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsChatrooms")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsChatroomsResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsChatroomsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostServiceAgentsChatrooms operation middleware
+func (sh *strictHandler) PostServiceAgentsChatrooms(ctx *gin.Context) {
+	var request PostServiceAgentsChatroomsRequestObject
+
+	var body PostServiceAgentsChatroomsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostServiceAgentsChatrooms(ctx, request.(PostServiceAgentsChatroomsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostServiceAgentsChatrooms")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostServiceAgentsChatroomsResponseObject); ok {
+		if err := validResponse.VisitPostServiceAgentsChatroomsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteServiceAgentsChatroomsId operation middleware
+func (sh *strictHandler) DeleteServiceAgentsChatroomsId(ctx *gin.Context, id string) {
+	var request DeleteServiceAgentsChatroomsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteServiceAgentsChatroomsId(ctx, request.(DeleteServiceAgentsChatroomsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteServiceAgentsChatroomsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteServiceAgentsChatroomsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteServiceAgentsChatroomsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsChatroomsId operation middleware
+func (sh *strictHandler) GetServiceAgentsChatroomsId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsChatroomsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsChatroomsId(ctx, request.(GetServiceAgentsChatroomsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsChatroomsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsChatroomsIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsChatroomsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutServiceAgentsChatroomsId operation middleware
+func (sh *strictHandler) PutServiceAgentsChatroomsId(ctx *gin.Context, id string) {
+	var request PutServiceAgentsChatroomsIdRequestObject
+
+	request.Id = id
+
+	var body PutServiceAgentsChatroomsIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutServiceAgentsChatroomsId(ctx, request.(PutServiceAgentsChatroomsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutServiceAgentsChatroomsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutServiceAgentsChatroomsIdResponseObject); ok {
+		if err := validResponse.VisitPutServiceAgentsChatroomsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsConversations operation middleware
+func (sh *strictHandler) GetServiceAgentsConversations(ctx *gin.Context, params GetServiceAgentsConversationsParams) {
+	var request GetServiceAgentsConversationsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsConversations(ctx, request.(GetServiceAgentsConversationsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsConversations")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsConversationsResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsConversationsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsConversationsId operation middleware
+func (sh *strictHandler) GetServiceAgentsConversationsId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsConversationsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsConversationsId(ctx, request.(GetServiceAgentsConversationsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsConversationsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsConversationsIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsConversationsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsConversationsIdMessages operation middleware
+func (sh *strictHandler) GetServiceAgentsConversationsIdMessages(ctx *gin.Context, id string, params GetServiceAgentsConversationsIdMessagesParams) {
+	var request GetServiceAgentsConversationsIdMessagesRequestObject
+
+	request.Id = id
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsConversationsIdMessages(ctx, request.(GetServiceAgentsConversationsIdMessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsConversationsIdMessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsConversationsIdMessagesResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsConversationsIdMessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostServiceAgentsConversationsIdMessages operation middleware
+func (sh *strictHandler) PostServiceAgentsConversationsIdMessages(ctx *gin.Context, id string) {
+	var request PostServiceAgentsConversationsIdMessagesRequestObject
+
+	request.Id = id
+
+	var body PostServiceAgentsConversationsIdMessagesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostServiceAgentsConversationsIdMessages(ctx, request.(PostServiceAgentsConversationsIdMessagesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostServiceAgentsConversationsIdMessages")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostServiceAgentsConversationsIdMessagesResponseObject); ok {
+		if err := validResponse.VisitPostServiceAgentsConversationsIdMessagesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsCustomer operation middleware
+func (sh *strictHandler) GetServiceAgentsCustomer(ctx *gin.Context) {
+	var request GetServiceAgentsCustomerRequestObject
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsCustomer(ctx, request.(GetServiceAgentsCustomerRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsCustomer")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsCustomerResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsCustomerResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsExtensions operation middleware
+func (sh *strictHandler) GetServiceAgentsExtensions(ctx *gin.Context, params GetServiceAgentsExtensionsParams) {
+	var request GetServiceAgentsExtensionsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsExtensions(ctx, request.(GetServiceAgentsExtensionsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsExtensions")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsExtensionsResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsExtensionsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsExtensionsId operation middleware
+func (sh *strictHandler) GetServiceAgentsExtensionsId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsExtensionsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsExtensionsId(ctx, request.(GetServiceAgentsExtensionsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsExtensionsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsExtensionsIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsExtensionsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsFiles operation middleware
+func (sh *strictHandler) GetServiceAgentsFiles(ctx *gin.Context, params GetServiceAgentsFilesParams) {
+	var request GetServiceAgentsFilesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsFiles(ctx, request.(GetServiceAgentsFilesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsFiles")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsFilesResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsFilesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostServiceAgentsFiles operation middleware
+func (sh *strictHandler) PostServiceAgentsFiles(ctx *gin.Context) {
+	var request PostServiceAgentsFilesRequestObject
+
+	if reader, err := ctx.Request.MultipartReader(); err == nil {
+		request.Body = reader
+	} else {
+		ctx.Error(err)
+		return
+	}
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostServiceAgentsFiles(ctx, request.(PostServiceAgentsFilesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostServiceAgentsFiles")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostServiceAgentsFilesResponseObject); ok {
+		if err := validResponse.VisitPostServiceAgentsFilesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteServiceAgentsFilesId operation middleware
+func (sh *strictHandler) DeleteServiceAgentsFilesId(ctx *gin.Context, id string) {
+	var request DeleteServiceAgentsFilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteServiceAgentsFilesId(ctx, request.(DeleteServiceAgentsFilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteServiceAgentsFilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteServiceAgentsFilesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteServiceAgentsFilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsFilesId operation middleware
+func (sh *strictHandler) GetServiceAgentsFilesId(ctx *gin.Context, id string) {
+	var request GetServiceAgentsFilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsFilesId(ctx, request.(GetServiceAgentsFilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsFilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsFilesIdResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsFilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsMe operation middleware
+func (sh *strictHandler) GetServiceAgentsMe(ctx *gin.Context) {
+	var request GetServiceAgentsMeRequestObject
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsMe(ctx, request.(GetServiceAgentsMeRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsMe")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsMeResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsMeResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutServiceAgentsMe operation middleware
+func (sh *strictHandler) PutServiceAgentsMe(ctx *gin.Context) {
+	var request PutServiceAgentsMeRequestObject
+
+	var body PutServiceAgentsMeJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutServiceAgentsMe(ctx, request.(PutServiceAgentsMeRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutServiceAgentsMe")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutServiceAgentsMeResponseObject); ok {
+		if err := validResponse.VisitPutServiceAgentsMeResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutServiceAgentsMeAddresses operation middleware
+func (sh *strictHandler) PutServiceAgentsMeAddresses(ctx *gin.Context) {
+	var request PutServiceAgentsMeAddressesRequestObject
+
+	var body PutServiceAgentsMeAddressesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutServiceAgentsMeAddresses(ctx, request.(PutServiceAgentsMeAddressesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutServiceAgentsMeAddresses")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutServiceAgentsMeAddressesResponseObject); ok {
+		if err := validResponse.VisitPutServiceAgentsMeAddressesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutServiceAgentsMePassword operation middleware
+func (sh *strictHandler) PutServiceAgentsMePassword(ctx *gin.Context) {
+	var request PutServiceAgentsMePasswordRequestObject
+
+	var body PutServiceAgentsMePasswordJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutServiceAgentsMePassword(ctx, request.(PutServiceAgentsMePasswordRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutServiceAgentsMePassword")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutServiceAgentsMePasswordResponseObject); ok {
+		if err := validResponse.VisitPutServiceAgentsMePasswordResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutServiceAgentsMeStatus operation middleware
+func (sh *strictHandler) PutServiceAgentsMeStatus(ctx *gin.Context) {
+	var request PutServiceAgentsMeStatusRequestObject
+
+	var body PutServiceAgentsMeStatusJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutServiceAgentsMeStatus(ctx, request.(PutServiceAgentsMeStatusRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutServiceAgentsMeStatus")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutServiceAgentsMeStatusResponseObject); ok {
+		if err := validResponse.VisitPutServiceAgentsMeStatusResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetServiceAgentsWs operation middleware
+func (sh *strictHandler) GetServiceAgentsWs(ctx *gin.Context) {
+	var request GetServiceAgentsWsRequestObject
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetServiceAgentsWs(ctx, request.(GetServiceAgentsWsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetServiceAgentsWs")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetServiceAgentsWsResponseObject); ok {
+		if err := validResponse.VisitGetServiceAgentsWsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetStorageAccounts operation middleware
+func (sh *strictHandler) GetStorageAccounts(ctx *gin.Context, params GetStorageAccountsParams) {
+	var request GetStorageAccountsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetStorageAccounts(ctx, request.(GetStorageAccountsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetStorageAccounts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetStorageAccountsResponseObject); ok {
+		if err := validResponse.VisitGetStorageAccountsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostStorageAccounts operation middleware
+func (sh *strictHandler) PostStorageAccounts(ctx *gin.Context) {
+	var request PostStorageAccountsRequestObject
+
+	var body PostStorageAccountsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostStorageAccounts(ctx, request.(PostStorageAccountsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostStorageAccounts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostStorageAccountsResponseObject); ok {
+		if err := validResponse.VisitPostStorageAccountsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteStorageAccountsId operation middleware
+func (sh *strictHandler) DeleteStorageAccountsId(ctx *gin.Context, id string) {
+	var request DeleteStorageAccountsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteStorageAccountsId(ctx, request.(DeleteStorageAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteStorageAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteStorageAccountsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteStorageAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetStorageAccountsId operation middleware
+func (sh *strictHandler) GetStorageAccountsId(ctx *gin.Context, id string) {
+	var request GetStorageAccountsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetStorageAccountsId(ctx, request.(GetStorageAccountsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetStorageAccountsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetStorageAccountsIdResponseObject); ok {
+		if err := validResponse.VisitGetStorageAccountsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetStorageFiles operation middleware
+func (sh *strictHandler) GetStorageFiles(ctx *gin.Context, params GetStorageFilesParams) {
+	var request GetStorageFilesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetStorageFiles(ctx, request.(GetStorageFilesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetStorageFiles")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetStorageFilesResponseObject); ok {
+		if err := validResponse.VisitGetStorageFilesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostStorageFiles operation middleware
+func (sh *strictHandler) PostStorageFiles(ctx *gin.Context) {
+	var request PostStorageFilesRequestObject
+
+	if reader, err := ctx.Request.MultipartReader(); err == nil {
+		request.Body = reader
+	} else {
+		ctx.Error(err)
+		return
+	}
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostStorageFiles(ctx, request.(PostStorageFilesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostStorageFiles")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostStorageFilesResponseObject); ok {
+		if err := validResponse.VisitPostStorageFilesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteStorageFilesId operation middleware
+func (sh *strictHandler) DeleteStorageFilesId(ctx *gin.Context, id string) {
+	var request DeleteStorageFilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteStorageFilesId(ctx, request.(DeleteStorageFilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteStorageFilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteStorageFilesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteStorageFilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetStorageFilesId operation middleware
+func (sh *strictHandler) GetStorageFilesId(ctx *gin.Context, id string) {
+	var request GetStorageFilesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetStorageFilesId(ctx, request.(GetStorageFilesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetStorageFilesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetStorageFilesIdResponseObject); ok {
+		if err := validResponse.VisitGetStorageFilesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTags operation middleware
+func (sh *strictHandler) GetTags(ctx *gin.Context, params GetTagsParams) {
+	var request GetTagsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTags(ctx, request.(GetTagsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTags")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTagsResponseObject); ok {
+		if err := validResponse.VisitGetTagsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostTags operation middleware
+func (sh *strictHandler) PostTags(ctx *gin.Context) {
+	var request PostTagsRequestObject
+
+	var body PostTagsJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostTags(ctx, request.(PostTagsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostTags")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostTagsResponseObject); ok {
+		if err := validResponse.VisitPostTagsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteTagsId operation middleware
+func (sh *strictHandler) DeleteTagsId(ctx *gin.Context, id string) {
+	var request DeleteTagsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteTagsId(ctx, request.(DeleteTagsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteTagsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteTagsIdResponseObject); ok {
+		if err := validResponse.VisitDeleteTagsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTagsId operation middleware
+func (sh *strictHandler) GetTagsId(ctx *gin.Context, id string) {
+	var request GetTagsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTagsId(ctx, request.(GetTagsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTagsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTagsIdResponseObject); ok {
+		if err := validResponse.VisitGetTagsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutTagsId operation middleware
+func (sh *strictHandler) PutTagsId(ctx *gin.Context, id struct {
+	Detail *string `json:"detail,omitempty"`
+	Name   *string `json:"name,omitempty"`
+}) {
+	var request PutTagsIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutTagsId(ctx, request.(PutTagsIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutTagsId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutTagsIdResponseObject); ok {
+		if err := validResponse.VisitPutTagsIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTranscribes operation middleware
+func (sh *strictHandler) GetTranscribes(ctx *gin.Context, params GetTranscribesParams) {
+	var request GetTranscribesRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTranscribes(ctx, request.(GetTranscribesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTranscribes")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTranscribesResponseObject); ok {
+		if err := validResponse.VisitGetTranscribesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostTranscribes operation middleware
+func (sh *strictHandler) PostTranscribes(ctx *gin.Context) {
+	var request PostTranscribesRequestObject
+
+	var body PostTranscribesJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostTranscribes(ctx, request.(PostTranscribesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostTranscribes")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostTranscribesResponseObject); ok {
+		if err := validResponse.VisitPostTranscribesResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteTranscribesId operation middleware
+func (sh *strictHandler) DeleteTranscribesId(ctx *gin.Context, id string) {
+	var request DeleteTranscribesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteTranscribesId(ctx, request.(DeleteTranscribesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteTranscribesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteTranscribesIdResponseObject); ok {
+		if err := validResponse.VisitDeleteTranscribesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTranscribesId operation middleware
+func (sh *strictHandler) GetTranscribesId(ctx *gin.Context, id string) {
+	var request GetTranscribesIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTranscribesId(ctx, request.(GetTranscribesIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTranscribesId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTranscribesIdResponseObject); ok {
+		if err := validResponse.VisitGetTranscribesIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostTranscribesIdStop operation middleware
+func (sh *strictHandler) PostTranscribesIdStop(ctx *gin.Context, id string) {
+	var request PostTranscribesIdStopRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostTranscribesIdStop(ctx, request.(PostTranscribesIdStopRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostTranscribesIdStop")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostTranscribesIdStopResponseObject); ok {
+		if err := validResponse.VisitPostTranscribesIdStopResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTranscripts operation middleware
+func (sh *strictHandler) GetTranscripts(ctx *gin.Context, params GetTranscriptsParams) {
+	var request GetTranscriptsRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTranscripts(ctx, request.(GetTranscriptsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTranscripts")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTranscriptsResponseObject); ok {
+		if err := validResponse.VisitGetTranscriptsResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostTransfers operation middleware
+func (sh *strictHandler) PostTransfers(ctx *gin.Context) {
+	var request PostTransfersRequestObject
+
+	var body PostTransfersJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostTransfers(ctx, request.(PostTransfersRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostTransfers")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostTransfersResponseObject); ok {
+		if err := validResponse.VisitPostTransfersResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTrunks operation middleware
+func (sh *strictHandler) GetTrunks(ctx *gin.Context, params GetTrunksParams) {
+	var request GetTrunksRequestObject
+
+	request.Params = params
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTrunks(ctx, request.(GetTrunksRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTrunks")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTrunksResponseObject); ok {
+		if err := validResponse.VisitGetTrunksResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PostTrunks operation middleware
+func (sh *strictHandler) PostTrunks(ctx *gin.Context) {
+	var request PostTrunksRequestObject
+
+	var body PostTrunksJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PostTrunks(ctx, request.(PostTrunksRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PostTrunks")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PostTrunksResponseObject); ok {
+		if err := validResponse.VisitPostTrunksResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// DeleteTrunksId operation middleware
+func (sh *strictHandler) DeleteTrunksId(ctx *gin.Context, id string) {
+	var request DeleteTrunksIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.DeleteTrunksId(ctx, request.(DeleteTrunksIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "DeleteTrunksId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(DeleteTrunksIdResponseObject); ok {
+		if err := validResponse.VisitDeleteTrunksIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetTrunksId operation middleware
+func (sh *strictHandler) GetTrunksId(ctx *gin.Context, id string) {
+	var request GetTrunksIdRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetTrunksId(ctx, request.(GetTrunksIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetTrunksId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetTrunksIdResponseObject); ok {
+		if err := validResponse.VisitGetTrunksIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// PutTrunksId operation middleware
+func (sh *strictHandler) PutTrunksId(ctx *gin.Context, id string) {
+	var request PutTrunksIdRequestObject
+
+	request.Id = id
+
+	var body PutTrunksIdJSONRequestBody
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.Status(http.StatusBadRequest)
+		ctx.Error(err)
+		return
+	}
+	request.Body = &body
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.PutTrunksId(ctx, request.(PutTrunksIdRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "PutTrunksId")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(PutTrunksIdResponseObject); ok {
+		if err := validResponse.VisitPutTrunksIdResponse(ctx.Writer); err != nil {
+			ctx.Error(err)
+		}
+	} else if response != nil {
+		ctx.Error(fmt.Errorf("unexpected response type: %T", response))
+	}
+}
+
+// GetWs operation middleware
+func (sh *strictHandler) GetWs(ctx *gin.Context) {
+	var request GetWsRequestObject
+
+	handler := func(ctx *gin.Context, request interface{}) (interface{}, error) {
+		return sh.ssi.GetWs(ctx, request.(GetWsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetWs")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		ctx.Error(err)
+		ctx.Status(http.StatusInternalServerError)
+	} else if validResponse, ok := response.(GetWsResponseObject); ok {
+		if err := validResponse.VisitGetWsResponse(ctx.Writer); err != nil {
 			ctx.Error(err)
 		}
 	} else if response != nil {

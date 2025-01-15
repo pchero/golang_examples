@@ -2,7 +2,7 @@ components:
   schemas:
     TranscribeDirection:
       $ref: 'transcribe_direction.yaml'
-    Transcribereference_type:
+    TranscribeReferenceType:
       $ref: 'transcribe_reference_type.yaml'
     TranscribeStatus:
       $ref: 'transcribe_status.yaml'

@@ -26,3 +26,6 @@ import-mapping:
   ../../components/outplan_manager/main.yaml: "testoapi/gens/models/outplan_manager"
   ../../components/route_manager/main.yaml: "testoapi/gens/models/route_manager"
   ../../components/queue_manager/main.yaml: "testoapi/gens/models/queue_manager"
+  ../../components/tag_manager/main.yaml: "testoapi/gens/models/tag_manager"
+  ../../components/transcribe_manager/main.yaml: "testoapi/gens/models/transcribe_manager"
+  ../../components/transfer_manager/main.yaml: "testoapi/gens/models/transfer_manager"

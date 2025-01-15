@@ -14,18 +14,18 @@ const (
 	TranscribeDirectionOut  TranscribeDirection = "out"
 )
 
+// Defines values for TranscribeReferenceType.
+const (
+	TranscribereferenceTypeCall       TranscribeReferenceType = "call"
+	TranscribereferenceTypeConfbridge TranscribeReferenceType = "confbridge"
+	TranscribereferenceTypeRecording  TranscribeReferenceType = "recording"
+	TranscribereferenceTypeUnknown    TranscribeReferenceType = "unknown"
+)
+
 // Defines values for TranscribeStatus.
 const (
 	TranscribeStatusDone        TranscribeStatus = "done"
 	TranscribeStatusProgressing TranscribeStatus = "progressing"
-)
-
-// Defines values for TranscribereferenceType.
-const (
-	TranscribereferenceTypeCall       TranscribereferenceType = "call"
-	TranscribereferenceTypeConfbridge TranscribereferenceType = "confbridge"
-	TranscribereferenceTypeRecording  TranscribereferenceType = "recording"
-	TranscribereferenceTypeUnknown    TranscribereferenceType = "unknown"
 )
 
 // Defines values for TranscriptDirection.
@@ -49,7 +49,7 @@ type Transcribe struct {
 
 	// ReferenceId Call/Conference/Recording's ID
 	ReferenceId   *string                  `json:"reference_id,omitempty"`
-	ReferenceType *TranscribereferenceType `json:"reference_type,omitempty"`
+	ReferenceType *TranscribeReferenceType `json:"reference_type,omitempty"`
 	Status        *TranscribeStatus        `json:"status,omitempty"`
 
 	// TmCreate Timestamp when created
@@ -65,11 +65,11 @@ type Transcribe struct {
 // TranscribeDirection defines model for TranscribeDirection.
 type TranscribeDirection string
 
+// TranscribeReferenceType defines model for TranscribeReferenceType.
+type TranscribeReferenceType string
+
 // TranscribeStatus defines model for TranscribeStatus.
 type TranscribeStatus string
-
-// TranscribereferenceType defines model for Transcribereference_type.
-type TranscribereferenceType string
 
 // Transcript defines model for Transcript.
 type Transcript struct {

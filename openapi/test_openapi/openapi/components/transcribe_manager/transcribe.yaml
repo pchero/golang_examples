@@ -7,7 +7,7 @@ properties:
     type: string
     description: Customer ID
   reference_type:
-    $ref: '#/components/schemas/Transcribereference_type'
+    $ref: '#/components/schemas/TranscribeReferenceType'
   reference_id:
     type: string
     description: Call/Conference/Recording's ID
