@@ -13,7 +13,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/customer_manager/main.yaml#/components/schemas/Accesskey'
+            $ref: '#/components/schemas/CustomerManagerAccesskey'
 
 delete:
   summary: Delete an accesskey
@@ -52,4 +52,4 @@ put:
       content:
         application/json:
           schema:
-            $ref: '../../components/customer_manager/main.yaml#/components/schemas/Accesskey'
+            $ref: '#/components/schemas/CustomerManagerAccesskey'

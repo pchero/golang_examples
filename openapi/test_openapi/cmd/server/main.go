@@ -13,13 +13,13 @@ func strPtr(s string) *string {
 }
 
 func main() {
-	// Create the Gin router
-	router := gin.Default()
+	// Create the Gin app
+	app := gin.Default()
 
 	// Initialize the StrictServer implementation
 	testServer := &Server{}
 
-	v1 := router.RouterGroup.Group("v1.0")
+	v1 := app.RouterGroup.Group("v1.0")
 	// // Create a new Strict handler using the generated NewStrictHandler function
 	// handler := server.NewStrictHandler(strictServer, nil)
 
@@ -27,5 +27,5 @@ func main() {
 	server.RegisterHandlers(v1, testServer)
 
 	// Start the server on port 8080
-	router.Run(":8080")
+	app.Run(":8080")
 }

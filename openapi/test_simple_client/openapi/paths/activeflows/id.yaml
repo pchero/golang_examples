@@ -30,6 +30,6 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/flow_manager/main.yaml#/components/schemas/Activeflow'
+            $ref: '#/components/schemas/FlowManagerActiveflow'
     '404':
       description: Flow not found.

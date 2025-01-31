@@ -18,14 +18,14 @@ post:
             actions:
               type: array
               items:
-                $ref: '../../components/flow_manager/main.yaml#/components/schemas/Action'
+                $ref: '#/components/schemas/FlowManagerAction'
   responses:
     '201':
       description: activeflow created successfully.
       content:
         application/json:
           schema:
-            $ref: '../../components/flow_manager/main.yaml#/components/schemas/Activeflow'
+            $ref: '#/components/schemas/FlowManagerActiveflow'
     '400':
       description: Invalid input. One of `flow_id` or `actions` is required.
 
@@ -33,8 +33,8 @@ get:
   summary: List all activeflows
   description: Retrieve a list of all activeflows.
   parameters:
-    - $ref: '../../components/common/main.yaml#/components/parameters/PageSize'
-    - $ref: '../../components/common/main.yaml#/components/parameters/PageToken'
+    - $ref: '#/components/parameters/PageSize'
+    - $ref: '#/components/parameters/PageToken'
   responses:
     '200':
       description: Successful response
@@ -42,12 +42,12 @@ get:
         application/json:
           schema:
             allOf:
-              - $ref: '../../components/common/main.yaml#/components/schemas/Pagination'
+              - $ref: '#/components/schemas/CommonPagination'
               - type: object
                 properties:
                   result:
                     type: array
                     items:
-                      $ref: '../../components/flow_manager/main.yaml#/components/schemas/Activeflow'
+                      $ref: '#/components/schemas/FlowManagerActiveflow'
     '500':
       description: Server error.
