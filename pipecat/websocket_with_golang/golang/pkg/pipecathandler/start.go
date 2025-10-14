@@ -19,6 +19,7 @@ func (h *pipecatHandler) Start(llm string, stt string, tts string, message_file 
 	})
 	log.Debugf("Starting Pipecat WebSocket server...")
 
+	// set args for debug
 	h.setArgs(llm, stt, tts, message_file)
 
 	if errWebsocket := h.startWebsocketListener(); errWebsocket != nil {
