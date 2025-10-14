@@ -1,0 +1,248 @@
+package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/gordonklaus/portaudio"
+	"github.com/pion/webrtc/v3"
+	"github.com/pion/webrtc/v3/pkg/media"
+)
+
+const (
+	pipecatURL  = "http://localhost:7860/api/offer"
+	sampleRate  = 8000 // G.711은 8kHz 샘플링 레이트를 사용합니다.
+	channels    = 1
+	frameSizeMs = 20 // 20ms 오디오 프레임
+	frameSize   = sampleRate * channels * frameSizeMs / 1000
+)
+
+func main() {
+	// PortAudio 초기화
+	if err := portaudio.Initialize(); err != nil {
+		log.Fatalf("PortAudio 초기화 실패: %v", err)
+	}
+	defer portaudio.Terminate()
+
+	// WebRTC MediaEngine 설정 및 G.711(PCMU) 코덱 등록
+	m := &webrtc.MediaEngine{}
+	if err := m.RegisterCodec(webrtc.RTPCodecParameters{
+		RTPCodecCapability: webrtc.RTPCodecCapability{MimeType: webrtc.MimeTypePCMU, ClockRate: sampleRate, Channels: channels},
+		PayloadType:        0, // PCMU의 기본 페이로드 타입은 0
+	}, webrtc.RTPCodecTypeAudio); err != nil {
+		log.Fatalf("코덱 등록 실패: %v", err)
+	}
+
+	api := webrtc.NewAPI(webrtc.WithMediaEngine(m))
+
+	// PeerConnection 생성
+	peerConnection, err := api.NewPeerConnection(webrtc.Configuration{})
+	if err != nil {
+		log.Fatalf("PeerConnection 생성 실패: %v", err)
+	}
+	defer peerConnection.Close()
+
+	// 마이크 입력을 위한 오디오 트랙 생성
+	audioTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: webrtc.MimeTypePCMU}, "audio", "pion")
+	if err != nil {
+		log.Fatalf("오디오 트랙 생성 실패: %v", err)
+	}
+
+	// PeerConnection에 오디오 트랙 추가
+	rtpSender, err := peerConnection.AddTrack(audioTrack)
+	if err != nil {
+		log.Fatalf("트랙 추가 실패: %v", err)
+	}
+
+	// RTP 패킷을 보내는 루프를 분리하여 네트워크 지연에 영향받지 않도록 함
+	go func() {
+		rtcpBuf := make([]byte, 1500)
+		for {
+			if _, _, rtcpErr := rtpSender.Read(rtcpBuf); rtcpErr != nil {
+				return
+			}
+		}
+	}()
+
+	// Pipecat으로부터 오디오 트랙을 수신했을 때의 핸들러
+	peerConnection.OnTrack(func(track *webrtc.TrackRemote, receiver *webrtc.RTPReceiver) {
+		fmt.Printf("Pipecat으로부터 트랙 수신: %s\n", track.Codec().MimeType)
+
+		// 스피커 출력을 위한 PortAudio 스트림 열기
+		out := make([]int16, frameSize)
+		stream, err := portaudio.OpenDefaultStream(0, channels, float64(sampleRate), len(out), &out)
+		if err != nil {
+			log.Printf("PortAudio 출력 스트림 열기 실패: %v", err)
+			return
+		}
+		defer stream.Close()
+
+		if err := stream.Start(); err != nil {
+			log.Printf("PortAudio 출력 스트림 시작 실패: %v", err)
+			return
+		}
+
+		// RTP 패킷을 지속적으로 읽어서 스피커로 재생
+		for {
+			rtpPacket, _, err := track.ReadRTP()
+			if err != nil {
+				if err == io.EOF {
+					fmt.Println("Pipecat과의 오디오 스트림이 종료되었습니다.")
+					return
+				}
+				log.Printf("RTP 패킷 읽기 오류: %v", err)
+				return
+			}
+
+			// G.711(PCMU)는 8bit 오디오이므로, PortAudio(16bit)를 위해 변환이 필요할 수 있지만,
+			// 여기서는 간단하게 처리합니다. PCMU는 8bit 비선형 인코딩입니다.
+			// 실제 구현에서는 디코딩 과정이 필요하지만, Pion 예제에서는 종종 생략됩니다.
+			// 이 예제에서는 pion/rtp의 G711 디코더를 사용해 보겠습니다.
+
+			// 참고: pion/rtp에는 G711 코덱이 내장되어 있지 않으므로, 직접 구현하거나
+			// 외부 라이브러리를 사용해야 합니다. 가장 간단한 방법은 원시 payload를
+			// 그대로 사용하는 것이지만, 음질이 깨질 수 있습니다.
+			// 여기서는 수신된 payload를 int16으로 변환하는 간단한 예시를 보여줍니다.
+			payload := rtpPacket.Payload
+			pcm := make([]int16, len(payload))
+			for i, s := range payload {
+				pcm[i] = int16(s) // 매우 단순화된 변환, 실제로는 G.711 디코딩 필요
+			}
+
+			// 변환된 PCM 데이터를 스피커 스트림에 씁니다.
+			// 버퍼 크기가 다를 수 있으므로 복사해서 사용합니다.
+			copy(out, pcm)
+			if err := stream.Write(); err != nil {
+				log.Printf("오디오 출력 실패: %v", err)
+			}
+		}
+	})
+
+	// WebRTC 시그널링 (Offer/Answer 교환)
+	// 1. Offer 생성
+	offer, err := peerConnection.CreateOffer(nil)
+	if err != nil {
+		log.Fatalf("Offer 생성 실패: %v", err)
+	}
+
+	// 2. LocalDescription 설정 및 ICE Candidate 수집 대기
+	gatherComplete := webrtc.GatheringCompletePromise(peerConnection)
+	if err := peerConnection.SetLocalDescription(offer); err != nil {
+		log.Fatalf("LocalDescription 설정 실패: %v", err)
+	}
+	<-gatherComplete
+
+	// 3. 생성된 Offer를 Pipecat 서버에 전송
+	payload, err := json.Marshal(peerConnection.LocalDescription())
+	if err != nil {
+		log.Fatalf("Offer JSON 변환 실패: %v", err)
+	}
+
+	resp, err := http.Post(pipecatURL, "application/json", bytes.NewBuffer(payload))
+	if err != nil {
+		log.Fatalf("Pipecat 서버에 Offer 전송 실패: %v", err)
+	}
+	defer resp.Body.Close()
+
+	// 4. Pipecat 서버로부터 Answer 수신
+	var answer webrtc.SessionDescription
+	if err := json.NewDecoder(resp.Body).Decode(&answer); err != nil {
+		log.Fatalf("Answer JSON 디코딩 실패: %v", err)
+	}
+
+	// 5. 수신한 Answer를 RemoteDescription으로 설정
+	if err := peerConnection.SetRemoteDescription(answer); err != nil {
+		log.Fatalf("RemoteDescription 설정 실패: %v", err)
+	}
+
+	fmt.Println("Pipecat과 WebRTC 연결이 성공적으로 수립되었습니다. 마이크 입력을 시작합니다.")
+
+	// 마이크 입력을 처리하고 WebRTC 트랙으로 전송
+	go func() {
+		// 마이크 입력을 위한 PortAudio 스트림 열기
+		in := make([]int16, frameSize)
+		stream, err := portaudio.OpenDefaultStream(channels, 0, float64(sampleRate), len(in), &in)
+		if err != nil {
+			log.Fatalf("PortAudio 입력 스트림 열기 실패: %v", err)
+		}
+		defer stream.Close()
+
+		if err := stream.Start(); err != nil {
+			log.Fatalf("PortAudio 입력 스트림 시작 실패: %v", err)
+		}
+
+		for {
+			// 마이크로부터 오디오 데이터 읽기
+			if err := stream.Read(); err != nil {
+				log.Printf("오디오 입력 읽기 실패: %v", err)
+				continue
+			}
+
+			// 읽은 오디오 데이터를 media.Sample로 변환하여 WebRTC 트랙에 쓰기
+			// 이 과정에서 int16 PCM 데이터가 G.711(PCMU)로 자동 인코딩됩니다.
+			if err := audioTrack.WriteSample(media.Sample{
+				Data:     toG711(in), // int16 -> G.711(byte) 변환 필요
+				Duration: time.Millisecond * frameSizeMs,
+			}); err != nil {
+				log.Printf("오디오 샘플 쓰기 실패: %v", err)
+			}
+		}
+	}()
+
+	// 프로그램이 종료되지 않도록 대기
+	fmt.Println("Press Ctrl+C to exit")
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	<-sc
+
+	fmt.Println("프로그램을 종료합니다.")
+}
+
+// toG711은 int16 PCM 샘플을 PCMU(G.711 u-law)로 변환하는 간단한 헬퍼 함수입니다.
+// 실제 프로덕션에서는 더 정교한 라이브러리를 사용하는 것이 좋습니다.
+func toG711(samples []int16) []byte {
+	muLawSamples := make([]byte, len(samples))
+	for i, s := range samples {
+		muLawSamples[i] = linearToUlaw(s)
+	}
+	return muLawSamples
+}
+
+// int16 샘플을 u-law 바이트로 변환합니다. (출처: Wikipedia)
+func linearToUlaw(pcmVal int16) byte {
+	const (
+		BIAS = 0x84 // 132
+		MAX  = 32635
+	)
+	var mask uint16
+	var seg uint16
+	var uval byte
+
+	pcm_val := pcmVal
+	if pcm_val < 0 {
+		pcm_val = BIAS - pcm_val
+		mask = 0x7F
+	} else {
+		pcm_val += BIAS
+		mask = 0xFF
+	}
+	if pcm_val > MAX {
+		pcm_val = MAX
+	}
+
+	seg = 8
+	for pcm_val < (1 << (seg + 4)) {
+		seg--
+	}
+
+	uval = byte(((seg << 4) | ((uint16(pcm_val) >> (seg + 3)) & 0xF)) ^ mask)
+	return uval
+}

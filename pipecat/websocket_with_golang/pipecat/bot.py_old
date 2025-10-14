@@ -1,0 +1,89 @@
+import os
+import asyncio
+from loguru import logger
+
+from pipecat.audio.vad.silero import SileroVADAnalyzer
+from pipecat.audio.turn.smart_turn.local_smart_turn_v3 import LocalSmartTurnAnalyzerV3
+from pipecat.audio.vad.vad_analyzer import VADParams
+from pipecat.pipeline.pipeline import Pipeline
+from pipecat.pipeline.task import PipelineTask, PipelineParams
+from pipecat.pipeline.runner import PipelineRunner
+from pipecat.frames.frames import LLMRunFrame
+from pipecat.processors.aggregators.llm_context import LLMContext
+from pipecat.processors.aggregators.llm_response_universal import LLMContextAggregatorPair
+from pipecat.services.openai.llm import OpenAILLMService
+from pipecat.services.deepgram.stt import DeepgramSTTService
+from pipecat.services.cartesia.tts import CartesiaTTSService
+from pipecat.processors.frame_processor import FrameProcessor
+from pipecat.transports.websocket import WebSocketTransport
+
+# dotenv 사용 시
+try:
+    from dotenv import load_dotenv
+    load_dotenv(override=True)
+except ImportError:
+    pass
+
+logger.info("🚀 Starting Pipecat WebSocket Bot...")
+
+# -------------------------
+# WebSocket Processor
+# -------------------------
+class WebSocketProcessor(FrameProcessor):
+    def __init__(self, vad_analyzer=None, turn_analyzer=None):
+        super().__init__()
+        self.audio_in_enabled = True
+        self.audio_out_enabled = True
+        self.vad_analyzer = vad_analyzer or SileroVADAnalyzer(params=VADParams(stop_secs=0.2))
+        self.turn_analyzer = turn_analyzer or LocalSmartTurnAnalyzerV3()
+
+    async def process_frame(self, frame, direction):
+        # TODO: WebSocket에서 실제 오디오/텍스트 입출력 처리
+        # frame.data['text'] = received_text
+        # frame.data['audio'] = received_audio
+        return frame
+
+# -------------------------
+# Bot 실행
+# -------------------------
+async def run_bot():
+    # 서비스 초기화
+    stt = DeepgramSTTService(api_key=os.getenv("DEEPGRAM_API_KEY"))
+    llm = OpenAILLMService(api_key=os.getenv("OPENAI_API_KEY"))
+    tts = CartesiaTTSService(
+        api_key=os.getenv("CARTESIA_API_KEY"),
+        voice_id="71a7ad14-091c-4e8e-a314-022ece01c121"
+    )
+
+    # 대화 컨텍스트
+    messages = [
+        {"role": "system", "content": "You are a friendly AI assistant. Respond conversationally."}
+    ]
+    context = LLMContext(messages)
+    context_pair = LLMContextAggregatorPair(context)
+
+    # WebSocket Processor
+    ws_processor = WebSocketProcessor()
+
+    # Pipeline 구성: WebSocket → STT → LLM → TTS → WebSocket
+    pipeline = Pipeline([
+        ws_processor,         # WebSocket 입출력
+        stt,                  # Speech-to-Text
+        context_pair.user(),  # 유저 메시지
+        llm,                  # LLM 처리
+        tts,                  # Text-to-Speech
+        context_pair.assistant()  # 어시스턴트 메시지
+    ])
+
+    # 태스크 생성
+    task = PipelineTask(pipeline, params=PipelineParams(enable_metrics=True))
+
+    # Runner 실행
+    runner = PipelineRunner()
+    await runner.run(task)
+
+# -------------------------
+# 메인
+# -------------------------
+if __name__ == "__main__":
+    asyncio.run(run_bot())

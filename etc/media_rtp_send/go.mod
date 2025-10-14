@@ -1,0 +1,16 @@
+module test
+
+go 1.24.2
+
+require (
+	github.com/pion/rtp v1.8.21
+	github.com/sirupsen/logrus v1.9.3
+	github.com/youpy/go-wav v0.3.2
+)
+
+require (
+	github.com/pion/randutil v0.1.0 // indirect
+	github.com/youpy/go-riff v0.1.0 // indirect
+	github.com/zaf/g711 v0.0.0-20190814101024-76a4a538f52b // indirect
+	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
+)

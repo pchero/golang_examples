@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"time"
 
 	texttospeech "cloud.google.com/go/texttospeech/apiv1"
 	"github.com/sirupsen/logrus"
@@ -19,7 +20,10 @@ func main() {
 
 	ctx := context.Background()
 	// client, err := texttospeech.NewClient(ctx)
-	client, err := texttospeech.NewClient(ctx, option.WithCredentialsFile(*credentialPath))
+	client, err := texttospeech.NewClient(
+		ctx,
+		option.WithCredentialsFile(*credentialPath),
+	)
 	if err != nil {
 		logrus.Errorf("Could not create a new client. err: %v", err)
 	}
@@ -50,6 +54,8 @@ func main() {
 		},
 	}
 
+	start := time.Now()
+
 	resp, err := client.SynthesizeSpeech(ctx, &req)
 	if err != nil {
 		logrus.Fatal("Could not get correct response from the synthesize creator. err: %v", err)
@@ -58,8 +64,11 @@ func main() {
 	// the resp's AudioContent is binary
 	filename := "output.mp3"
 	if err := ioutil.WriteFile(filename, resp.AudioContent, 0644); err != nil {
-		logrus.Fatal("Could not crete result audio file. err: %v", err)
+		logrus.Fatal("Could not create result audio file. err: %v", err)
 	}
+
+	elapsed := time.Since(start)
+	fmt.Printf("SynthesizeSpeech took %s\n", elapsed)
 
 	fmt.Printf("Audio content written to file: %v\n", filename)
 }
