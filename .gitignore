@@ -2,3 +2,7 @@
 !/.gitignore
 vendor
 test.json
+.env
+venv
+.venv
+__pycache__

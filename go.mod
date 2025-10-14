@@ -3,6 +3,7 @@ module golang_examples
 go 1.23.2
 
 require (
+	cloud.google.com/go/dialogflow v1.38.0
 	cloud.google.com/go/logging v1.7.0
 	cloud.google.com/go/speech v1.18.0
 	cloud.google.com/go/storage v1.31.0
@@ -10,6 +11,7 @@ require (
 	github.com/BorisBorshevsky/timemock v0.0.0-20240307170712-7c8c6114ddb6
 	github.com/CyCoreSystems/ari v4.8.4+incompatible
 	github.com/DataDog/datadog-api-client-go/v2 v2.30.0
+	github.com/aws/aws-sdk-go v1.55.6
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dongri/phonenumber v0.0.0-20230428094603-9e2d44886294
 	github.com/gin-gonic/autotls v0.0.5
@@ -22,6 +24,8 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/sessions v1.2.1
 	github.com/gorilla/websocket v1.5.0
+	github.com/hajimehoshi/go-mp3 v0.3.4
+	github.com/hajimehoshi/oto/v2 v2.3.1
 	github.com/inconshreveable/log15 v2.16.0+incompatible
 	github.com/ivahaev/amigo v0.1.10
 	github.com/nats-io/nats.go v1.35.0
@@ -33,9 +37,11 @@ require (
 	github.com/pion/rtp v1.7.13
 	github.com/prometheus/client_golang v1.16.0
 	github.com/segmentio/kafka-go v0.4.42
+	github.com/sendgrid/sendgrid-go v3.16.0+incompatible
 	github.com/sirupsen/logrus v1.9.3
 	github.com/streadway/amqp v1.1.0
 	github.com/stretchr/testify v1.9.0
+	github.com/taigrr/elevenlabs v0.1.17
 	github.com/ttacon/libphonenumber v1.2.1
 	github.com/voipbin/voipbin-go v0.0.0-20250131102218-c76bed14167f
 	github.com/wernerd/gortp v0.0.0-20191206100804-75c6a1c64532
@@ -77,6 +83,7 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.2.5 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
@@ -101,6 +108,7 @@ require (
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.11.0 // indirect
+	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/ttacon/builder v0.0.0-20170518171403-c099f663e1c2 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
@@ -109,10 +117,10 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/arch v0.4.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
-	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sync v0.13.0 // indirect
+	golang.org/x/sys v0.32.0 // indirect
 	golang.org/x/term v0.16.0 // indirect
-	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/text v0.24.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230711160842-782d3b101e98 // indirect

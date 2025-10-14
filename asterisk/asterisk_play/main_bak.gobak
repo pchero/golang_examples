@@ -1,0 +1,174 @@
+package main
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"net/url"
+
+	"github.com/CyCoreSystems/ari"
+)
+
+const (
+	appName = "test"
+	ariUser = "asterisk"
+	ariPass = "asterisk"
+	ariURL  = "http://localhost:8088/ari/"
+)
+
+func main() {
+	fmt.Printf("Hello world!\n")
+
+}
+
+func call(ctx context.Context) error {
+	// make a call to 1000
+	data := struct {
+		App       string `json:"app"`
+		ChannelID string `json:"channelId"`
+		Endpoint  string `json:"endpoint"`
+	}{
+		App:       appName,
+		ChannelID: "844c7bb8-7683-11f0-8318-5bb53b1b2507",
+		Endpoint:  "PJSIP/1000",
+	}
+
+	d, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+
+	tmp, err := sendRequest(ctx, "POST", "channels", d)
+	if err != nil {
+		return fmt.Errorf("failed to create channel: %w", err)
+	}
+	log.Printf("Created channel: %s", string(tmp))
+
+	return nil
+}
+
+func sendRequest(ctx context.Context, method string, uri string, data []byte) ([]byte, error) {
+	u, err := url.Parse(ariURL + uri)
+	if err != nil {
+		return nil, err
+	}
+
+	q := u.Query()
+	u.RawQuery = q.Encode()
+
+	// externalHostAddress := fmt.Sprintf("%s:%d", externalHost, externalMediaPort)
+	// audiosocketID := uuid.New().String()
+
+	// payload := map[string]any{
+	// 	"app":             appName,
+	// 	"channelId":       "844c7bb8-7683-11f0-8318-5bb53b1b2507",
+	// 	"external_host":   externalHostAddress,
+	// 	"encapsulation":   "audiosocket",
+	// 	"transport":       "tcp",
+	// 	"connection_type": "client",
+	// 	"format":          "slin",
+	// 	"direction":       "both",
+	// 	"data":            audiosocketID,
+	// }
+
+	// bodyBytes, err := json.Marshal(payload)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// log.Printf("Sending request to %s with body: %s", u.String(), string(bodyBytes))
+
+	req, err := http.NewRequestWithContext(ctx, method, u.String(), bytes.NewReader(data))
+	if err != nil {
+		return nil, err
+	}
+	req.SetBasicAuth(ariUser, ariPass)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 300 {
+		return nil, fmt.Errorf("ARI returned non-success status: %s", resp.Status)
+	}
+
+	// var channel ari.ChannelData
+	// if err := json.NewDecoder(resp.Body).Decode(&channel); err != nil {
+	// 	return nil, fmt.Errorf("failed to decode ARI response: %w", err)
+	// }
+	res, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	return res, nil
+}
+
+func runARIEventListen(ctx context.Context, client ari.Client) error {
+	// Subscribe to ARI events
+	// sub := client.Bus().Subscribe(nil, "StasisStart", "StasisEnd", "ChannelDtmfReceived", "BridgeCreated")
+	sub := client.Bus().Subscribe(nil,
+		"StasisStart",
+		"StasisEnd",
+		"ChannelCreated",
+		"ChannelDestroyed",
+		"ChannelDtmfReceived",
+		"ChannelStateChange",
+		"BridgeCreated",
+		"BridgeDestroyed",
+		"PlaybackFinished",
+		"RecordingFinished",
+	)
+
+	go func() {
+		defer sub.Cancel()
+
+		for {
+
+			select {
+			case e := <-sub.Events():
+				log.Printf("-----------------------Received event: %v", e)
+
+				switch ev := e.(type) {
+				case *ari.StasisStart:
+					ev, ok := e.(*ari.StasisStart)
+					if !ok {
+						log.Println("❌ Unexpected event type:", e)
+						continue
+					}
+
+					if errHandle := handleARIStasisStart(ctx, client, ev); errHandle != nil {
+						log.Printf("❌ Error handling StasisStart event: %v", errHandle)
+						continue
+					}
+
+					log.Println("🔔 Channel started:", ev.Channel.ID)
+					continue
+
+				case *ari.StasisEnd:
+					log.Println("🔔 Channel ended:", ev.Channel.ID)
+
+				case *ari.ChannelDtmfReceived:
+					log.Printf("🔔 DTMF received on channel %s: %s\n", ev.Channel.ID, ev.Digit)
+
+				case *ari.ChannelStateChange:
+					handleARIChannelStateChange(ctx, client, ev)
+
+				case *ari.PlaybackFinished:
+					handleARIPlaybackFinished(ctx, client, ev)
+				}
+
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+
+	return nil
+}
